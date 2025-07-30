@@ -44,7 +44,7 @@ export default function ProfilePage() {
           <div className="absolute -top-20 -right-20 w-40 h-40 bg-orange-100 rounded-full mix-blend-multiply filter blur-xl opacity-60" />
           <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-60" />
 
-          <div className="relative z-10 text-center">
+          <div className="relative text-center">
             <div className="relative w-24 h-24 mx-auto mb-4">
               <img
                 src={user.avatarUrl}
