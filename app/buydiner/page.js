@@ -411,7 +411,7 @@ export default function BuyDinar() {
                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                       <IdentificationIcon className="w-12 h-12 mx-auto text-gray-400 mb-4" />
                       <p className="text-sm text-gray-500 mb-2">
-                        Accepted: Driver's License, Passport + Utility Bill
+                        Accepted: Driver&apos;s License, Passport + Utility Bill
                       </p>
                       <p className="text-xs text-gray-400 mb-4">
                         File types: JPG, PNG, PDF (Max 10MB)
@@ -670,7 +670,7 @@ export default function BuyDinar() {
                     </h4>
                     <p className="text-xs text-orange-700">
                       Your personal information is encrypted and secure. We
-                      don't share your details with third parties.
+                      don&apos;t share your details with third parties.
                     </p>
                   </div>
                 )}

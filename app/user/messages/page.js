@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import MainLayout from '@/app/MainLayout';
 
+
 const systemMessages = [
   {
     id: 1,

@@ -81,7 +81,7 @@ export function TestimonialsSection() {
             <span className="text-2xl font-bold text-gray-800">4.8</span>
           </div>
           <p className="text-gray-600">
-            Based On Real "Verified Client Reviews"
+            Based On Real &quot;Verified Client Reviews&quot;
           </p>
         </motion.div>
 

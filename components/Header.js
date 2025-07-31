@@ -180,7 +180,7 @@ export default function Header() {
                 </div>
               </div>
               <div className="absolute hidden group-hover:block bg-white text-blue-900 p-2 rounded-md shadow-lg mt-1 text-xs whitespace-nowrap z-10">
-                Limited time offer! Don't miss this special discount!
+                Limited time offer! Don&apos;t miss this special discount!
               </div>
             </div>
           </div>
