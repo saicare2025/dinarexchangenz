@@ -36,7 +36,7 @@ export function CookieConsent() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-t-lg shadow-xl border border-gray-200 p-6">
+        <div className="bg-white rounded-t-lg shadow-xl border border-gray-200 p-4 sm:p-6">
           <div className="flex justify-between items-start">
             <div className="flex-1 mr-4">
               <h3 className="text-lg font-medium text-gray-900 mb-2">We value your privacy</h3>
@@ -86,16 +86,16 @@ export function CookieConsent() {
             </button>
           </div>
           
-          <div className="mt-4 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-col sm:flex-row flex-wrap gap-3">
             <button
               onClick={handleAccept}
-              className="px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors"
+              className="flex-1 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors"
             >
               Accept All
             </button>
             <button
               onClick={handleReject}
-              className="px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
             >
               Reject All
             </button>
@@ -103,7 +103,7 @@ export function CookieConsent() {
               onClick={() => {
                 // Implement custom settings functionality here
               }}
-              className="px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
             >
               Customize
             </button>
