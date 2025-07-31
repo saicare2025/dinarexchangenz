@@ -145,7 +145,7 @@ export default function Header() {
     <header className="sticky top-0 z-50">
       {/* Top Contact Bar */}
       <div className="bg-blue-900 text-white text-sm">
-        <div className="container max-w-7xl mx-auto px-4 py-0 lg:py-2 flex justify-between items-center">
+        <div className="container max-w-7xl mx-auto px-4 py-0  flex justify-between items-center">
           {/* Desktop Contact Info and Offer */}
           <div className="flex items-center space-x-6">
             {CONTACT_INFO.map((item, index) => (
