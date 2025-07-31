@@ -1,9 +1,11 @@
-import { BuyingDinarNow } from "./BuyingDiner";
+
+import { BuyingDinarNow } from "./BuyingDinar";
 import HeroSection from "./HeroSection";
 import { InvestmentOpportunity } from "./Investment";
-import IraqiDinarSection from "./IraqiDinerSection";
+import IraqiDinarSection from "./IraqiDinarSection";
+
 import { TestimonialsSection } from "./Testmonial";
-import { WhyChooseUs } from "./WhyChooseUs";
+
 
 export default function HomePage() {
   return (
@@ -11,8 +13,8 @@ export default function HomePage() {
       <HeroSection />
       <TestimonialsSection/>
       <IraqiDinarSection />
-      <InvestmentOpportunity/>
       <BuyingDinarNow/>
+      <InvestmentOpportunity/>
     </main>
   );
 }

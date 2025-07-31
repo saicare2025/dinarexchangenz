@@ -7,7 +7,7 @@ export function FloatingCallButton() {
       initial={{ opacity: 0, y: 80 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.2 }}
-      href="tel:+18001234567"
+      href="tel: 0417 460 236"
       className="fixed bottom-6 right-6 z-50 bg-orange-800 hover:bg-orange-700 text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2"
       aria-label="Call Now"
     >

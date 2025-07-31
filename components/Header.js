@@ -33,23 +33,18 @@ const NAV_LINKS = [
   { name: "Home", href: "/", icon: <HomeIcon className="w-5 h-5" /> },
   {
     name: "Buy Iraqi Dinar",
-    href: "/buydiner",
+    href: "/buydinar",
     icon: <CurrencyDollarIcon className="w-5 h-5" />,
   },
   {
     name: "Buy Zimbabwe Dollar",
-    href: "/buydiner",
+    href: "/buydinar",
     icon: <CurrencyDollarIcon className="w-5 h-5" />,
   },
   {
     name: "About Us",
     href: "/about",
     icon: <UserCircleIcon className="w-5 h-5" />,
-  },
-  {
-    name: "FAQ",
-    href: "/faq",
-    icon: <QuestionMarkCircleIcon className="w-5 h-5" />,
   },
   {
     name: "Contact Us",
@@ -138,42 +133,26 @@ export default function Header() {
     },
   ];
 
-  const getContactHref = (text) =>
-    text.includes("@") ? `mailto:${text}` : `tel:${text.replace(/\s/g, "")}`;
-
   return (
     <header className="sticky top-0 z-50">
       {/* Top Contact Bar */}
-      <div className="bg-blue-900 text-white text-sm">
-        <div className="container max-w-7xl mx-auto px-4 py-0 lg:py-2 flex justify-between items-center">
+      <div className="bg-orange-800 text-white text-sm">
+        <div className="container max-w-7xl mx-auto flex justify-between items-center">
           {/* Desktop Contact Info and Offer */}
           <div className="flex items-center space-x-6">
-            {CONTACT_INFO.map((item, index) => (
-              <a
-                key={index}
-                href={getContactHref(item.text)}
-                className={`hidden lg:flex items-center space-x-1 hover:text-orange-400 transition-colors ${
-                  item.text.includes("phone")
-                    ? "animate-pulse hover:animate-none"
-                    : ""
-                }`}
-              >
-                {item.icon}
-                <span>{item.text}</span>
-              </a>
-            ))}
-
             {/* Enhanced Offer Information with Countdown */}
-            <div className="relative group ml-2">
-              <div className="flex items-center my-2 space-x-3 bg-gradient-to-r from-orange-800 to-orange-700 px-4 py-2 rounded-lg shadow-lg hover:shadow-orange-500/20 transition-all">
-                <span className="text-xl">🔥</span>
+            <div className="relative group">
+              <div className="flex items-center space-x-3 bg-gradient-to-r from-orange-800 to-orange-700 px-4 py-2 shadow-lg hover:shadow-orange-500/20 transition-all">
                 <div className="flex gap-4 justify-center items-center">
-                  <span className="font-bold text-sm uppercase tracking-wider">
-                    Get Discount 10% OFF
+                  <span className="font-bold text-xs uppercase tracking-wider">
+                    🎁LIMITED TIME: Free 20 Billion ZIM with 1 Million IQD
+                    orders!
                   </span>
                   <div className="flex items-center space-x-1">
-                    <span className="text-xs font-medium">Ends in:</span>
-                    <span className="font-mono text-sm font-bold bg-orange-700 px-2 py-0.5 rounded">
+                    <span className="text-xs hidden lg:block font-medium">
+                      Ends in:
+                    </span>
+                    <span className="font-mono text-blue-900 text-sm font-bold bg-orange-100 px-2 py-0.5 rounded">
                       <CountdownTimer />
                     </span>
                   </div>
@@ -185,10 +164,8 @@ export default function Header() {
             </div>
           </div>
 
-          
-
           {/* Order Now Button - Visible on all screens */}
-          <button className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-orange-800 to-orange-700 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
+          <button className="hidden lg:flex items-center gap-2  text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
             <ShoppingCartIcon className="w-4 h-4" />
             <span className="text-sm font-medium">Order Now</span>
           </button>
@@ -207,13 +184,26 @@ export default function Header() {
             className="flex items-center gap-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
             aria-label="Go to homepage"
           >
+            {/* Logo */}
             <Image
               src={logo}
               alt="Company Logo"
-              width={240}
+              width={220}
               height={60}
               priority
             />
+
+            {/* NZ Label & Flag */}
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-semibold text-gray-800">NZ</span>
+              <Image
+                src="https://static.vecteezy.com/system/resources/thumbnails/012/024/958/small_2x/new-zealand-flag-with-grunge-texture-png.png"
+                alt="New Zealand Flag"
+                width={20}
+                height={14}
+                className="rounded-sm"
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

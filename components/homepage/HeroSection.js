@@ -13,8 +13,6 @@ import { FloatingCallButton } from "./FloatingCall";
 
 export default function HeroSection() {
 const exchangeRates = [
-  { amount: "10,000 IQD", rate: "9.77 AUD" },
-  { amount: "50,000 IQD", rate: "48.83 AUD" },
   { amount: "100,000 IQD", rate: "97.65 AUD" },
   { amount: "250,000 IQD", rate: "243.14 AUD" },
   { amount: "500,000 IQD", rate: "486.75 AUD" },
@@ -46,7 +44,7 @@ const exchangeRates = [
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-blue-100 to-orange-100 py-8 lg:py-20 px-4">
+    <section className="relative overflow-hidden bg-gradient-to-r from-blue-100 to-orange-100 py-4 px-4">
       {/* Decorative gradient elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-20 left-20 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl"></div>
@@ -62,11 +60,7 @@ const exchangeRates = [
             transition={{ duration: 0.8 }}
             className="lg:w-1/2"
           >
-            <div className="mb-2">
-              <span className="inline-block px-3 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full">
-                TRUSTED CURRENCY EXCHANGE
-              </span>
-            </div>
+            
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
               <span className="bg-blue-900 bg-clip-text text-transparent">
                 Dinar Exchange
@@ -126,7 +120,7 @@ const exchangeRates = [
                     Amount (IQD)
                   </div>
                   <div className="font-semibold text-gray-700 text-right">
-                    Equivalent (NZD)
+                    Equivalent (AUD)
                   </div>
                 </div>
 

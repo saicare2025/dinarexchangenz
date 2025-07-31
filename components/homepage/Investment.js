@@ -18,7 +18,7 @@ import Image from "next/image";
 
 export function InvestmentOpportunity() {
   return (
-    <section className="py-4  bg-gradient-to-r from-blue-100 to-orange-100">
+    <section className="pt-4  bg-gradient-to-r from-blue-100 to-orange-100">
       <motion.div
         variants={staggerContainer()}
         initial="hidden"
@@ -27,7 +27,7 @@ export function InvestmentOpportunity() {
         className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {/* Dinar Exchange Offers */}
-        <motion.div variants={fadeIn("up", "tween", 0.1, 1)} className="mb-20">
+        <motion.div variants={fadeIn("up", "tween", 0.1, 1)} className="mb-8">
           <div className="flex flex-col lg:flex-row items-center gap-8">
             {/* Left side - Content */}
             <motion.div
@@ -52,7 +52,7 @@ export function InvestmentOpportunity() {
                 >
                   <div className="flex-grow">
                     <h3 className="text-2xl font-bold text-blue-900 mb-6">
-                      Why Choose Diner Exchange
+                      Why Choose Dinar Exchange
                     </h3>
                     <p className="text-gray-600 mb-8">
                       Experience the difference with our professional currency
@@ -129,9 +129,9 @@ export function InvestmentOpportunity() {
         {/* Why Invest Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.3, 1)}
-          className="mb-20 bg-white rounded-2xl overflow-hidden"
+          className="mb-8 bg-white rounded-2xl overflow-hidden"
         >
-          <div className="p-8 md:p-12 lg:flex items-center">
+          <div className="p-8 lg:flex items-center">
             <div className="lg:w-1/2 mb-8 lg:mb-0 lg:pr-8">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 Why Invest in Iraqi Dinar?
@@ -187,7 +187,7 @@ export function InvestmentOpportunity() {
         {/* CTA Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.5, 1)}
-          className="bg-blue-900 rounded-2xl p-8 md:p-12 text-center"
+          className="bg-blue-900 rounded-t-2xl p-8 md:p-12 text-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Embark on Your Iraqi Dinar Journey

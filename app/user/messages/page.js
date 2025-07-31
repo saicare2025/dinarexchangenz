@@ -8,38 +8,38 @@ import MainLayout from '@/app/MainLayout';
 const systemMessages = [
   {
     id: 1,
-    sender: 'Diner Exchange System',
+    sender: 'dinar Exchange System',
     subject: 'Order Placed Successfully',
     time: 'Just now',
     content: `Hi Nahid, your order has been received and is now being processed. Expect delivery updates soon.`,
   },
   {
     id: 2,
-    sender: 'Diner Exchange System',
+    sender: 'dinar Exchange System',
     subject: 'Missing ID for Verification',
     time: '1 hour ago',
     content: `We noticed your recent order is missing a valid ID. Please upload your ID to avoid delays.`,
   },
   {
     id: 3,
-    sender: 'Diner Exchange System',
+    sender: 'dinar Exchange System',
     subject: 'Payment Confirmed',
     time: 'Yesterday',
     content: `Your payment has been successfully received. Your order is now being packaged.`,
   },
   {
     id: 4,
-    sender: 'Diner Exchange System',
+    sender: 'dinar Exchange System',
     subject: 'Order Shipped',
     time: '2 days ago',
     content: `Your order has been shipped! Estimated delivery within 3–5 business days.`,
   },
   {
     id: 5,
-    sender: 'Diner Exchange System',
+    sender: 'dinar Exchange System',
     subject: 'Order Completed',
     time: '5 days ago',
-    content: `Your order has been completed and delivered. Thank you for choosing Diner Exchange.`,
+    content: `Your order has been completed and delivered. Thank you for choosing dinar Exchange.`,
   },
 ];
 

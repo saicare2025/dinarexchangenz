@@ -43,13 +43,13 @@ export function BuyingDinarNow() {
   return (
     <motion.section
       variants={fadeIn("up", "tween", 0.1, 1)}
-      className="py-20 bg-gradient-to-r from-blue-100 to-orange-100"
+      className="py-8 bg-gradient-to-r from-blue-100 to-orange-100"
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-            Our Comprehensive <span className="text-orange-600">Services</span>
+            Our Comprehensive <span className="text-orange-800">Services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Everything you need for successful Iraqi Dinar transactions
