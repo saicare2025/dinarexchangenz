@@ -107,10 +107,10 @@ export function InvestmentOpportunity() {
               </h2>
               <div className="space-y-4">
                 <p className="text-gray-700">
-                  The Iraqi Dinar represents one of the most significant investment opportunities of this decade. Historically valued at US $3.20 per dinar, with Iraq's oil reserves exceeding $11.6 trillion.
+                  The Iraqi Dinar represents one of the most significant investment opportunities of this decade. Historically valued at US $3.20 per dinar, with Iraq&apos;s oil reserves exceeding $11.6 trillion.
                 </p>
                 <p className="text-gray-700">
-                  Current market indicators suggest a substantial potential appreciation. As oil prices fluctuate, the dinar's value stands to benefit significantly from Iraq's increasing production capacity.
+                  Current market indicators suggest a substantial potential appreciation. As oil prices fluctuate, the dinar&apos;s value stands to benefit significantly from Iraq&apos;s increasing production capacity.
                 </p>
                 <p className="text-gray-700 font-medium">
                   Investing in Dinar today could secure your financial future with potentially substantial long-term returns.
@@ -153,7 +153,7 @@ export function InvestmentOpportunity() {
             Embark on Your Iraqi Dinar Journey
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto mb-8 text-lg">
-            Whether you're exchanging currency or staying updated on revaluation news, we provide all the tools and resources you need for successful dinar investment.
+            Whether you&apos;re exchanging currency or staying updated on revaluation news, we provide all the tools and resources you need for successful dinar investment.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-colors">

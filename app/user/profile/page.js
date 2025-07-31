@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Pencil } from 'lucide-react';
 import MainLayout from '@/app/MainLayout';
+import Image from 'next/image';
 
 export default function ProfilePage() {
   const [user, setUser] = useState({
@@ -46,7 +47,7 @@ export default function ProfilePage() {
 
           <div className="relative text-center">
             <div className="relative w-24 h-24 mx-auto mb-4">
-              <img
+              <Image
                 src={user.avatarUrl}
                 alt="User avatar"
                 className="w-24 h-24 rounded-full border-4 border-orange shadow-sm object-cover"

@@ -52,7 +52,7 @@ export function TestimonialsSection() {
             <span className="text-2xl font-bold text-gray-800">4.8</span>
           </div>
           <p className="text-gray-600">
-            Based On Real "Verified Client Reviews"
+            Based On Real &quot;Verified Client Reviews&quot;
           </p>
         </motion.div>
 
@@ -72,7 +72,7 @@ export function TestimonialsSection() {
                   <StarIcon key={i} className="w-5 h-5 text-amber-400" />
                 ))}
               </div>
-              <p className="text-gray-700 italic mb-6">"{testimonial.quote}"</p>
+              <p className="text-gray-700 italic mb-6">&quot;{testimonial.quote}&quot;</p>
               <div>
                 <p className="font-semibold text-gray-900">{testimonial.author}</p>
                 <p className="text-sm text-gray-500">{testimonial.source}</p>
