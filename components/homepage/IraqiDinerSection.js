@@ -1,6 +1,12 @@
 "use client";
 
-import { PhoneIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import {
+
+  ShoppingCartIcon,
+  ShieldCheckIcon,
+
+  CheckBadgeIcon,
+} from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 
@@ -13,10 +19,19 @@ export default function IraqiDinarSection() {
     { amount: "200,000 IQD", price: "$656", popular: false },
     { amount: "500,000 IQD", price: "$1,875", popular: false },
     { amount: "1,000,000 IQD", price: "$2,800", popular: false },
+    { amount: "500,000 IQD", price: "$1,875", popular: false },
+
+  ];
+
+  const exchangeRates = [
+    { currency: "USD", rate: "1 USD = 1,310 IQD" },
+    { currency: "EUR", rate: "1 EUR = 1,420 IQD" },
+    { currency: "GBP", rate: "1 GBP = 1,650 IQD" },
+    { currency: "AUD", rate: "1 AUD = 880 IQD" },
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-16 bg-gradient-to-r from-blue-100 to-orange-100 ">
       <motion.div
         variants={staggerContainer()}
         initial="hidden"
@@ -30,9 +45,9 @@ export default function IraqiDinarSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-            Buy Iraqi Dinars
+            Expolore Our <span className="text-orange-800">Popular Packages</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg hidden lg:block text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Choose from our range of authentic Iraqi Dinar packages. All
             banknotes come with a{" "}
             <span className="font-semibold text-orange-500">
@@ -42,99 +57,146 @@ export default function IraqiDinarSection() {
           </p>
         </motion.div>
 
-        {/* Dinar Packages Grid */}
-        <motion.div
-          variants={staggerContainer(0.1, 0.2)}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-        >
-          {dinarPackages.map((pkg, index) => (
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Content - Dinar Packages */}
+          <div className="lg:w-2/3">
             <motion.div
-              key={index}
-              variants={fadeIn("up", "spring", index * 0.1, 0.75)}
-              whileHover={{ y: -5 }}
-              className={`relative bg-white border-2 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ${
-                pkg.popular
-                  ? "ring-2 ring-orange-500 border-orange-500"
-                  : "border-gray-100"
-              }`}
+              variants={fadeIn("up", "tween", 0.2, 1)}
+              className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
             >
-              {pkg.popular && (
-                <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-sm font-bold px-4 py-2 rounded-bl-xl shadow-md">
-                  Most Popular
-                </div>
-              )}
-              <div className="p-6 flex flex-col h-full">
-                <div className="flex-grow">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                    {pkg.amount}
-                  </h3>
-                  <p className="text-3xl font-extrabold text-orange-500 mb-6">
-                    {pkg.price}
-                    <span className="text-sm font-normal text-gray-500 ml-1">
-                      USD
-                    </span>
-                  </p>
-                </div>
-                <button className="w-full flex items-center justify-center gap-2 bg-gray-900 hover:bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 group">
-                  <ShoppingCartIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span>Order Now</span>
-                </button>
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Amount
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Price
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {dinarPackages.map((pkg, index) => (
+                      <motion.tr
+                        key={index}
+                        variants={fadeIn("up", "spring", index * 0.1, 0.75)}
+                        whileHover={{
+                          backgroundColor: "rgba(249, 250, 251, 1)",
+                        }}
+                        className={`${
+                          pkg.popular ? "bg-orange-50" : ""
+                        } transition-colors duration-200`}
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="text-sm font-bold text-gray-900">
+                              {pkg.amount}
+                            </div>
+                            {pkg.popular && (
+                              <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-500 to-amber-500 text-white">
+                                Most Popular
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-lg font-extrabold text-orange-500">
+                            {pkg.price}
+                            <span className="ml-1 text-sm font-normal text-gray-500">
+                              USD
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <button className="inline-flex items-center gap-2 bg-blue-900 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-md transition-all duration-300 group text-sm">
+                            <ShoppingCartIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                            Order Now
+                          </button>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
 
-        {/* Footer CTA */}
-        <motion.div
-          variants={fadeIn("up", "tween", 0.6, 1)}
-          className="mt-16 text-center"
-        >
-          <p className="text-gray-500 mb-6 text-lg">
-            All prices include worldwide shipping and insurance
-          </p>
-          <button className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            View All Currency Packages
-          </button>
-        </motion.div>
-      </motion.div>
-      {/* Promotional Banner */}
-      <motion.div
-        variants={fadeIn("up", "tween", 0.2, 1)}
-        className="mt-16 max-w-7xl mx-auto bg-gradient-to-r from-amber-100 to-orange-50 border border-amber-200 rounded-xl p-6 shadow-sm"
-      >
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-              <span className="bg-amber-500 text-white text-sm font-bold px-3 py-1 rounded-full">
-                🎁 LIMITED TIME OFFER
-              </span>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Free 20 Billion ZIM with 1 Million IQD orders!
-            </h3>
-            <p className="text-gray-700">
-              Automatically applied at checkout • While stocks last
-            </p>
-            <p className="text-sm text-gray-600 mt-3">
-              Limited Stock for 2 Million Plus Orders. Please call us before
-              placing any order of 2 Million and above.
-            </p>
+            
           </div>
-          <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3 shrink-0">
-            <a
-              href="tel:0417460236"
-              className="flex items-center justify-center gap-2 bg-gray-900 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+
+          {/* Right Sidebar */}
+          <div className="lg:w-1/3 space-y-6">
+            {/* Buying Dinar Info Card */}
+            <motion.div
+              variants={fadeIn("left", "tween", 0.4, 1)}
+              className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
             >
-              <PhoneIcon className="w-4 h-4" />
-              <span>0417 460 236</span>
-            </a>
-            <a
-              href="tel:1300856881"
-              className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <CheckBadgeIcon className="w-5 h-5 text-orange-500" />
+                Why Buy Dinar Now?
+              </h3>
+              <p className="text-gray-600 mb-4">
+                We guarantee the best rates for buying Iraqi dinar in the
+                market. Our prices are constantly updated to reflect the most
+                current exchange rates.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <ShieldCheckIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-600">
+                    Best exchange rates guaranteed
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ShieldCheckIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-600">
+                    Instant price quotes
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ShieldCheckIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-600">No hidden fees</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Guarantee Card */}
+            <motion.div
+              variants={fadeIn("left", "tween", 0.5, 1)}
+              className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
             >
-              <PhoneIcon className="w-4 h-4" />
-              <span>1300 856 881</span>
-            </a>
+              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <ShieldCheckIcon className="w-5 h-5 text-orange-500" />
+                Our Guarantee
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Every dinar note comes with a certificate of authenticity that
+                guarantees your currency is genuine and not counterfeit.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <CheckBadgeIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-600">
+                    100% authentic Iraqi dinar
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckBadgeIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-600">
+                    Certificate of authenticity
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckBadgeIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-600">
+                    Money-back guarantee
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </motion.div>

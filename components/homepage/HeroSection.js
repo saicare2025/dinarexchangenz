@@ -8,16 +8,19 @@ import {
   FiClock,
   FiArrowRight,
 } from "react-icons/fi";
+import { FloatingTestimonial } from "./HeroTestmonial";
+import { FloatingCallButton } from "./FloatingCall";
 
 export default function HeroSection() {
-  const exchangeRates = [
-    { amount: "10,000 IQD", rate: "10.50 NZD" },
-    { amount: "50,000 IQD", rate: "52.50 NZD" },
-    { amount: "100,000 IQD", rate: "105.00 NZD" },
-    { amount: "250,000 IQD", rate: "262.50 NZD" },
-    { amount: "500,000 IQD", rate: "525.00 NZD" },
-    { amount: "1,000,000 IQD", rate: "1,050.00 NZD" },
-  ];
+const exchangeRates = [
+  { amount: "10,000 IQD", rate: "9.77 AUD" },
+  { amount: "50,000 IQD", rate: "48.83 AUD" },
+  { amount: "100,000 IQD", rate: "97.65 AUD" },
+  { amount: "250,000 IQD", rate: "243.14 AUD" },
+  { amount: "500,000 IQD", rate: "486.75 AUD" },
+  { amount: "1,000,000 IQD", rate: "973.50 AUD" },
+];
+
 
   const features = [
     {
@@ -43,7 +46,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-50 py-8 lg:py-20 px-4">
+    <section className="relative overflow-hidden bg-gradient-to-r from-blue-100 to-orange-100 py-8 lg:py-20 px-4">
       {/* Decorative gradient elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-20 left-20 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl"></div>
@@ -65,7 +68,7 @@ export default function HeroSection() {
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
-              <span className="bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
+              <span className="bg-blue-900 bg-clip-text text-transparent">
                 Dinar Exchange
               </span>{" "}
               <span className="text-gray-800">New Zealand</span>
@@ -84,7 +87,7 @@ export default function HeroSection() {
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative overflow-hidden group bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                className="relative overflow-hidden group bg-gradient-to-r from-orange-800 to-orange-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Buy Dinars Now{" "}
@@ -110,7 +113,7 @@ export default function HeroSection() {
             className="lg:w-1/2 w-full"
           >
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-              <div className="bg-gray-800 p-5 text-white">
+              <div className="bg-blue-900 p-5 text-white">
                 <h2 className="text-2xl text-orange font-bold mb-1">Live Exchange Rates</h2>
                 <p className="text-orange-100 opacity-90">
                   Iraqi Dinar to New Zealand Dollar
@@ -170,6 +173,8 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
+      <FloatingTestimonial />
+       <FloatingCallButton />
     </section>
   );
 }
