@@ -3,6 +3,7 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
+import Image from "next/image";
 
 export function TestimonialsSection() {
   const testimonials = [
@@ -95,14 +96,14 @@ export function TestimonialsSection() {
           </div>
           <div className="flex gap-4">
             <div className="bg-gray-50 p-4 rounded-lg">
-              <img 
+              <Image 
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbP1seQq0kFgsBZzQ4A1aU8ob0vuIJVTidCg&s" 
                 alt="Google Reviews" 
                 className="h-12 w-auto"
               />
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
-              <img 
+              <Image 
                 src="https://www.pngitem.com/pimgs/m/42-421398_trustpilot-logo-png-transparent-png.png" 
                 alt="Trustpilot" 
                 className="h-12 w-auto"
