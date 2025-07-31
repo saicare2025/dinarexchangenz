@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, forwardRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -19,16 +19,23 @@ import {
   EnvelopeOpenIcon,
 } from "@heroicons/react/24/outline";
 import logo from "../app/assets/logo.png";
-
 const CONTACT_INFO = [
   {
-    text: "dinars@dinarexchange.com.au",
+    text: "dinars@dinarexchange.co.nz",
     icon: <EnvelopeOpenIcon className="w-4 h-4" />,
+    showOnMobile: true,
   },
-  { text: "0417 460 236", icon: <PhoneArrowUpRightIcon className="w-4 h-4" /> },
-  { text: "1300 856 881", icon: <PhoneArrowUpRightIcon className="w-4 h-4" /> },
+  {
+    text: "+64 9 872 4693",
+    icon: <PhoneArrowUpRightIcon className="w-4 h-4" />,
+    showOnMobile: false,
+  },
+  {
+    text: "+61 417 460 236",
+    icon: <PhoneArrowUpRightIcon className="w-4 h-4" />,
+    showOnMobile: true,
+  },
 ];
-
 const NAV_LINKS = [
   { name: "Home", href: "/", icon: <HomeIcon className="w-5 h-5" /> },
   {
@@ -38,7 +45,7 @@ const NAV_LINKS = [
   },
   {
     name: "Buy Zimbabwe Dollar",
-    href: "/buydinar",
+    href: "/buyzimdoller",
     icon: <CurrencyDollarIcon className="w-5 h-5" />,
   },
   {
@@ -86,6 +93,7 @@ const CountdownTimer = () => {
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -136,36 +144,68 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50">
       {/* Top Contact Bar */}
-      <div className="bg-orange-800 text-white text-sm">
+      <div className="bg-orange-700 text-white text-sm">
         <div className="container max-w-7xl mx-auto flex justify-between items-center">
           {/* Desktop Contact Info and Offer */}
           <div className="flex items-center space-x-6">
-            {/* Enhanced Offer Information with Countdown */}
-            <div className="relative group">
-              <div className="flex items-center space-x-3 bg-gradient-to-r from-orange-800 to-orange-700 px-4 py-2 shadow-lg hover:shadow-orange-500/20 transition-all">
-                <div className="flex gap-4 justify-center items-center">
-                  <span className="font-bold text-xs uppercase tracking-wider">
-                    🎁LIMITED TIME: Free 20 Billion ZIM with 1 Million IQD
-                    orders!
-                  </span>
-                  <div className="flex items-center space-x-1">
-                    <span className="text-xs hidden lg:block font-medium">
-                      Ends in:
+            {pathname === "/buydinar" ? (
+              // Show limited time offer only on /buydinar page
+              <div className="relative group">
+                <div className="flex items-center space-x-3 bg-gradient-to-r from-orange-700 to-orange-700 px-4 py-2 shadow-lg hover:shadow-orange-500/20 transition-all">
+                  <div className="flex gap-4 justify-center items-center">
+                    <span className="font-bold text-xs uppercase tracking-wider">
+                      🎁LIMITED TIME: Free 20 Billion ZIM with 1 Million IQD
+                      orders!
                     </span>
-                    <span className="font-mono text-blue-900 text-sm font-bold bg-orange-100 px-2 py-0.5 rounded">
-                      <CountdownTimer />
-                    </span>
+                    <div className="flex items-center space-x-1">
+                      <span className="text-xs hidden lg:block font-medium">
+                        Ends in:
+                      </span>
+                      <span className="font-mono text-blue-900 text-sm font-bold bg-orange-100 px-2 py-0.5 rounded">
+                        <CountdownTimer />
+                      </span>
+                    </div>
                   </div>
                 </div>
+                <div className="absolute hidden group-hover:block bg-white text-blue-900 p-2 rounded-md shadow-lg mt-1 text-xs whitespace-nowrap z-10">
+                  Limited time offer! Don&apos;t miss this special discount!
+                </div>
               </div>
-              <div className="absolute hidden group-hover:block bg-white text-blue-900 p-2 rounded-md shadow-lg mt-1 text-xs whitespace-nowrap z-10">
-                Limited time offer! Don&apos;t miss this special discount!
+            ) : pathname === "/" ? (
+              <div className="flex items-center space-x-4">
+                {CONTACT_INFO.map((info, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center lg:ml-0 py-3 ml-6 justify-between space-x-1 ${
+                      !info.showOnMobile ? "hidden sm:flex" : ""
+                    }`}
+                  >
+                    {info.icon}
+                    {info.text.includes("@") ? (
+                      // Email link
+                      <a
+                        href={`mailto:${info.text}`}
+                        className="text-xs sm:text-sm hover:underline"
+                      >
+                        {info.text}
+                      </a>
+                    ) : (
+                      // Phone link
+                      <a
+                        href={`tel:${info.text.replace(/\s/g, "")}`}
+                        className="text-xs sm:text-sm hover:underline"
+                      >
+                        {info.text}
+                      </a>
+                    )}
+                  </div>
+                ))}
               </div>
-            </div>
+            ) : null}
           </div>
 
           {/* Order Now Button - Visible on all screens */}
-          <button className="hidden lg:flex items-center gap-2  text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
+          <button className="hidden lg:flex items-center gap-2 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
             <ShoppingCartIcon className="w-4 h-4" />
             <span className="text-sm font-medium">Order Now</span>
           </button>
@@ -177,7 +217,7 @@ export default function Header() {
           isScrolled ? "shadow-md" : ""
         }`}
       >
-        <div className="container max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div className="container w-full max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo */}
           <Link
             href="/"
@@ -188,7 +228,7 @@ export default function Header() {
             <Image
               src={logo}
               alt="Company Logo"
-              width={220}
+              width={200}
               height={60}
               priority
             />
@@ -240,7 +280,7 @@ export default function Header() {
   );
 }
 
-// Sub-components
+// Sub-components (keep these the same as before)
 function NavLink({ href, name, icon }) {
   return (
     <Link

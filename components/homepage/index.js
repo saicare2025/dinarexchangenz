@@ -1,5 +1,5 @@
 
-import { BuyingDinarNow } from "./BuyingDinar";
+import FaqSection from "./Faq";
 import HeroSection from "./HeroSection";
 import { InvestmentOpportunity } from "./Investment";
 import IraqiDinarSection from "./IraqiDinarSection";
@@ -13,8 +13,8 @@ export default function HomePage() {
       <HeroSection />
       <TestimonialsSection/>
       <IraqiDinarSection />
-      <BuyingDinarNow/>
       <InvestmentOpportunity/>
+      <FaqSection/>
     </main>
   );
 }

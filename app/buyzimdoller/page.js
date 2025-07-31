@@ -11,13 +11,15 @@ import {
 import MainLayout from "../MainLayout";
 
 const currencyOptions = [
-  { label: "25,000 IQD - $186 AUD", value: 186 },
-  { label: "50,000 IQD - $281 AUD", value: 281 },
-  { label: "75,000 IQD - $325 AUD", value: 325 },
-  { label: "100,000 IQD - $381 AUD", value: 381 },
-  { label: "200,000 IQD - $656 AUD", value: 656 },
-  { label: "500,000 IQD - $1,875 AUD", value: 1875 },
-  { label: "1,000,000 IQD - $2,800 AUD", value: 2800 },
+  { label: "10 Billion Zimbabwe Dollars - $250 AUD", value: 250 },
+  { label: "20 Billion Zimbabwe Dollars - $500 AUD", value: 500 },
+  { label: "30 Billion Zimbabwe Dollars - $750 AUD", value: 750 },
+  { label: "40 Billion Zimbabwe Dollars - $1000 AUD", value: 1000 },
+  { label: "50 Billion Zimbabwe Dollars - $1250 AUD", value: 1250 },
+  { label: "60 Billion Zimbabwe Dollars - $1500 AUD", value: 1500 },
+  { label: "80 Billion Zimbabwe Dollars - $2000 AUD", value: 2000 },
+  { label: "100 Billion Zimbabwe Dollars - $2500 AUD", value: 2500 },
+  { label: "10 Trillion Zimbabwe Dollars - $2600 AUD", value: 2600 },
 ];
 
 const bankDetails = {
@@ -47,8 +49,8 @@ const initialFormData = {
   idFile: null,
   acceptTerms: false,
   paymentMethod: "",
-  paymentReceipt: null, 
-  skipReceipt: false, 
+  paymentReceipt: null,
+  skipReceipt: false,
   comments: "",
 };
 
@@ -143,15 +145,15 @@ export default function BuyDinar() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen max-w-4xl mx-auto  py-4 px-4 sm:px-6 lg:px-8">
-        <div className="">
+      <div className="min-h-screen bg-gradient-to-r from-blue-100 to-orange-100 py-4 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-4">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Buy Iraqi Dinars
+              Buy Zimbabwe Doller
             </h1>
 
             <div className="max-w-5xl mx-auto">
-              <div className="bg-orange-50 border-l-4 border-orange-400 p-4 text-left mb-6">
+              <div className="bg-orange-50 border-l-4 border-orange-400 p-4 text-left mb-4">
                 <p className="font-medium text-gray-800">
                   <span className="text-orange-600 font-bold">Important:</span>{" "}
                   All pricing is listed in AUD. Please calculate the exchange

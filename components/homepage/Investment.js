@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 import currency from "../../app/assets/currency.png";
 import Image from "next/image";
+import heroImage from "../../app/assets/dinar.png";
+import Link from "next/link";
 
 export function InvestmentOpportunity() {
   return (
@@ -30,12 +32,11 @@ export function InvestmentOpportunity() {
         <motion.div variants={fadeIn("up", "tween", 0.1, 1)} className="mb-8">
           <div className="flex flex-col lg:flex-row items-center gap-8">
             {/* Left side - Content */}
-            <motion.div
-              variants={fadeIn("up", "tween", 0.1, 1)}
-            >
+            <motion.div variants={fadeIn("up", "tween", 0.1, 1)}>
               <div className="text-center mb-12">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                  Trusted<span className="text-orange-800"> Currency Exchange</span> 
+                  Trusted
+                  <span className="text-orange-700"> Currency Exchange</span>
                 </h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                   When buying Iraqi Dinar online, trust is paramount. Dinar
@@ -187,25 +188,48 @@ export function InvestmentOpportunity() {
         {/* CTA Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.5, 1)}
-          className="bg-blue-900 rounded-t-2xl p-8 md:p-12 text-center"
+          className="bg-blue-900 rounded-2xl overflow-hidden"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Embark on Your Iraqi Dinar Journey
-          </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto mb-8 text-lg">
-            Whether you&apos;re exchanging currency or staying updated on
-            revaluation news, we provide all the tools and resources you need
-            for successful dinar investment.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-colors">
-              <CurrencyDollarIcon className="w-5 h-5" />
-              Buy Iraqi Dinars
-            </button>
-            <button className="bg-transparent hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-lg border border-gray-600 flex items-center justify-center gap-2 transition-colors">
-              <ArrowRightCircleIcon className="w-5 h-5" />
-              Learn More
-            </button>
+          <div className="flex flex-col md:flex-row">
+            {/* Left Section - Image */}
+            <div className="md:w-1/2 h-full">
+              <div className="relative h-96">
+                <Image
+                  src={heroImage}
+                  alt="Iraqi Dinar currency"
+                  fill
+                  className="object-contain"
+                  priority
+                  sizes="(max-width: 768px) 80vw, 50vw"
+                />
+                {/* Optional overlay */}
+                <div className="absolute inset-0 bg-blue-900/20"></div>
+              </div>
+            </div>
+
+            {/* Right Section - Content */}
+            <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Embark on Your Iraqi Dinar Journey
+              </h2>
+              <p className="text-gray-300 max-w-lg mb-8 text-lg">
+                Whether you&apos;re exchanging currency or staying updated on
+                revaluation news, we provide all the tools and resources you
+                need for successful dinar investment.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/buydinar">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-orange-700 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-all"
+                  >
+                    <CurrencyDollarIcon className="w-5 h-5" />
+                    Buy Iraqi Dinars
+                  </motion.button>
+                </Link>
+              </div>
+            </div>
           </div>
         </motion.div>
       </motion.div>

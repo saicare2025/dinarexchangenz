@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 
 export default function MainLayout({ children }) {
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-gradient-to-r from-blue-100 to-orange-100">
       <Header />
       <main className="container max-w-7xl mx-auto px-4">
         {children}

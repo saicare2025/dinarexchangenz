@@ -6,29 +6,45 @@ import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
+import review2 from "../../app/assets/review-image/review2.png";
+import review3 from "../../app/assets/review-image/review3.png";
+import review4 from "../../app/assets/review-image/review4.png";
+import review8 from "../../app/assets/review-image/review8.png";
+
 
 const testimonials = [
   {
-    quote: "Professional & quick service. Will use again!",
-    author: "John M.",
-    source: "Google",
-    rating: 5,
-    image: "https://img.freepik.com/free-photo/young-man-sad-expression_1194-2826.jpg?semt=ais_hybrid&w=740",
-  },
-  {
-    quote: "Neil was great - fast responses!",
-    author: "Sarah K.",
-    source: "Google",
-    rating: 5,
-    image: "https://img.freepik.com/free-photo/outdoor-shot-young-caucasian-man-with-beard-relaxing-open-air-surrounded-by-beautiful-mountain-setting-rainforest_273609-1855.jpg",
-  },
-  {
-    quote: "Authentic currency for 4+ years",
-    author: "David L.",
-    source: "Google",
-    rating: 5,
-    image: "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80",
-  },
+      quote:
+        "Courteous and helpful staff. Thorough follow-up. Safe delivery of purchases. No complaints at all, just praise.",
+      author: "Beverley Currie",
+      source: "Verified Google Review",
+      rating: 5,
+      image: review2,
+    },
+   {
+      quote:
+        "Great people to deal with. Very helpful, very efficient and professional. Thanks Dinar Exchange.",
+      author: "Fiona J",
+      source: "Verified Google Review",
+      rating: 5,
+      image: review3,
+    },
+    {
+      quote:
+        "2nd time using Dinar Exchange. Quick process, quick deliveries, A+ communication.",
+      author: "Craig Lees",
+      source: "Verified Trustpilot Review",
+      rating: 5,
+      image: review4,
+    },
+    {
+      quote:
+        "The team are always very helpful and professional in dealing with any questions I may have.👍",
+      author: "Saving Brothers",
+      source: "Verified Trustpilot Review",
+      rating: 5,
+      image: review8,
+    },
 ];
 
 export function FloatingTestimonial() {
