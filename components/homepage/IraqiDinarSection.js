@@ -34,7 +34,7 @@ export default function IraqiDinarSection() {
         {/* Main Content */}
         <motion.div
           variants={fadeIn("up", "tween", 0.1, 1)}
-          className="text-center mb-8 md:mb-12"
+          className="text-center mb-8"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
             Buy <span className="text-orange-700">Iraqi Dinar</span>
@@ -44,19 +44,20 @@ export default function IraqiDinarSection() {
             banknotes come with a{" "}
             <span className="font-semibold text-orange-500">
               certificate of authenticity
-            </span>.
+            </span>
+            .
           </p>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-stretch">
           {/* Left Column - Table */}
-          <div className="lg:w-1/2 flex flex-col">
+          <div className="lg:w-1/2 flex flex-col h-full">
             <motion.div
               variants={fadeIn("up", "tween", 0.2, 1)}
-              className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+              className="flex-1 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col"
             >
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+              <div className="overflow-x-auto flex-1">
+                <table className="min-w-full divide-y divide-gray-200 h-full">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -103,10 +104,10 @@ export default function IraqiDinarSection() {
           </div>
 
           {/* Right Column - Info Cards */}
-          <div className="lg:w-1/2 flex flex-col gap-4 md:gap-6">
+          <div className="lg:w-1/2 flex flex-col gap-3 h-full">
             <motion.div
               variants={fadeIn("left", "tween", 0.4, 1)}
-              className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100"
+              className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex-1"
             >
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
                 <CheckBadgeIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500" />
@@ -132,23 +133,22 @@ export default function IraqiDinarSection() {
                 </li>
                 <li className="flex items-start gap-2 md:gap-3">
                   <ShieldCheckIcon className="w-4 h-4 md:w-5 md:h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-xs md:text-sm text-gray-600">No hidden fees</span>
+                  <span className="text-xs md:text-sm text-gray-600">
+                    No hidden fees
+                  </span>
                 </li>
               </ul>
             </motion.div>
 
             <motion.div
               variants={fadeIn("left", "tween", 0.5, 1)}
-              className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100"
+              className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex-1"
             >
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
                 <ShieldCheckIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500" />
                 Our Guarantee
               </h3>
-              <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base">
-                Every dinar note comes with a certificate of authenticity that
-                guarantees your currency is genuine and not counterfeit.
-              </p>
+             
               <ul className="space-y-2 md:space-y-3">
                 <li className="flex items-start gap-2 md:gap-3">
                   <CheckBadgeIcon className="w-4 h-4 md:w-5 md:h-5 text-green-500 mt-0.5 flex-shrink-0" />
@@ -176,7 +176,7 @@ export default function IraqiDinarSection() {
         {/* CTA Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.6, 1)}
-          className="mt-12 md:mt-16 bg-orange-700 rounded-xl p-4 md:p-6 text-white"
+          className="mt-4 bg-orange-700 rounded-xl p-4 md:p-6 text-white"
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
             <div className="flex-1">
@@ -216,7 +216,6 @@ export default function IraqiDinarSection() {
                   Call 1300 856 881
                 </a>
               </div>
-              
             </div>
           </div>
         </motion.div>

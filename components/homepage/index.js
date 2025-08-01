@@ -3,15 +3,15 @@ import FaqSection from "./Faq";
 import HeroSection from "./HeroSection";
 import { InvestmentOpportunity } from "./Investment";
 import IraqiDinarSection from "./IraqiDinarSection";
+import { Testimonials3DCarousel } from "./Testmonial";
 
-import { TestimonialsSection } from "./Testmonial";
 
 
 export default function HomePage() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <TestimonialsSection/>
+      <Testimonials3DCarousel/>
       <IraqiDinarSection />
       <InvestmentOpportunity/>
       <FaqSection/>

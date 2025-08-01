@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import review1 from "../../app/assets/review-image/review1.png";
+import review2 from "../../app/assets/review-image/review2.png";
+import review3 from "../../app/assets/review-image/review3.png";
+import review4 from "../../app/assets/review-image/review4.png";
+import review5 from "../../app/assets/review-image/review5.png";
+import review6 from "../../app/assets/review-image/review6.png";
+import review7 from "../../app/assets/review-image/review7.png";
+import review8 from "../../app/assets/review-image/review8.png";
+import review9 from "../../app/assets/review-image/review9.png";
+import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 
 // Icon components
 const StarIcon = ({ className }) => (
@@ -9,14 +19,34 @@ const StarIcon = ({ className }) => (
 );
 
 const ShieldCheckIcon = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+    />
   </svg>
 );
 
 const ArrowTopRightOnSquareIcon = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+    />
   </svg>
 );
 
@@ -53,58 +83,70 @@ const staggerContainer = (staggerChildren, delayChildren) => ({
 // Sample testimonials data
 const testimonials = [
   {
-    quote: "What a great service Dinar Exchange provides. They went above and beyond to help with my first purchase. Can highly recommend them to do business with. Big thank you to Russel.",
+    quote:
+      "What a great service Dinar Exchange provides. They went above and beyond to help with my first purchase. Can highly recommend them to do business with. Big thank you to Russel.",
     author: "John M.",
     source: "Verified Google Review",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "Great service, Great prices and speedy delivery. I had a few issues as i use a building society but the lovely customer service lady on Dinar exchange was more than happy to help me out. It is so nice to talk to a real human nowadays and not just a voice recording. I am on my second order now and i feel very confident using Dinar exchange. I highly recommend",
+    quote:
+      "Great service, Great prices and speedy delivery. I had a few issues as i use a building society but the lovely customer service lady on Dinar exchange was more than happy to help me out. It is so nice to talk to a real human nowadays and not just a voice recording. I am on my second order now and i feel very confident using Dinar exchange. I highly recommend",
     author: "Shelley Maxted",
     source: "Verified Google Review",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "Always great experience and most importantly confidence in the whole process! Service is absolutely amazing, especially Sonya that communicates no matter what the time it is, and what I might need and also Sherlyn. They are all very professional and quick! They also give you a call once Your notes have been shipped ! I would have give them 7stars Review if I could! Shop with confidence and fairness 🌟🌟🌟🌟🌟🌟🌟Thank you ladies so much ! I appreciate you! Great service as Always!!!",
+    quote:
+      "Always great experience and most importantly confidence in the whole process! Service is absolutely amazing, especially Sonya that communicates no matter what the time it is, and what I might need and also Sherlyn. They are all very professional and quick! They also give you a call once Your notes have been shipped ! I would have give them 7stars Review if I could! Shop with confidence and fairness 🌟🌟🌟🌟🌟🌟🌟Thank you ladies so much ! I appreciate you! Great service as Always!!!",
     author: "Maya Maryanovich",
     source: "Verified Google Review",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "Courteous and helpful staff. Thorough follow-up. Safe delivery of purchases. No complaints at all, just praise.",
+    quote:
+      "Courteous and helpful staff. Thorough follow-up. Safe delivery of purchases. No complaints at all, just praise.",
     author: "Beverley Currie",
     source: "Verified Google Review",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "Great people to deal with. Very helpful, very efficient and professional. Thanks Dinar Exchange.",
+    quote:
+      "Great people to deal with. Very helpful, very efficient and professional. Thanks Dinar Exchange.",
     author: "Fiona J",
     source: "Verified Google Review",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&h=100&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "2nd time using Dinar Exchange. Quick process, quick deliveries, A+ communication.",
+    quote:
+      "2nd time using Dinar Exchange. Quick process, quick deliveries, A+ communication.",
     author: "Craig Lees",
     source: "Verified Google Review",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
   },
 ];
 
-export function TestimonialsSection() {
+export function Testimonials3DCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedReviews, setExpandedReviews] = useState({});
   const [isAnimating, setIsAnimating] = useState(false);
 
   const toggleReview = (index) => {
-    setExpandedReviews(prev => ({
+    setExpandedReviews((prev) => ({
       ...prev,
-      [index]: !prev[index]
+      [index]: !prev[index],
     }));
   };
 
@@ -120,7 +162,9 @@ export function TestimonialsSection() {
   const prevSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+    );
     setTimeout(() => setIsAnimating(false), 600);
   };
 
@@ -134,14 +178,14 @@ export function TestimonialsSection() {
   const getSlidePosition = (index) => {
     const diff = index - currentIndex;
     const totalSlides = testimonials.length;
-    
+
     let normalizedDiff = diff;
     if (normalizedDiff > totalSlides / 2) {
       normalizedDiff -= totalSlides;
     } else if (normalizedDiff < -totalSlides / 2) {
       normalizedDiff += totalSlides;
     }
-    
+
     return normalizedDiff;
   };
 
@@ -149,24 +193,26 @@ export function TestimonialsSection() {
     const position = getSlidePosition(index);
     const isActive = position === 0;
     const isVisible = Math.abs(position) <= 2; // Show 5 items total (center + 2 on each side)
-    
+
     if (!isVisible) {
       return {
         opacity: 0,
-        transform: 'translateX(200%) rotateY(90deg) scale(0.5)',
+        transform: "translateX(200%) rotateY(90deg) scale(0.5)",
         zIndex: 0,
-        pointerEvents: 'none',
-        filter: 'blur(0px)'
+        pointerEvents: "none",
+       
       };
     }
 
     // Calculate positioning for 5 items
     const translateX = position * 85; // Reduced spacing to fit 5 items
     const rotateY = position * 20; // Slightly reduced rotation
-    
+
     // Scale and opacity based on position
-    let scale, opacity, blur = 0;
-    
+    let scale,
+      opacity,
+      blur = 0;
+
     if (position === 0) {
       // Center item - fully visible and clear
       scale = 1;
@@ -175,13 +221,13 @@ export function TestimonialsSection() {
     } else if (Math.abs(position) === 1) {
       // Adjacent items - clear but smaller
       scale = 0.85;
-      opacity = 0.9;
+      opacity = 1;
       blur = 0;
     } else if (Math.abs(position) === 2) {
       // Outer items - blurred and smaller
-      scale = 0.7;
-      opacity = 0.6;
-      blur = 3; // Apply blur effect
+       scale = 0.7;
+      opacity = 1;
+      blur = 0;
     }
 
     const zIndex = 10 - Math.abs(position);
@@ -190,29 +236,14 @@ export function TestimonialsSection() {
       transform: `translateX(${translateX}%) rotateY(${rotateY}deg) scale(${scale})`,
       opacity,
       zIndex,
-      filter: `blur(${blur}px)`,
-      pointerEvents: Math.abs(position) <= 1 ? 'auto' : 'none' // Only center and adjacent items are clickable
+     
+      pointerEvents: Math.abs(position) <= 1 ? "auto" : "none", // Only center and adjacent items are clickable
     };
   };
 
-  // Get visible slides for responsive behavior
-  const getVisibleSlides = () => {
-    const visibleIndices = [];
-    for (let i = 0; i < testimonials.length; i++) {
-      const position = getSlidePosition(i);
-      if (Math.abs(position) <= 2) {
-        visibleIndices.push(i);
-      }
-    }
-    return visibleIndices.sort((a, b) => {
-      const posA = getSlidePosition(a);
-      const posB = getSlidePosition(b);
-      return posA - posB;
-    });
-  };
 
   return (
-    <section className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-screen">
+    <section className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-[80vh]">
       <motion.div
         variants={staggerContainer()}
         initial="hidden"
@@ -223,9 +254,9 @@ export function TestimonialsSection() {
         {/* Header Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.1, 1)}
-          className="text-center mb-12"
+          className="text-center"
         >
-          <div className="inline-flex items-center gap-2 bg-blue-50 rounded-full px-4 py-2 mb-4">
+          <div className="inline-flex items-center gap-2 bg-blue-50 rounded-full px-4 mb-4">
             <ShieldCheckIcon className="w-5 h-5 text-blue-600" />
             <span className="text-sm font-medium text-blue-700">
               VERIFIED REVIEWS
@@ -245,14 +276,14 @@ export function TestimonialsSection() {
             <span className="text-3xl font-bold text-gray-800">4.8</span>
           </div>
 
-
+          
         </motion.div>
 
         {/* 3D Carousel Container */}
         <motion.div
           variants={fadeIn("up", "tween", 0.2, 1)}
-          className="relative h-[500px] mb-8"
-          style={{ perspective: '1200px' }}
+          className="relative h-[400px] mb-8"
+          style={{ perspective: "1200px" }}
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {testimonials.map((testimonial, index) => (
@@ -261,17 +292,37 @@ export function TestimonialsSection() {
                 className="absolute w-72 h-96 transition-all duration-500 ease-out cursor-pointer"
                 style={getSlideStyle(index)}
                 onClick={() => goToSlide(index)}
-                whileHover={getSlidePosition(index) === 0 ? { scale: 1.02 } : {}}
+                whileHover={
+                  getSlidePosition(index) === 0
+                    ? {
+                        scale: 1.03,
+                        boxShadow:
+                          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                      }
+                    : {}
+                }
               >
-                <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200 h-full transform-gpu backdrop-blur-sm">
-                  <div className="flex gap-1 mb-3">
+                <div
+                  className={`
+    bg-gradient-to-br from-blue-50 to-orange-50
+    p-6 rounded-xl shadow-lg border border-gray-100
+    h-full transform-gpu backdrop-blur-sm
+    relative overflow-hidden
+  `}
+                >
+                  {/* Gradient accent bar */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-orange-500" />
+
+                  <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <StarIcon key={i} className="w-5 h-5 text-amber-400" />
                     ))}
                   </div>
+
                   <div className="relative mb-4 h-40 overflow-y-auto">
                     <p className="text-gray-700 italic text-sm leading-relaxed">
-                      {isLongReview(testimonial.quote) && !expandedReviews[index] ? (
+                      {isLongReview(testimonial.quote) &&
+                      !expandedReviews[index] ? (
                         <>
                           {`${testimonial.quote.substring(0, 150)}... `}
                           <button
@@ -279,7 +330,7 @@ export function TestimonialsSection() {
                               e.stopPropagation();
                               toggleReview(index);
                             }}
-                            className="text-orange-600 hover:underline font-medium"
+                            className="text-blue-600 hover:text-orange-600 font-medium transition-colors"
                           >
                             Read More
                           </button>
@@ -287,35 +338,60 @@ export function TestimonialsSection() {
                       ) : (
                         <>
                           {testimonial.quote}
-                          {isLongReview(testimonial.quote) && expandedReviews[index] && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleReview(index);
-                              }}
-                              className="text-orange-600 hover:underline font-medium block mt-2"
-                            >
-                              Show Less
-                            </button>
-                          )}
+                          {isLongReview(testimonial.quote) &&
+                            expandedReviews[index] && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleReview(index);
+                                }}
+                                className="text-blue-600 hover:text-orange-600 font-medium block mt-2 transition-colors"
+                              >
+                                Show Less
+                              </button>
+                            )}
                         </>
                       )}
                     </p>
                   </div>
-                  <div className="flex items-center gap-4 mt-auto">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.author}
-                      className="w-12 h-12 rounded-full object-cover border"
-                    />
+
+                  <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100">
+                    <div className="relative">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.author}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
+                      />
+                      <CheckBadgeIcon className="absolute -bottom-1 -right-1 w-5 h-5 text-blue-500 bg-white rounded-full p-0.5" />
+                    </div>
                     <div>
-                      <p className="font-semibold text-gray-900 text-sm">
-                        {testimonial.author}
-                      </p>
-                      <p className="text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <p className="font-semibold text-gray-800 text-sm">
+                          {testimonial.author.split(" ")[0]}
+                        </p>
+                        <ShieldCheckIcon className="w-3 h-3 text-blue-500" />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Purchased {testimonial.quantity} dinars •{" "}
                         {testimonial.source}
                       </p>
                     </div>
+                  </div>
+
+                  {/* Blue-orange accent corner */}
+                  <div className="absolute bottom-0 right-0 w-16 h-16">
+                    <div
+                      className="absolute bottom-0 right-0 w-0 h-0 
+        border-l-[40px] border-l-transparent
+        border-b-[40px] border-b-blue-500
+        opacity-10 rounded-br-xl"
+                    />
+                    <div
+                      className="absolute bottom-0 right-0 w-0 h-0 
+        border-l-[30px] border-l-transparent
+        border-b-[30px] border-b-orange-500
+        opacity-20 rounded-br-xl"
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -337,7 +413,12 @@ export function TestimonialsSection() {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
 
@@ -350,8 +431,8 @@ export function TestimonialsSection() {
                 disabled={isAnimating}
                 className={`w-3 h-3 rounded-full transition-all duration-200 ${
                   index === currentIndex
-                    ? 'bg-orange-600 scale-125 shadow-lg'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                    ? "bg-orange-600 scale-125 shadow-lg"
+                    : "bg-gray-300 hover:bg-gray-400"
                 } disabled:cursor-not-allowed`}
               />
             ))}
@@ -369,7 +450,12 @@ export function TestimonialsSection() {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </div>
@@ -377,7 +463,8 @@ export function TestimonialsSection() {
         {/* Instructions */}
         <div className="text-center mt-6">
           <p className="text-sm text-gray-500">
-            Click on any clear card to view • Use arrow keys to navigate • 5 items displayed: 3 clear, 2 blurred
+            Click on any clear card to view • Use arrow keys to navigate • 5
+            items displayed: 3 clear, 2 blurred
           </p>
         </div>
 
@@ -391,4 +478,3 @@ export function TestimonialsSection() {
     </section>
   );
 }
-

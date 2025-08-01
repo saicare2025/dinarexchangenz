@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 import currency from "../../app/assets/currency.png";
 import Image from "next/image";
-import heroImage from "../../app/assets/dinar.png";
+import heroImage from "../../app/assets/dinar2.png";
 import Link from "next/link";
 
 export function InvestmentOpportunity() {

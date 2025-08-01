@@ -10,7 +10,6 @@ import {
   EnvelopeIcon,
   HomeIcon,
   CurrencyDollarIcon,
-  QuestionMarkCircleIcon,
   PhoneIcon,
   ShoppingCartIcon,
   PhoneArrowUpRightIcon,
