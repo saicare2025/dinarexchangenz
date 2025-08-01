@@ -148,7 +148,7 @@ export default function Header() {
         <div className="container max-w-7xl mx-auto flex justify-between items-center">
           {/* Desktop Contact Info and Offer */}
           <div className="flex items-center space-x-6">
-            {pathname === "/buydinar" ? (
+            {pathname === "/buyzimdoller" ? (
               // Show limited time offer only on /buydinar page
               <div className="relative group">
                 <div className="flex items-center space-x-3 bg-gradient-to-r from-orange-700 to-orange-700 px-4 py-2 shadow-lg hover:shadow-orange-500/20 transition-all">
@@ -171,7 +171,7 @@ export default function Header() {
                   Limited time offer! Don&apos;t miss this special discount!
                 </div>
               </div>
-            ) : pathname === "/" ? (
+            ) : pathname === "/" || pathname==="/buydinar" ? (
               <div className="flex items-center space-x-4">
                 {CONTACT_INFO.map((info, index) => (
                   <div

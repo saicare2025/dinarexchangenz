@@ -200,7 +200,7 @@ export default function IraqiDinarSection() {
               </p>
             </div>
             <div className="flex flex-col items-center md:items-end gap-2 md:gap-3 w-full md:w-auto">
-              <div className="flex flex-col sm:flex-row gap-2 md:gap-3 w-full">
+              <div className="flex flex-col gap-2 md:gap-3 w-full">
                 <a
                   href="tel:0417460236"
                   className="flex items-center justify-center gap-1 md:gap-2 bg-white text-orange-700 px-3 py-2 md:px-5 md:py-3 rounded-lg font-semibold hover:bg-orange-100 transition-colors text-sm md:text-base w-full"
@@ -216,9 +216,7 @@ export default function IraqiDinarSection() {
                   Call 1300 856 881
                 </a>
               </div>
-              <button className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-bold transition-colors text-sm md:text-base w-full sm:w-auto">
-                Order Now & Claim Your Bonus
-              </button>
+              
             </div>
           </div>
         </motion.div>
