@@ -7,33 +7,31 @@ import { motion } from "framer-motion";
 import MainLayout from "../../MainLayout";
 import Link from "next/link";
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      return toast.error("Please enter your email and password");
-    }
     setIsLoading(true);
-
     try {
-      const res = await fetch("/api/user/login", {
+      const res = await fetch("/api/user/register", {
+        // <<== endpoint changed
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
+
       if (res.ok) {
-        // Store login status in localStorage for demo (replace with context or cookie/session in production)
-        localStorage.setItem("user", JSON.stringify({ email: data.email, name: data.name || "" }));
-        toast.success("Login successful!");
-        router.push("/user/dashboard");
+        toast.success("Registration successful! Please login.");
+        router.push("/user/login");
       } else {
-        toast.error(data.error || "Invalid credentials");
+        toast.error(data.error || "Registration failed!");
       }
     } catch {
       toast.error("Something went wrong. Try again.");
@@ -56,14 +54,14 @@ export default function Login() {
           <div className="relative z-10">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-800">
-                Welcome to <span className="text-orange">Dinar</span>{" "}
-                <span className="text-blue">Exchange</span>
+                Create your <span className="text-orange">Dinar</span>{" "}
+                <span className="text-blue">Exchange</span> account
               </h1>
               <p className="text-gray-500 mt-1">
-                Please log in to securely access your account
+                Enter your details to get started
               </p>
             </div>
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleRegister} className="space-y-6">
               <div>
                 <label
                   htmlFor="email"
@@ -129,27 +127,18 @@ export default function Login() {
                     />
                   </svg>
                 ) : (
-                  "Login Now"
+                  "Register"
                 )}
               </motion.button>
             </form>
             <div className="mt-6 text-center text-sm text-gray-500">
-              Don&apos;t have an account?{" "}
+              Already have an account?{" "}
               <Link
-                href="/user/register"
+                href="/user/login"
                 className="font-medium text-blue hover:text-blue-dark transition-colors"
               >
-                Register here
+                Login here
               </Link>
-            </div>
-            <div className="mt-2 text-center text-sm text-gray-500">
-              Need help?{" "}
-              <a
-                href="#"
-                className="font-medium text-blue hover:text-blue-dark transition-colors"
-              >
-                Contact our support team
-              </a>
             </div>
           </div>
         </motion.div>

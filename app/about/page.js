@@ -1,82 +1,281 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import MainLayout from "../MainLayout";
 
-function AboutPage() {
+const AboutPage = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1]
+      }
+    }
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="bg-white text-gray-800 px-4 py-16 md:px-8 lg:px-20">
-      <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-6xl mx-auto"
-      >
-        <h1 className="text-4xl font-bold text-blue-600 border-b-4 border-orange-500 pb-2 mb-6">
-          About Dinar Exchange New Zealand
-        </h1>
-        <p className="text-xl mb-10">
-          Your trusted source for Iraqi Dinars (IQD) and Zimbabwe Dollars (ZIM) in New Zealand and Australia.
-        </p>
+    <MainLayout>
+      <div className="bg-gradient-to-r from-blue-100 to-orange-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="max-w-6xl mx-auto"
+        >
+          {/* Hero Section */}
+          <motion.header 
+            variants={itemVariants}
+            className="mb-16 text-center"
+          >
+            <motion.div
+              variants={fadeIn}
+              className="inline-block mb-6"
+            >
+              <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-orange-600 rounded-full mx-auto" />
+            </motion.div>
+            
+            <motion.h1 
+              variants={itemVariants}
+              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-orange-600 bg-clip-text text-transparent mb-4"
+            >
+              About Dinar Exchange NZ
+            </motion.h1>
+            
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl text-gray-800 max-w-3xl mx-auto"
+            >
+              Your trusted source for Iraqi Dinars (IQD) and Zimbabwe Dollars (ZIM) 
+              in New Zealand and Australia.
+            </motion.p>
+          </motion.header>
 
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-orange-500 mb-4">Who We Are</h2>
-          <p className="mb-4">
-            Welcome to Dinar Exchange New Zealand, your trusted source for Iraqi Dinars (IQD) and Zimbabwe Dollars (ZIM). We proudly serve customers throughout New Zealand and Australia, offering secure, transparent, and compliant currency exchange services since 2012.
-          </p>
-          <p>
-            As a reputable and long-standing dealer of collectible currencies, we specialize in delivering authentic, high-quality banknotes with safe transactions and excellent service.
-          </p>
-        </section>
+          {/* Content Sections */}
+          <div className="space-y-20">
+            {/* Who We Are */}
+            <motion.section 
+              variants={itemVariants}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div>
+                <motion.h2 
+                  className="text-3xl font-bold text-gray-800 mb-6"
+                  whileInView={{ x: 0, opacity: 1 }}
+                  initial={{ x: -50, opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <span className="text-blue-600">Who</span> We Are
+                </motion.h2>
+                <div className="space-y-4 text-gray-700">
+                  <p>
+                    Welcome to Dinar Exchange New Zealand, your trusted source for
+                    Iraqi Dinars (IQD) and Zimbabwe Dollars (ZIM). We proudly serve
+                    customers throughout New Zealand and Australia.
+                  </p>
+                  <p>
+                    As a reputable dealer of collectible currencies since 2012,
+                    we specialize in delivering authentic, high-quality banknotes
+                    with secure transactions and exceptional service.
+                  </p>
+                </div>
+              </div>
+              <motion.div
+                className="bg-white/80 backdrop-blur-sm rounded-xl p-8 border-l-4 border-orange-600 shadow-lg"
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">Our Compliance</h3>
+                <ul className="space-y-3 text-gray-700">
+                  <li className="flex items-start">
+                    <span className="text-orange-600 mr-2">•</span>
+                    Operates under Oz Trading Group Pty Ltd
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-orange-600 mr-2">•</span>
+                    ABN: 82 158 981 787
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-orange-600 mr-2">•</span>
+                    ACN: 158 981 787
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-orange-600 mr-2">•</span>
+                    AUSTRAC Enrolment: 100311410
+                  </li>
+                </ul>
+              </motion.div>
+            </motion.section>
 
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-orange-500 mb-4">Our Compliance & Registration</h2>
-          <ul className="list-disc pl-5">
-            <li>Dinar Exchange New Zealand operates under Oz Trading Group Pty Ltd.</li>
-            <li>ABN: 82 158 981 787</li>
-            <li>ACN: 158 981 787</li>
-            <li>AUSTRAC Enrolment Number: 100311410</li>
-          </ul>
-        </section>
+            {/* Services */}
+            <motion.section 
+              variants={itemVariants}
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl"
+            >
+              <motion.h2 
+                className="text-3xl font-bold text-center text-gray-800 mb-12"
+                whileInView={{ scale: 1.05 }}
+                initial={{ scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                Our <span className="text-orange-600">Services</span>
+              </motion.h2>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[
+                  {
+                    title: "Authentic Currencies",
+                    desc: "Genuine Iraqi Dinar (IQD) and Zimbabwe Dollar (ZIM) banknotes"
+                  },
+                  {
+                    title: "Secure Transactions",
+                    desc: "Full KYC compliance and protected ordering process"
+                  },
+                  {
+                    title: "Competitive Rates",
+                    desc: "Transparent pricing with no hidden fees"
+                  },
+                  {
+                    title: "Fast Shipping",
+                    desc: "Tracked delivery across New Zealand"
+                  },
+                  {
+                    title: "Expert Support",
+                    desc: "Knowledgeable customer service team"
+                  },
+                  {
+                    title: "Proven Experience",
+                    desc: "Over a decade serving collectors and investors"
+                  }
+                ].map((service, index) => (
+                  <motion.div
+                    key={index}
+                    className="bg-white p-6 rounded-xl hover:bg-gray-50 transition-colors border border-gray-200"
+                    whileHover={{ y: -5 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="text-orange-600 text-2xl mb-3">{index + 1}.</div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">{service.title}</h3>
+                    <p className="text-gray-600">{service.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
 
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-orange-500 mb-4">What We Offer</h2>
-          <ul className="list-disc pl-5">
-            <li>Genuine Iraqi Dinar (IQD) and Zimbabwe Dollar (ZIM) banknotes</li>
-            <li>Secure ordering with full KYC compliance</li>
-            <li>Transparent pricing and competitive rates</li>
-            <li>Fast, tracked shipping across New Zealand</li>
-            <li>Friendly customer service and expert assistance</li>
-          </ul>
-        </section>
+            {/* Mission */}
+            <motion.section 
+              variants={itemVariants}
+              className="text-center"
+            >
+              <motion.div
+                className="bg-gradient-to-r from-blue-600 to-orange-600 p-0.5 rounded-full inline-block mb-8"
+                whileInView={{ scaleX: [0, 1.2, 1] }}
+                initial={{ scaleX: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="bg-gradient-to-r from-blue-100 to-orange-100 px-8 py-4 rounded-full">
+                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-600">
+                    Our Mission
+                  </h2>
+                </div>
+              </motion.div>
+              
+              <motion.p
+                className="text-xl text-gray-700 max-w-4xl mx-auto"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                To provide New Zealanders with a secure, compliant platform for 
+                collectible currency exchange, prioritizing authenticity, 
+                transparency, and exceptional customer experience.
+              </motion.p>
+            </motion.section>
 
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-orange-500 mb-4">Why Choose Us?</h2>
-          <ul className="space-y-2">
-            <li>✅ Over a decade of experience</li>
-            <li>✅ Verified authenticity</li>
-            <li>✅ Secure transactions</li>
-            <li>✅ Responsive service</li>
-            <li>✅ Straightforward pricing</li>
-            <li>✅ Fast & Secure Shipping</li>
-          </ul>
-        </section>
-
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-orange-500 mb-4">Our Mission</h2>
-          <p>
-            Our mission is to provide New Zealanders with a safe, convenient, and trustworthy platform to purchase Iraqi Dinar and Zimbabwe Dollar banknotes. We are dedicated to maintaining compliance, ensuring authenticity, and offering a customer-first experience.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold text-orange-500 mb-4">Get In Touch</h2>
-          <p>Email: <a href="mailto:dinars@dinarexchange.co.nz" className="text-blue-600">dinars@dinarexchange.co.nz</a></p>
-          <p>Phone: <span className="text-blue-600">+64 9 872 4693</span></p>
-          <p>Website: <a href="https://www.DinarExchange.co.nz" className="text-blue-600">www.DinarExchange.co.nz</a></p>
-        </section>
-      </motion.div>
-    </div>
+            {/* Contact */}
+            <motion.section 
+              variants={itemVariants}
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-lg"
+            >
+              <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
+                Contact <span className="text-blue-600">Us</span>
+              </h2>
+              
+              <div className="grid md:grid-cols-3 gap-8 text-center">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-white p-6 rounded-xl border border-gray-200"
+                >
+                  <div className="text-orange-600 text-3xl mb-4">✉️</div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Email</h3>
+                  <a 
+                    href="mailto:dinars@dinarexchange.co.nz" 
+                    className="text-gray-600 hover:text-orange-600 transition-colors"
+                  >
+                    dinars@dinarexchange.co.nz
+                  </a>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-white p-6 rounded-xl border border-gray-200"
+                >
+                  <div className="text-orange-600 text-3xl mb-4">📞</div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Phone</h3>
+                  <a 
+                    href="tel:+6498724693" 
+                    className="text-gray-600 hover:text-orange-600 transition-colors"
+                  >
+                    +64 9 872 4693
+                  </a>
+                </motion.div>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-white p-6 rounded-xl border border-gray-200"
+                >
+                  <div className="text-orange-600 text-3xl mb-4">🌐</div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Website</h3>
+                  <a 
+                    href="https://www.DinarExchange.co.nz" 
+                    className="text-gray-600 hover:text-orange-600 transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    DinarExchange.co.nz
+                  </a>
+                </motion.div>
+              </div>
+            </motion.section>
+          </div>
+        </motion.div>
+      </div>
+    </MainLayout>
   );
-}
+};
 
 export default AboutPage;
