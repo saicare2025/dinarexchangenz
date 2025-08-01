@@ -460,13 +460,7 @@ export function Testimonials3DCarousel() {
           </button>
         </div>
 
-        {/* Instructions */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-500">
-            Click on any clear card to view • Use arrow keys to navigate • 5
-            items displayed: 3 clear, 2 blurred
-          </p>
-        </div>
+      
 
         {/* Mobile responsive note */}
         <div className="text-center mt-4 md:hidden">
