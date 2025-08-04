@@ -23,7 +23,7 @@ export default function IraqiDinarSection() {
   ];
 
   return (
-    <section className="py-8 bg-gradient-to-r from-blue-100 to-orange-100 overflow-x-hidden">
+    <section id="buydinarnow" className="py-8 bg-gradient-to-r from-blue-100 to-orange-100 overflow-x-hidden">
       <motion.div
         variants={staggerContainer()}
         initial="hidden"

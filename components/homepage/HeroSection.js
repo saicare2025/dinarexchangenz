@@ -75,7 +75,7 @@ export default function HeroSection() {
               </p>
 
               <div className="flex flex-wrap gap-4 ">
-                <Link href="/buydinar">
+                <Link href="#buydinarnow">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
@@ -99,7 +99,9 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:w-1/2 w-full"
           >
-            <div className="relative w-full h-full min-h-[300px] lg:min-h-[400px] rounded-2xl overflow-hidden shadow-xl border-1 border-orange-100">
+            <div className="relative w-full h-[400px]">
+              {" "}
+              {/* Set height as needed */}
               <Image
                 src={heroImage}
                 alt="Iraqi Dinar currency"

@@ -9,6 +9,7 @@ import {
   MapPinIcon,
   DocumentCheckIcon,
   LockClosedIcon,
+  BookOpenIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
@@ -31,10 +32,14 @@ export function InvestmentOpportunity() {
         <motion.div variants={fadeIn("up", "tween", 0.1, 1)} className="mb-8">
           <div className="flex flex-col items-center gap-8 w-full">
             {/* Content Section */}
-            <motion.div variants={fadeIn("up", "tween", 0.1, 1)} className="w-full">
+            <motion.div
+              variants={fadeIn("up", "tween", 0.1, 1)}
+              className="w-full"
+            >
               <div className="text-center mb-8 md:mb-12">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                  Trusted <span className="text-orange-700">Currency Exchange</span>
+                  Trusted{" "}
+                  <span className="text-orange-700">Currency Exchange</span>
                 </h2>
                 <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                   When buying Iraqi Dinar online, trust is paramount. Dinar
@@ -166,19 +171,27 @@ export function InvestmentOpportunity() {
               <ul className="space-y-3 md:space-y-4">
                 <li className="flex items-start gap-2 md:gap-3">
                   <ArrowTrendingUpIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm md:text-base">Historic high value of $3.20 per dinar</span>
+                  <span className="text-sm md:text-base">
+                    Historic high value of $3.20 per dinar
+                  </span>
                 </li>
                 <li className="flex items-start gap-2 md:gap-3">
                   <CurrencyDollarIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm md:text-base">$11.6 trillion in proven oil reserves</span>
+                  <span className="text-sm md:text-base">
+                    $11.6 trillion in proven oil reserves
+                  </span>
                 </li>
                 <li className="flex items-start gap-2 md:gap-3">
                   <ArrowPathIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm md:text-base">Increasing oil production capacity</span>
+                  <span className="text-sm md:text-base">
+                    Increasing oil production capacity
+                  </span>
                 </li>
                 <li className="flex items-start gap-2 md:gap-3">
                   <MapPinIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm md:text-base">Strategic geopolitical position</span>
+                  <span className="text-sm md:text-base">
+                    Strategic geopolitical position
+                  </span>
                 </li>
               </ul>
             </div>
@@ -188,45 +201,54 @@ export function InvestmentOpportunity() {
         {/* CTA Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.5, 1)}
-          className="bg-blue-900 rounded-2xl overflow-hidden w-full"
+          className="bg-gradient-to-br from-orange-800 to-orange-900 rounded-2xl overflow-hidden w-full shadow-xl"
         >
-          <div className="flex flex-col md:flex-row w-full">
+          <div className="flex flex-col md:flex-row justify-center items-center w-full">
             {/* Image Section */}
-            <div className="md:w-1/2 h-full">
+            <div className="md:w-1/2 w-full h-full">
               <div className="relative h-64 sm:h-80 md:h-96 w-full">
                 <Image
                   src={heroImage}
                   alt="Iraqi Dinar currency"
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   priority
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-blue-900/20"></div>
+              
               </div>
             </div>
 
             {/* Content Section */}
-            <div className="md:w-1/2 p-6 md:p-8 lg:p-12 flex flex-col justify-center w-full">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6">
-                Embark on Your Iraqi Dinar Journey
-              </h2>
-              <p className="text-gray-300 max-w-lg mb-6 md:mb-8 text-sm md:text-base lg:text-lg">
-                Whether you&apos;re exchanging currency or staying updated on
-                revaluation news, we provide all the tools and resources you
-                need for successful dinar investment.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+            <div className="md:w-1/2 p-4  flex flex-col items-center lg:items-start justify-center w-full space-y-6">
+              <div>
+                <span className="inline-block bg-orange-700/30 text-orange-300 px-3 py-1 rounded-full text-xs font-semibold mb-3">
+                  Currency Exchange
+                </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                  Start Your{" "}
+                  <span className="text-orange-300">Dinar Investment</span>{" "}
+                  Today
+                </h2>
+                <p className="text-orange-100 max-w-lg text-base md:text-lg opacity-90">
+                  Get the most competitive exchange rates and stay updated with
+                  the latest revaluation news. Your trusted partner for Iraqi
+                  Dinar investments.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/buydinar" className="w-full sm:w-auto">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
-                    className="bg-orange-700 hover:bg-orange-600 text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-lg flex items-center justify-center gap-2 transition-all w-full text-sm md:text-base"
+                    className="bg-white hover:bg-orange-50 text-orange-800 font-bold py-3 px-8 rounded-lg flex items-center justify-center gap-3 transition-all w-full text-base shadow-lg hover:shadow-orange-900/20"
                   >
-                    <CurrencyDollarIcon className="w-4 h-4 md:w-5 md:h-5" />
+                    <CurrencyDollarIcon className="w-5 h-5" />
                     Buy Iraqi Dinars
                   </motion.button>
                 </Link>
+                
               </div>
             </div>
           </div>

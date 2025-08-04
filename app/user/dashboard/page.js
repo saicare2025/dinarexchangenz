@@ -1,25 +1,32 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { mockOrders, orderStatuses } from '../../../services/mockData';
-import OrderCard from '../../../components/OrderCard';
-import UploadModal from '../../../components/UploadModal';
-import MainLayout from '../../MainLayout';
-import { FiPlus, FiFilter, FiSearch, FiTrash2 } from 'react-icons/fi';
-import { toast } from 'react-hot-toast';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { mockOrders, orderStatuses } from "../../../services/mockData";
+import OrderCard from "../../../components/OrderCard";
+import UploadModal from "../../../components/UploadModal";
+import MainLayout from "../../MainLayout";
+import { FiPlus, FiFilter, FiSearch, FiTrash2 } from "react-icons/fi";
+import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState("all");
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadType, setUploadType] = useState(null);
   const [currentOrder, setCurrentOrder] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredOrders = (activeTab === 'all' ? mockOrders : mockOrders.filter(order => order.status === activeTab))
-    .filter(order => order.id.toLowerCase().includes(searchQuery.toLowerCase()) 
-      || order.amount.toString().includes(searchQuery) 
-      || order.currency.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredOrders = (
+    activeTab === "all"
+      ? mockOrders
+      : mockOrders.filter((order) => order.status === activeTab)
+  ).filter(
+    (order) =>
+      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.amount.toString().includes(searchQuery) ||
+      order.currency.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleUploadClick = (order, type) => {
     setCurrentOrder(order);
@@ -32,14 +39,14 @@ export default function Dashboard() {
       new Promise((resolve) => {
         setTimeout(() => {
           // Simulate API call
-          console.log('Delete request sent for order:', orderId);
+          console.log("Delete request sent for order:", orderId);
           resolve();
         }, 1000);
       }),
       {
-        loading: 'Sending deletion request...',
-        success: 'Request sent to admin for approval',
-        error: 'Failed to send request',
+        loading: "Sending deletion request...",
+        success: "Request sent to admin for approval",
+        error: "Failed to send request",
       }
     );
   };
@@ -50,13 +57,19 @@ export default function Dashboard() {
         {/* Header section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Order Management</h1>
-            <p className="text-gray-500">Track and manage your currency exchange orders</p>
+            <h1 className="text-2xl font-bold text-gray-800">
+              Order Management
+            </h1>
+            <p className="text-gray-500">
+              Track and manage your currency exchange orders
+            </p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange-dark transition-colors">
-            <FiPlus className="w-4 h-4" />
-            <span>New Exchange</span>
-          </button>
+          <Link href="/buydinar">
+            <button className="flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange-dark transition-colors">
+              <FiPlus className="w-4 h-4" />
+              <span>New Exchange</span>
+            </button>
+          </Link>
         </div>
 
         {/* Search and filter section */}
@@ -74,14 +87,16 @@ export default function Dashboard() {
             </div>
             <div className="flex items-center gap-2">
               <FiFilter className="text-gray-500" />
-              <select 
+              <select
                 className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange"
                 value={activeTab}
                 onChange={(e) => setActiveTab(e.target.value)}
               >
                 <option value="all">All Orders</option>
-                {orderStatuses.map(status => (
-                  <option key={status} value={status}>{status}</option>
+                {orderStatuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
                 ))}
               </select>
             </div>
@@ -90,21 +105,25 @@ export default function Dashboard() {
 
         {/* Status overview cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {['all', ...orderStatuses].map((status) => (
-            <motion.div 
+          {["all", ...orderStatuses].map((status) => (
+            <motion.div
               key={status}
               whileHover={{ y: -2 }}
               className={`p-4 rounded-xl shadow-sm cursor-pointer transition-colors ${
-                activeTab === status ? 'ring-2 ring-orange bg-orange-50' : 'bg-white'
+                activeTab === status
+                  ? "ring-2 ring-orange bg-orange-50"
+                  : "bg-white"
               }`}
               onClick={() => setActiveTab(status)}
             >
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">
-                  {status === 'all' ? 'All Orders' : status}
+                  {status === "all" ? "All Orders" : status}
                 </span>
                 <span className="text-xl font-bold">
-                  {status === 'all' ? mockOrders.length : mockOrders.filter(o => o.status === status).length}
+                  {status === "all"
+                    ? mockOrders.length
+                    : mockOrders.filter((o) => o.status === status).length}
                 </span>
               </div>
             </motion.div>
@@ -116,16 +135,16 @@ export default function Dashboard() {
           {filteredOrders.length > 0 ? (
             <div className="space-y-4">
               <AnimatePresence>
-                {filteredOrders.map(order => (
+                {filteredOrders.map((order) => (
                   <motion.div
                     key={order.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <OrderCard 
-                      order={order} 
-                      onUploadClick={handleUploadClick} 
+                    <OrderCard
+                      order={order}
+                      onUploadClick={handleUploadClick}
                       onDeleteRequest={handleDeleteRequest}
                     />
                   </motion.div>
@@ -136,8 +155,8 @@ export default function Dashboard() {
             <div className="text-center py-12">
               <p className="text-gray-500">No orders match your criteria</p>
               {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery('')}
+                <button
+                  onClick={() => setSearchQuery("")}
                   className="text-orange mt-2 hover:underline"
                 >
                   Clear search

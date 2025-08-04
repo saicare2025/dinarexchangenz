@@ -102,22 +102,7 @@ const ContactPage = () => {
                   </div>
                 </div>
 
-                <div className="pt-4">
-                  <h3 className="font-medium text-gray-500 text-sm mb-2">FOLLOW US</h3>
-                  <div className="flex gap-3">
-                    {['Facebook', 'Twitter', 'Instagram'].map((social, i) => (
-                      <motion.a
-                        key={i}
-                        href="#"
-                        className="bg-gradient-to-br from-blue-50 to-orange-50 p-2 rounded-lg border border-gray-200 hover:border-blue-200 transition-all"
-                        whileHover={{ y: -2 }}
-                      >
-                        <span className="sr-only">{social}</span>
-                        <div className="h-4 w-4 bg-gradient-to-r from-blue-500 to-orange-400 rounded-sm"></div>
-                      </motion.a>
-                    ))}
-                  </div>
-                </div>
+                
               </div>
 
               {/* Contact Form */}

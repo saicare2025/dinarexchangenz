@@ -10,6 +10,7 @@ import review7 from "../../app/assets/review-image/review7.png";
 import review8 from "../../app/assets/review-image/review8.png";
 import review9 from "../../app/assets/review-image/review9.png";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 // Icon components
 const StarIcon = ({ className }) => (
@@ -30,22 +31,6 @@ const ShieldCheckIcon = ({ className }) => (
       strokeLinejoin="round"
       strokeWidth={2}
       d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-    />
-  </svg>
-);
-
-const ArrowTopRightOnSquareIcon = ({ className }) => (
-  <svg
-    className={className}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
     />
   </svg>
 );
@@ -88,8 +73,7 @@ const testimonials = [
     author: "John M.",
     source: "Verified Google Review",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    image: review1,
   },
   {
     quote:
@@ -97,8 +81,7 @@ const testimonials = [
     author: "Shelley Maxted",
     source: "Verified Google Review",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+    image: review2,
   },
   {
     quote:
@@ -106,8 +89,7 @@ const testimonials = [
     author: "Maya Maryanovich",
     source: "Verified Google Review",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    image: review3,
   },
   {
     quote:
@@ -115,8 +97,7 @@ const testimonials = [
     author: "Beverley Currie",
     source: "Verified Google Review",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    image: review4,
   },
   {
     quote:
@@ -124,8 +105,7 @@ const testimonials = [
     author: "Fiona J",
     source: "Verified Google Review",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&h=100&fit=crop&crop=face",
+    image: review5,
   },
   {
     quote:
@@ -133,8 +113,7 @@ const testimonials = [
     author: "Craig Lees",
     source: "Verified Google Review",
     rating: 5,
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    image: review6,
   },
 ];
 
@@ -200,7 +179,6 @@ export function Testimonials3DCarousel() {
         transform: "translateX(200%) rotateY(90deg) scale(0.5)",
         zIndex: 0,
         pointerEvents: "none",
-       
       };
     }
 
@@ -225,7 +203,7 @@ export function Testimonials3DCarousel() {
       blur = 0;
     } else if (Math.abs(position) === 2) {
       // Outer items - blurred and smaller
-       scale = 0.7;
+      scale = 0.7;
       opacity = 1;
       blur = 0;
     }
@@ -236,14 +214,13 @@ export function Testimonials3DCarousel() {
       transform: `translateX(${translateX}%) rotateY(${rotateY}deg) scale(${scale})`,
       opacity,
       zIndex,
-     
+
       pointerEvents: Math.abs(position) <= 1 ? "auto" : "none", // Only center and adjacent items are clickable
     };
   };
 
-
   return (
-    <section className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-[80vh]">
+    <section id="testimonials" className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-[80vh]">
       <motion.div
         variants={staggerContainer()}
         initial="hidden"
@@ -275,8 +252,6 @@ export function Testimonials3DCarousel() {
             </div>
             <span className="text-3xl font-bold text-gray-800">4.8</span>
           </div>
-
-          
         </motion.div>
 
         {/* 3D Carousel Container */}
@@ -357,10 +332,13 @@ export function Testimonials3DCarousel() {
 
                   <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100">
                     <div className="relative">
-                      <img
+                      <Image
                         src={testimonial.image}
                         alt={testimonial.author}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
+                        width={48}
+                        height={48}
+                        className="rounded-full object-cover border-2 border-white shadow-md"
+                        style={{ width: "48px", height: "48px" }}
                       />
                       <CheckBadgeIcon className="absolute -bottom-1 -right-1 w-5 h-5 text-blue-500 bg-white rounded-full p-0.5" />
                     </div>
@@ -372,7 +350,6 @@ export function Testimonials3DCarousel() {
                         <ShieldCheckIcon className="w-3 h-3 text-blue-500" />
                       </div>
                       <p className="text-xs text-gray-500 mt-1">
-                        Purchased {testimonial.quantity} dinars •{" "}
                         {testimonial.source}
                       </p>
                     </div>
@@ -459,8 +436,6 @@ export function Testimonials3DCarousel() {
             </svg>
           </button>
         </div>
-
-      
 
         {/* Mobile responsive note */}
         <div className="text-center mt-4 md:hidden">

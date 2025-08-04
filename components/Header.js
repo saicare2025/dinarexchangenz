@@ -39,15 +39,35 @@ const CONTACT_INFO = [
 
 const NAV_LINKS = [
   { name: "Home", href: "/", icon: <HomeIcon className="w-5 h-5" /> },
-  { name: "Buy Iraqi Dinar", href: "/buydinar", icon: <CurrencyDollarIcon className="w-5 h-5" /> },
-  { name: "Buy Zimbabwe Dollar", href: "/buyzimdoller", icon: <CurrencyDollarIcon className="w-5 h-5" /> },
-  { name: "About Us", href: "/about", icon: <UserCircleIcon className="w-5 h-5" /> },
-  { name: "Contact Us", href: "/contact", icon: <PhoneIcon className="w-5 h-5" /> },
+  {
+    name: "Buy Iraqi Dinar",
+    href: "/buydinar",
+    icon: <CurrencyDollarIcon className="w-5 h-5" />,
+  },
+  {
+    name: "Buy Zimbabwe Dollar",
+    href: "/buyzimdoller",
+    icon: <CurrencyDollarIcon className="w-5 h-5" />,
+  },
+  {
+    name: "About Us",
+    href: "/about",
+    icon: <UserCircleIcon className="w-5 h-5" />,
+  },
+  {
+    name: "Contact Us",
+    href: "/contact",
+    icon: <PhoneIcon className="w-5 h-5" />,
+  },
 ];
 
 // Offer Timer
 const CountdownTimer = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 30, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 2,
+    minutes: 30,
+    seconds: 0,
+  });
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -79,7 +99,9 @@ function LimitedTimeOffer() {
             🎁 LIMITED TIME: Free 20 Billion ZIM with 1 Million IQD orders!
           </span>
           <div className="flex items-center space-x-1">
-            <span className="text-xs hidden lg:block font-medium">Ends in:</span>
+            <span className="text-xs hidden lg:block font-medium">
+              Ends in:
+            </span>
             <span className="font-mono text-blue-900 text-sm font-bold bg-orange-100 px-2 py-0.5 rounded">
               <CountdownTimer />
             </span>
@@ -138,9 +160,7 @@ const ProfileDropdown = forwardRef(
         aria-expanded={isOpen}
       >
         <UserCircleIcon className="w-9 h-9 text-orange-500 bg-orange-50 rounded-full border-2 border-orange-500 shadow" />
-        <span className="text-sm font-medium text-gray-700">
-          Profile
-        </span>
+        <span className="text-sm font-medium text-gray-700">Profile</span>
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-30">
@@ -190,7 +210,16 @@ const ProfileDropdown = forwardRef(
 ProfileDropdown.displayName = "ProfileDropdown";
 
 // ============ Mobile Menu =============
-function MobileMenu({ isOpen, navLinks, user, profileMenuItems, onClose, onLogin, onSignup, onLogout }) {
+function MobileMenu({
+  isOpen,
+  navLinks,
+  user,
+  profileMenuItems,
+  onClose,
+  onLogin,
+  onSignup,
+  onLogout,
+}) {
   return !isOpen ? null : (
     <div className="lg:hidden bg-white border-t border-gray-200 z-40">
       <nav className="px-2 py-3 space-y-1">
@@ -310,7 +339,7 @@ export default function Header() {
       label: "Orders",
       action: () => router.push("/user/dashboard"),
     },
-    
+
     {
       icon: <EnvelopeIcon className="w-5 h-5" />,
       label: "Messages",
@@ -349,11 +378,17 @@ export default function Header() {
                   >
                     {info.icon}
                     {info.text.includes("@") ? (
-                      <a href={`mailto:${info.text}`} className="text-xs sm:text-sm hover:underline">
+                      <a
+                        href={`mailto:${info.text}`}
+                        className="text-xs sm:text-sm hover:underline"
+                      >
                         {info.text}
                       </a>
                     ) : (
-                      <a href={`tel:${info.text.replace(/\s/g, "")}`} className="text-xs sm:text-sm hover:underline">
+                      <a
+                        href={`tel:${info.text.replace(/\s/g, "")}`}
+                        className="text-xs sm:text-sm hover:underline"
+                      >
                         {info.text}
                       </a>
                     )}
@@ -363,18 +398,34 @@ export default function Header() {
             )}
           </div>
           {/* Order Now Button */}
-          <button className="hidden lg:flex items-center gap-2 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
-            <ShoppingCartIcon className="w-4 h-4" />
-            <span className="text-sm font-medium">Order Now</span>
-          </button>
+          <Link href="/buydinar">
+            <button className="hidden cursor-pointer lg:flex items-center gap-2 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
+              <ShoppingCartIcon className="w-4 h-4" />
+              <span className="text-sm font-medium">Order Now</span>
+            </button>
+          </Link>
         </div>
       </div>
       {/* Main Navigation */}
-      <div className={`bg-white shadow-sm transition-all duration-300 ${isScrolled ? "shadow-md" : ""}`}>
+      <div
+        className={`bg-white shadow-sm transition-all duration-300 ${
+          isScrolled ? "shadow-md" : ""
+        }`}
+      >
         <div className="container w-full max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo & Flag */}
-          <Link href="/" className="flex items-center gap-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500" aria-label="Go to homepage">
-            <Image src={logo} alt="Company Logo" width={200} height={60} priority />
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+            aria-label="Go to homepage"
+          >
+            <Image
+              src={logo}
+              alt="Company Logo"
+              width={200}
+              height={60}
+              priority
+            />
             <div className="flex items-center gap-1">
               <span className="text-sm font-semibold text-gray-800">NZ</span>
               <Image

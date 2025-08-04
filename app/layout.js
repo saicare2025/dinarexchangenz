@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Dinar Exchange - User Panel",
+  title: "Dinar Exchange",
   description: "Dinar Exchange User Panel",
 };
 
