@@ -411,7 +411,7 @@ function PaymentInfo({ formData, onChange, onFileChange, onBack, onSubmit, isSub
               <span className="font-bold">When making your payment:</span> You{" "}
               <span className="underline">must</span> include your{" "}
               <span className="font-semibold bg-orange-200 px-1 rounded">
-                "Full Name"
+                &quot;Full Name&quot;
               </span>{" "}
               as the payment reference.
             </>
