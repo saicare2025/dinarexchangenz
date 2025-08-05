@@ -149,7 +149,7 @@ export default function BuyDinar() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-4">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Buy Zimbabwe Doller
+              Buy Zimbabwe Dollar
             </h1>
 
             <div className="max-w-5xl mx-auto">
