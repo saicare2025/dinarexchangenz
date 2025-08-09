@@ -181,7 +181,7 @@ export function Footer() {
             </div>
             <Link
               href="/buydinar"
-              className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition-colors text-sm sm:text-base w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange text-white font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition-colors text-sm sm:text-base w-full sm:w-auto"
             >
               Start Your Order
             </Link>

@@ -241,7 +241,7 @@ export function Testimonials3DCarousel() {
           </div>
 
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            What Our <span className="text-orange-700">Customers</span> Say
+            What Our <span className="text-orange">Customers</span> Say
           </h2>
 
           <div className="flex justify-center items-center gap-3 mb-3">
@@ -305,7 +305,7 @@ export function Testimonials3DCarousel() {
                               e.stopPropagation();
                               toggleReview(index);
                             }}
-                            className="text-blue-600 hover:text-orange-600 font-medium transition-colors"
+                            className="text-blue-600 hover:text-orange font-medium transition-colors"
                           >
                             Read More
                           </button>
@@ -320,7 +320,7 @@ export function Testimonials3DCarousel() {
                                   e.stopPropagation();
                                   toggleReview(index);
                                 }}
-                                className="text-blue-600 hover:text-orange-600 font-medium block mt-2 transition-colors"
+                                className="text-blue-600 hover:text-orange font-medium block mt-2 transition-colors"
                               >
                                 Show Less
                               </button>
@@ -385,7 +385,7 @@ export function Testimonials3DCarousel() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700 group-hover:text-orange-600 transition-colors"
+              className="h-6 w-6 text-gray-700 group-hover:text-orange transition-colors"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -408,7 +408,7 @@ export function Testimonials3DCarousel() {
                 disabled={isAnimating}
                 className={`w-3 h-3 rounded-full transition-all duration-200 ${
                   index === currentIndex
-                    ? "bg-orange-600 scale-125 shadow-lg"
+                    ? "bg-orange scale-125 shadow-lg"
                     : "bg-gray-300 hover:bg-gray-400"
                 } disabled:cursor-not-allowed`}
               />
@@ -422,7 +422,7 @@ export function Testimonials3DCarousel() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700 group-hover:text-orange-600 transition-colors"
+              className="h-6 w-6 text-gray-700 group-hover:text-orange transition-colors"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

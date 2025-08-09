@@ -407,7 +407,7 @@ function PaymentInfo({ formData, onChange, onFileChange, onBack, onSubmit, isSub
 
       <div className="space-y-8">
         <Alert
-          icon={<ExclamationCircleIcon className="h-5 w-5 text-orange-600" />}
+          icon={<ExclamationCircleIcon className="h-5 w-5 text-orange" />}
           title="Important Payment Instruction"
           message={
             <>
@@ -475,14 +475,14 @@ function OrderSummary({ currency, unitPrice, shippingFee, totalAmount }) {
         <SummaryRow
           label={<span className="font-bold">Total:</span>}
           value={
-            <span className="text-orange-600 font-bold">
+            <span className="text-orange font-bold">
               ${totalAmount.toFixed(2)} AUD
             </span>
           }
         />
       </div>
       <div className="mt-6 p-4 bg-orange-50 rounded-lg">
-        <p className="text-sm text-orange-600">
+        <p className="text-sm text-orange">
           <strong>Note:</strong> Your order will be processed within 24–48 hours.
         </p>
       </div>
@@ -547,7 +547,7 @@ function FileUpload({ label, description, accept, onChange, file, disabled = fal
       <div className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg ${disabled ? "opacity-50" : ""}`}>
         <div className="space-y-1 text-center">
           <div className="flex text-sm text-gray-600">
-            <label className={`relative cursor-pointer rounded-md font-medium text-orange-600 hover:text-orange-500 focus-within:outline-none ${disabled ? "cursor-not-allowed" : ""}`}>
+            <label className={`relative cursor-pointer rounded-md font-medium text-orange hover:text-orange-500 focus-within:outline-none ${disabled ? "cursor-not-allowed" : ""}`}>
               <span>Upload a file</span>
               <input
                 type="file"
@@ -590,7 +590,7 @@ function Button({ children, onClick, disabled = false, isLoading = false, icon, 
   const baseClasses = "inline-flex items-center gap-2 text-sm font-medium py-2 px-5 rounded-md transition-colors";
   
   const variantClasses = {
-    primary: `text-white ${disabled || isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-orange-600 hover:bg-orange-700"}`,
+    primary: `text-white ${disabled || isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-orange hover:bg-orange"}`,
     secondary: `text-gray-600 hover:text-gray-800 ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
   };
 
@@ -640,7 +640,7 @@ function BankDetails({ details }) {
   return (
     <div className="bg-gray-50 border border-gray-200 p-4 rounded-md">
       <h3 className="text-md font-semibold mb-2 text-gray-800 flex items-center gap-2">
-        <BanknotesIcon className="h-5 w-5 text-orange-600" />
+        <BanknotesIcon className="h-5 w-5 text-orange" />
         Bank Transfer Details
       </h3>
       {Object.entries(details).map(([key, value]) => (

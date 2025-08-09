@@ -39,7 +39,7 @@ export function InvestmentOpportunity() {
               <div className="text-center mb-8 md:mb-12">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
                   Trusted{" "}
-                  <span className="text-orange-700">Currency Exchange</span>
+                  <span className="text-orange">Currency Exchange</span>
                 </h2>
                 <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                   When buying Iraqi Dinar online, trust is paramount. Dinar
@@ -201,7 +201,7 @@ export function InvestmentOpportunity() {
         {/* CTA Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.5, 1)}
-          className="bg-gradient-to-br from-orange-800 to-orange-900 rounded-2xl overflow-hidden w-full shadow-xl"
+          className="bg-gradient-to-br from-blue to-blue-900 rounded-2xl overflow-hidden w-full shadow-xl"
         >
           <div className="flex flex-col md:flex-row justify-center items-center w-full">
             {/* Image Section */}
@@ -211,7 +211,7 @@ export function InvestmentOpportunity() {
                   src={heroImage}
                   alt="Iraqi Dinar currency"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   priority
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
@@ -222,7 +222,7 @@ export function InvestmentOpportunity() {
             {/* Content Section */}
             <div className="md:w-1/2 p-4  flex flex-col items-center lg:items-start justify-center w-full space-y-6">
               <div>
-                <span className="inline-block bg-orange-700/30 text-orange-300 px-3 py-1 rounded-full text-xs font-semibold mb-3">
+                <span className="inline-block bg-orange/30 text-orange-300 px-3 py-1 rounded-full text-xs font-semibold mb-3">
                   Currency Exchange
                 </span>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">

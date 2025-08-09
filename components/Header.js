@@ -93,7 +93,7 @@ const CountdownTimer = () => {
 function LimitedTimeOffer() {
   return (
     <div className="relative group">
-      <div className="flex items-center space-x-3 bg-gradient-to-r from-orange-700 to-orange-700 px-4 py-2 shadow-lg hover:shadow-orange-500/20 transition-all">
+      <div className="flex items-center space-x-3 bg-gradient-to-r from-blue to-blue px-4 py-2 shadow-lg hover:shadow-orange-500/20 transition-all">
         <div className="flex gap-4 justify-center items-center">
           <span className="font-bold text-xs uppercase tracking-wider">
             🎁 LIMITED TIME: Free 20 Billion ZIM with 1 Million IQD orders!
@@ -361,7 +361,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-orange-700 text-white text-sm">
+      <div className="bg-blue text-white text-sm">
         <div className="container max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
             {/* Show Offer on /buyzimdoller, otherwise Contact Info */}
@@ -399,7 +399,7 @@ export default function Header() {
           </div>
           {/* Order Now Button */}
           <Link href="/buydinar">
-            <button className="hidden cursor-pointer lg:flex items-center gap-2 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange-700/30">
+            <button className="hidden cursor-pointer lg:flex items-center gap-2 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-blue/30">
               <ShoppingCartIcon className="w-4 h-4" />
               <span className="text-sm font-medium">Order Now</span>
             </button>
@@ -427,7 +427,7 @@ export default function Header() {
               priority
             />
             <div className="flex items-center gap-1">
-              <span className="text-sm font-semibold text-gray-800">NZ</span>
+              <span className="text-sm font-semibold text-gray-800">AU</span>
               <Image
                 src="https://static.vecteezy.com/system/resources/thumbnails/012/024/958/small_2x/new-zealand-flag-with-grunge-texture-png.png"
                 alt="New Zealand Flag"

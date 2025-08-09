@@ -130,13 +130,13 @@ export function FloatingTestimonial() {
         <div className="flex justify-end gap-1 px-3 pb-2">
           <button
             onClick={scrollPrev}
-            className="text-xs text-gray-400 hover:text-orange-600 px-2 py-1 rounded"
+            className="text-xs text-gray-400 hover:text-orange px-2 py-1 rounded"
           >
             ←
           </button>
           <button
             onClick={scrollNext}
-            className="text-xs text-gray-400 hover:text-orange-600 px-2 py-1 rounded"
+            className="text-xs text-gray-400 hover:text-orange px-2 py-1 rounded"
           >
             →
           </button>

@@ -70,7 +70,7 @@ export function CookieConsent() {
 
               <button
                 onClick={() => setShowDetails(!showDetails)}
-                className="mt-3 text-sm font-medium text-orange-600 hover:text-orange-500"
+                className="mt-3 text-sm font-medium text-orange hover:text-orange-500"
               >
                 {showDetails ? "Hide details" : "Show details"}
                 <ArrowPathIcon
@@ -93,7 +93,7 @@ export function CookieConsent() {
           <div className="mt-4 flex flex-col sm:flex-row flex-wrap gap-3">
             <button
               onClick={handleAccept}
-              className="flex-1 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors"
+              className="flex-1 px-4 py-2 bg-orange text-white text-sm font-medium rounded-md hover:bg-orange transition-colors"
             >
               Accept All
             </button>

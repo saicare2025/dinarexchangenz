@@ -10,6 +10,7 @@ import {
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 
 export default function IraqiDinarSection() {
   const dinarPackages = [
@@ -23,7 +24,7 @@ export default function IraqiDinarSection() {
   ];
 
   return (
-    <section id="buydinarnow" className="py-8 bg-gradient-to-r from-blue-100 to-orange-100 overflow-x-hidden">
+    <section id="buydinarnow" className="py-8 overflow-x-hidden">
       <motion.div
         variants={staggerContainer()}
         initial="hidden"
@@ -37,12 +38,12 @@ export default function IraqiDinarSection() {
           className="text-center mb-8"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4">
-            Buy <span className="text-orange-700">Iraqi Dinar</span>
+            Buy <span className="text-orange">Iraqi Dinar</span>
           </h2>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
             Choose from our range of authentic Iraqi Dinar packages. All
             banknotes come with a{" "}
-            <span className="font-semibold text-orange-500">
+            <span className="font-semibold text-orange">
               certificate of authenticity
             </span>
             .
@@ -84,12 +85,12 @@ export default function IraqiDinarSection() {
                         <td className="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900">
                           {pkg.amount}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-base md:text-lg font-extrabold text-orange-500">
+                        <td className="px-4 py-3 whitespace-nowrap text-base md:text-lg font-extrabold text-orange">
                           {pkg.price}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
                           <Link href="/buydinar">
-                            <button className="inline-flex items-center gap-1 md:gap-2 bg-blue-900 hover:bg-orange-500 text-white font-medium py-1.5 px-3 md:py-2 md:px-4 rounded-md transition-all duration-300 group text-xs md:text-sm">
+                            <button className="inline-flex items-center gap-1 md:gap-2 bg-blue hover:bg-orange text-white font-medium py-1.5 px-3 md:py-2 md:px-4 rounded-md transition-all duration-300 group text-xs md:text-sm">
                               <ShoppingCartIcon className="w-3 h-3 md:w-4 md:h-4 group-hover:scale-110 transition-transform" />
                               Order Now
                             </button>
@@ -110,7 +111,7 @@ export default function IraqiDinarSection() {
               className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex-1"
             >
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <CheckBadgeIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500" />
+                <CheckBadgeIcon className="w-4 h-4 md:w-5 md:h-5 text-[#008080]" />
                 Why Buy Dinar Now?
               </h3>
               <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base">
@@ -145,7 +146,7 @@ export default function IraqiDinarSection() {
               className="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-100 flex-1"
             >
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4 flex items-center gap-2">
-                <ShieldCheckIcon className="w-4 h-4 md:w-5 md:h-5 text-orange-500" />
+                <ShieldCheckIcon className="w-4 h-4 md:w-5 md:h-5 text-[#008080]" />
                 Our Guarantee
               </h3>
              
@@ -176,7 +177,7 @@ export default function IraqiDinarSection() {
         {/* CTA Section */}
         <motion.div
           variants={fadeIn("up", "tween", 0.6, 1)}
-          className="mt-4 bg-orange-700 rounded-xl p-4 md:p-6 text-white"
+          className="mt-4 bg-gradient-to-br from-blue to-blue/80 rounded-xl p-4 md:p-6 text-white"
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
             <div className="flex-1">
@@ -200,22 +201,19 @@ export default function IraqiDinarSection() {
               </p>
             </div>
             <div className="flex flex-col items-center md:items-end gap-2 md:gap-3 w-full md:w-auto">
-              <div className="flex flex-col gap-2 md:gap-3 w-full">
-                <a
-                  href="tel:0417460236"
-                  className="flex items-center justify-center gap-1 md:gap-2 bg-white text-orange-700 px-3 py-2 md:px-5 md:py-3 rounded-lg font-semibold hover:bg-orange-100 transition-colors text-sm md:text-base w-full"
-                >
-                  <PhoneIcon className="w-4 h-4 md:w-5 md:h-5" />
-                  Call 0417 460 236
-                </a>
-                <a
-                  href="tel:1300856881"
-                  className="flex items-center justify-center gap-1 md:gap-2 bg-orange-700 border border-white text-white px-3 py-2 md:px-5 md:py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors text-sm md:text-base w-full"
-                >
-                  <PhoneIcon className="w-4 h-4 md:w-5 md:h-5" />
-                  Call 1300 856 881
-                </a>
-              </div>
+             <Link href="#buydinarnow">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative overflow-hidden group bg-gradient-to-r border from-orange to-orange/50 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      Buy Dinars Now{" "}
+                      <FiArrowRight className="transition-transform group-hover:translate-x-1" />
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-orange to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  </motion.button>
+                </Link>
             </div>
           </div>
         </motion.div>

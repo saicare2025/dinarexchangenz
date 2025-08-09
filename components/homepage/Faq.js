@@ -50,7 +50,7 @@ export default function FaqSection() {
         <div className="space-y-6">
           {/* General Questions */}
           <div className=" p-6 rounded-lg bg-orange-50 shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
               <InformationCircleIcon className="w-6 h-6" />
               General Questions
             </h3>
@@ -66,7 +66,7 @@ export default function FaqSection() {
 
           {/* Pricing & Payment */}
           <div className="bg-orange-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
               <CurrencyDollarIcon className="w-6 h-6" />
               Pricing & Payment
             </h3>
@@ -82,7 +82,7 @@ export default function FaqSection() {
 
           {/* Order & Delivery */}
           <div className="bg-orange-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
               <TruckIcon className="w-6 h-6" />
               Order & Delivery
             </h3>
@@ -105,7 +105,7 @@ export default function FaqSection() {
 
           {/* Authenticity & Security */}
           <div className="bg-orange-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
               <ShieldCheckIcon className="w-6 h-6" />
               Authenticity & Security
             </h3>
@@ -125,14 +125,14 @@ export default function FaqSection() {
             Still have questions? Contact us at{" "}
             <a
               href="mailto:dinars@dinarexchange.com.au"
-              className="text-orange-600 hover:underline"
+              className="text-orange hover:underline"
             >
               dinars@dinarexchange.com.au
             </a>{" "}
             or call{" "}
             <a
               href="tel:0417460236"
-              className="text-orange-600 hover:underline"
+              className="text-orange hover:underline"
             >
               0417 460 236
             </a>

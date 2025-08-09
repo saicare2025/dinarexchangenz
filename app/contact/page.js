@@ -150,7 +150,7 @@ const ContactPage = () => {
 
                 <motion.button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-orange-500 text-white py-2 px-4 rounded-md text-sm font-medium hover:from-blue-600 hover:to-orange-600 transition-all shadow-sm"
+                  className="w-full bg-gradient-to-r from-blue-500 to-orange-500 text-white py-2 px-4 rounded-md text-sm font-medium hover:from-blue-600 hover:to-orange transition-all shadow-sm"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

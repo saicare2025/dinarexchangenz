@@ -65,7 +65,7 @@ export default function HeroSection() {
               </h1>
               <h2 className="text-xl md:text-2xl text-gray-600 font-medium mb-6">
                 Your Premier Hub for{" "}
-                <span className="text-orange-600">Iraqi Dinar</span>{" "}
+                <span className="text-orange">Iraqi Dinar</span>{" "}
                 Transactions
               </h2>
               <p className="text-lg text-gray-600 mb-8 max-w-2xl">
@@ -79,13 +79,13 @@ export default function HeroSection() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
-                    className="relative overflow-hidden group bg-gradient-to-r from-orange-700 to-orange-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="relative overflow-hidden group bg-gradient-to-r from-orange to-orange text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       Buy Dinars Now{" "}
                       <FiArrowRight className="transition-transform group-hover:translate-x-1" />
                     </span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-orange to-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   </motion.button>
                 </Link>
               </div>
@@ -127,7 +127,7 @@ export default function HeroSection() {
               className="bg-white/80 backdrop-blur-sm p-4 lg:p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
             >
               <div className="flex flex-col items-center justify-center gap-4">
-                <div className="bg-orange-100 p-3 rounded-full text-orange-600">
+                <div className="bg-orange-100 p-3 rounded-full text-orange">
                   {feature.icon}
                 </div>
                 <div>
