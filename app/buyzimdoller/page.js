@@ -127,30 +127,79 @@ export default function BuyDinar() {
   const nextStep = useCallback(() => setCurrentStep(prev => prev + 1), []);
   const prevStep = useCallback(() => setCurrentStep(prev => prev - 1), []);
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // In a real app, you would send the data to your backend here
+      let uploadedIdUrl = null;
+      let uploadedReceiptUrl = null;
+
+      // 1. Upload ID file to Vercel Blob if it exists
+      if (formData.verification.idFile) {
+        const idFile = formData.verification.idFile;
+        const uploadResponse = await fetch(
+          `/api/upload?filename=${idFile.name}`,
+          {
+            method: "POST",
+            body: idFile,
+          }
+        );
+        const newBlob = await uploadResponse.json();
+        uploadedIdUrl = newBlob.url;
+      }
+
+      // 2. Upload payment receipt to Vercel Blob if it exists
+      if (formData.payment.receipt) {
+        const receiptFile = formData.payment.receipt;
+        const uploadResponse = await fetch(
+          `/api/upload?filename=${receiptFile.name}`,
+          {
+            method: "POST",
+            body: receiptFile,
+          }
+        );
+        const newBlob = await uploadResponse.json();
+        uploadedReceiptUrl = newBlob.url;
+      }
+
+      // 3. Prepare the final order data with the new URLs
       const orderData = {
-        ...formData,
+        personalInfo: formData.personalInfo,
+        orderDetails: formData.orderDetails,
         totalAmount,
-        orderDate: new Date().toISOString(),
+        id_document_url: uploadedIdUrl,
+        payment_receipt_url: uploadedReceiptUrl,
       };
 
-      console.log("Order Submission:", orderData); // Demo purposes
+      // 4. Send the final data to your base44 function
+      // IMPORTANT: Replace with your actual function URL
+      const functionUrl =
+        "https://app--dinar-exchange-a6eb3846.base44.app/api/apps/68a56ff1e426c5d0a6eb3846/functions/createOrder";
+
+      const response = await fetch(functionUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        const errorResult = await response.json();
+        throw new Error(errorResult.error || "Order submission failed");
+      }
+
+      const result = await response.json();
+      console.log("Order created successfully:", result);
       setShowSuccess(true);
       setFormData(INITIAL_FORM_DATA);
       setCurrentStep(1);
     } catch (error) {
       console.error("Submission error:", error);
-      alert("There was an error processing your order. Please try again.");
+      alert(`There was an error processing your order: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
-
   return (
     <MainLayout>
       <div className="min-h-screen max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
@@ -226,13 +275,13 @@ function Stepper({ currentStep, steps }) {
           <div
             key={step.id}
             className={`flex flex-col items-center ${
-              isCompleted ? "text-orange-500" : "text-gray-400"
+              isCompleted ? "text-[#008080]" : "text-gray-400"
             }`}
           >
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center mb-1 ${
                 isCompleted
-                  ? "bg-orange-100 border-2 border-orange-500"
+                  ? "bg-green-100 border-2 border-green-500"
                   : "bg-gray-100"
               }`}
             >
@@ -303,7 +352,7 @@ function OrderDetails({ formData, onChange, onFileChange, isValid, onNext, curre
           <SelectField
             label="Country *"
             value={formData.personalInfo.country}
-            options={["", "Australia", "New Zealand"]}
+            options={["", "New Zealand","Australia"]}
             onChange={(value) => onChange("personalInfo", "country", value)}
           />
         </div>

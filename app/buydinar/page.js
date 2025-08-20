@@ -76,9 +76,13 @@ export default function BuyDinar() {
 
   // Derived values
   const shippingFee = 49.99;
-  const selectedCurrency = useMemo(() => (
-    CURRENCY_OPTIONS.find(opt => opt.label === formData.orderDetails.currency)?.value || 0
-  ), [formData.orderDetails.currency]);
+  const selectedCurrency = useMemo(
+    () =>
+      CURRENCY_OPTIONS.find(
+        (opt) => opt.label === formData.orderDetails.currency
+      )?.value || 0,
+    [formData.orderDetails.currency]
+  );
 
   const totalAmount = selectedCurrency + shippingFee;
 
@@ -98,51 +102,104 @@ export default function BuyDinar() {
     );
   }, [formData]);
 
-  const isStep2Valid = useMemo(() => (
-    formData.verification.idFile && formData.verification.acceptTerms
-  ), [formData.verification]);
+  const isStep2Valid = useMemo(
+    () => formData.verification.idFile && formData.verification.acceptTerms,
+    [formData.verification]
+  );
 
   // Handlers
   const handleInputChange = useCallback((section, field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [section]: { ...prev[section], [field]: value }
+      [section]: { ...prev[section], [field]: value },
     }));
   }, []);
 
-  const handleFileChange = useCallback(async (section, field, file) => {
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = () => {
-      handleInputChange(section, field, file);
-      handleInputChange(section, `${field}Url`, reader.result);
-    };
-    reader.readAsDataURL(file);
-  }, [handleInputChange]);
+  const handleFileChange = useCallback(
+    async (section, field, file) => {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        handleInputChange(section, field, file);
+        handleInputChange(section, `${field}Url`, reader.result);
+      };
+      reader.readAsDataURL(file);
+    },
+    [handleInputChange]
+  );
 
-  const nextStep = useCallback(() => setCurrentStep(prev => prev + 1), []);
-  const prevStep = useCallback(() => setCurrentStep(prev => prev - 1), []);
+  const nextStep = useCallback(() => setCurrentStep((prev) => prev + 1), []);
+  const prevStep = useCallback(() => setCurrentStep((prev) => prev - 1), []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // In a real app, you would send the data to your backend here
+      let uploadedIdUrl = null;
+      let uploadedReceiptUrl = null;
+
+      // 1. Upload ID file to Vercel Blob if it exists
+      if (formData.verification.idFile) {
+        const idFile = formData.verification.idFile;
+        const uploadResponse = await fetch(
+          `/api/upload?filename=${idFile.name}`,
+          {
+            method: "POST",
+            body: idFile,
+          }
+        );
+        const newBlob = await uploadResponse.json();
+        uploadedIdUrl = newBlob.url;
+      }
+
+      // 2. Upload payment receipt to Vercel Blob if it exists
+      if (formData.payment.receipt) {
+        const receiptFile = formData.payment.receipt;
+        const uploadResponse = await fetch(
+          `/api/upload?filename=${receiptFile.name}`,
+          {
+            method: "POST",
+            body: receiptFile,
+          }
+        );
+        const newBlob = await uploadResponse.json();
+        uploadedReceiptUrl = newBlob.url;
+      }
+
+      // 3. Prepare the final order data with the new URLs
       const orderData = {
-        ...formData,
+        personalInfo: formData.personalInfo,
+        orderDetails: formData.orderDetails,
         totalAmount,
-        orderDate: new Date().toISOString(),
+        id_document_url: uploadedIdUrl,
+        payment_receipt_url: uploadedReceiptUrl,
       };
 
-      console.log("Order Submission:", orderData); // Demo purposes
+      // 4. Send the final data to your base44 function
+      // IMPORTANT: Replace with your actual function URL
+      const functionUrl =
+        "https://app--dinar-exchange-a6eb3846.base44.app/api/apps/68a56ff1e426c5d0a6eb3846/functions/createOrder";
+
+      const response = await fetch(functionUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        const errorResult = await response.json();
+        throw new Error(errorResult.error || "Order submission failed");
+      }
+
+      const result = await response.json();
+      console.log("Order created successfully:", result);
       setShowSuccess(true);
       setFormData(INITIAL_FORM_DATA);
       setCurrentStep(1);
     } catch (error) {
       console.error("Submission error:", error);
-      alert("There was an error processing your order. Please try again.");
+      alert(`There was an error processing your order: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -153,7 +210,7 @@ export default function BuyDinar() {
       <div className="min-h-screen max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
         {/* Stepper */}
         <Stepper currentStep={currentStep} steps={STEPS} />
-        
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Form Section */}
           <div className="lg:w-2/3">
@@ -191,7 +248,7 @@ export default function BuyDinar() {
               />
             )}
           </div>
-          
+
           {/* Order Summary */}
           <div className="lg:w-1/3">
             <OrderSummary
@@ -204,9 +261,9 @@ export default function BuyDinar() {
         </div>
 
         {/* Success Modal */}
-        <SuccessModal 
-          isOpen={showSuccess} 
-          onClose={() => setShowSuccess(false)} 
+        <SuccessModal
+          isOpen={showSuccess}
+          onClose={() => setShowSuccess(false)}
         />
       </div>
     </MainLayout>
@@ -223,13 +280,13 @@ function Stepper({ currentStep, steps }) {
           <div
             key={step.id}
             className={`flex flex-col items-center ${
-              isCompleted ? "text-orange-500" : "text-gray-400"
+              isCompleted ? "text-[#008080]" : "text-gray-400"
             }`}
           >
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center mb-1 ${
                 isCompleted
-                  ? "bg-orange-100 border-2 border-orange-500"
+                  ? "bg-green-100 border-2 border-green"
                   : "bg-gray-100"
               }`}
             >
@@ -241,7 +298,7 @@ function Stepper({ currentStep, steps }) {
       })}
       <div className="absolute top-4 left-0 right-0 h-1 bg-gray-200 -z-10">
         <div
-          className="h-full bg-orange-500 transition-all duration-300"
+          className="h-full bg-orange transition-all duration-300"
           style={{
             width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
           }}
@@ -252,11 +309,20 @@ function Stepper({ currentStep, steps }) {
 }
 
 // Component: OrderDetails
-function OrderDetails({ formData, onChange, onFileChange, isValid, onNext, currencyOptions }) {
+function OrderDetails({
+  formData,
+  onChange,
+  onFileChange,
+  isValid,
+  onNext,
+  currencyOptions,
+}) {
   return (
     <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-      <h2 className="text-xl font-bold text-gray-800 mb-3">Step 1: Order Details</h2>
-      
+      <h2 className="text-xl font-bold text-gray-800 mb-3">
+        Step 1: Order Details
+      </h2>
+
       <div className="mb-3">
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Select Currency Amount *
@@ -264,7 +330,7 @@ function OrderDetails({ formData, onChange, onFileChange, isValid, onNext, curre
         <select
           value={formData.orderDetails.currency}
           onChange={(e) => onChange("orderDetails", "currency", e.target.value)}
-          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-orange focus:border-orange"
           required
         >
           <option value="">Select an amount</option>
@@ -300,7 +366,7 @@ function OrderDetails({ formData, onChange, onFileChange, isValid, onNext, curre
           <SelectField
             label="Country *"
             value={formData.personalInfo.country}
-            options={["", "Australia", "New Zealand"]}
+            options={["", "New Zealand", "Australia"]}
             onChange={(value) => onChange("personalInfo", "country", value)}
           />
         </div>
@@ -344,12 +410,22 @@ function OrderDetails({ formData, onChange, onFileChange, isValid, onNext, curre
 }
 
 // Component: IDVerification
-function IDVerification({ formData, onChange, onFileChange, isValid, onBack, onNext }) {
+function IDVerification({
+  formData,
+  onChange,
+  onFileChange,
+  isValid,
+  onBack,
+  onNext,
+}) {
   return (
     <div className="bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-200">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Step 2: Photo ID Upload</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Step 2: Photo ID Upload
+      </h2>
       <p className="text-gray-600 mb-6">
-        To complete your order, please upload a valid photo ID for verification purposes.
+        To complete your order, please upload a valid photo ID for verification
+        purposes.
       </p>
 
       <div className="space-y-6">
@@ -364,7 +440,9 @@ function IDVerification({ formData, onChange, onFileChange, isValid, onBack, onN
         <Checkbox
           label="I accept the Terms and Conditions and Privacy Policy. I understand that ID verification is required for delivery."
           checked={formData.verification.acceptTerms}
-          onChange={(checked) => onChange("verification", "acceptTerms", checked)}
+          onChange={(checked) =>
+            onChange("verification", "acceptTerms", checked)
+          }
         />
       </div>
 
@@ -389,12 +467,23 @@ function IDVerification({ formData, onChange, onFileChange, isValid, onBack, onN
 }
 
 // Component: PaymentInfo
-function PaymentInfo({ formData, onChange, onFileChange, onBack, onSubmit, isSubmitting, bankDetails }) {
+function PaymentInfo({
+  formData,
+  onChange,
+  onFileChange,
+  onBack,
+  onSubmit,
+  isSubmitting,
+  bankDetails,
+}) {
   return (
-    <form onSubmit={onSubmit} className="bg-white p-8 rounded-2xl shadow-lg border border-orange-100">
+    <form
+      onSubmit={onSubmit}
+      className="bg-white p-8 rounded-2xl shadow-lg border border-orange-100"
+    >
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
-          <span className="bg-orange-100 text-orange-800 rounded-full w-10 h-10 flex items-center justify-center">
+          <span className="bg-orange-100 text-orange rounded-full w-10 h-10 flex items-center justify-center">
             3
           </span>
           Payment Information
@@ -448,7 +537,10 @@ function PaymentInfo({ formData, onChange, onFileChange, onBack, onSubmit, isSub
         </Button>
         <Button
           type="submit"
-          disabled={isSubmitting || (!formData.payment.receipt && !formData.payment.skipReceipt)}
+          disabled={
+            isSubmitting ||
+            (!formData.payment.receipt && !formData.payment.skipReceipt)
+          }
           isLoading={isSubmitting}
           icon={<ArrowRightIcon className="w-4 h-4" />}
         >
@@ -466,8 +558,14 @@ function OrderSummary({ currency, unitPrice, shippingFee, totalAmount }) {
       <h3 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h3>
       <div className="space-y-3">
         <SummaryRow label="Currency:" value={currency || "Not selected"} />
-        <SummaryRow label="Unit Price:" value={`$${unitPrice.toFixed(2)} AUD`} />
-        <SummaryRow label="Shipping:" value={`$${shippingFee.toFixed(2)} AUD`} />
+        <SummaryRow
+          label="Unit Price:"
+          value={`$${unitPrice.toFixed(2)} AUD`}
+        />
+        <SummaryRow
+          label="Shipping:"
+          value={`$${shippingFee.toFixed(2)} AUD`}
+        />
         <hr className="my-3" />
         <SummaryRow
           label={<span className="font-bold">Total:</span>}
@@ -480,7 +578,8 @@ function OrderSummary({ currency, unitPrice, shippingFee, totalAmount }) {
       </div>
       <div className="mt-6 p-4 bg-orange-50 rounded-lg">
         <p className="text-sm text-orange">
-          <strong>Note:</strong> Your order will be processed within 24–48 hours.
+          <strong>Note:</strong> Your order will be processed within 24–48
+          hours.
         </p>
       </div>
     </div>
@@ -498,7 +597,7 @@ function InputField({ label, type = "text", value, onChange, ...props }) {
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
+        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-orange focus:border-orange"
         {...props}
       />
     </div>
@@ -514,7 +613,7 @@ function SelectField({ label, value, options, onChange, ...props }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
+        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-orange focus:border-orange"
         {...props}
       >
         {options.map((option) => (
@@ -527,7 +626,14 @@ function SelectField({ label, value, options, onChange, ...props }) {
   );
 }
 
-function FileUpload({ label, description, accept, onChange, file, disabled = false }) {
+function FileUpload({
+  label,
+  description,
+  accept,
+  onChange,
+  file,
+  disabled = false,
+}) {
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
@@ -541,10 +647,18 @@ function FileUpload({ label, description, accept, onChange, file, disabled = fal
         )}
       </div>
 
-      <div className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg ${disabled ? "opacity-50" : ""}`}>
+      <div
+        className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg ${
+          disabled ? "opacity-50" : ""
+        }`}
+      >
         <div className="space-y-1 text-center">
           <div className="flex text-sm text-gray-600">
-            <label className={`relative cursor-pointer rounded-md font-medium text-orange hover:text-orange-500 focus-within:outline-none ${disabled ? "cursor-not-allowed" : ""}`}>
+            <label
+              className={`relative cursor-pointer rounded-md font-medium text-orange hover:text-orange focus-within:outline-none ${
+                disabled ? "cursor-not-allowed" : ""
+              }`}
+            >
               <span>Upload a file</span>
               <input
                 type="file"
@@ -583,12 +697,27 @@ function Checkbox({ label, checked, onChange, ...props }) {
   );
 }
 
-function Button({ children, onClick, disabled = false, isLoading = false, icon, variant = "primary", ...props }) {
-  const baseClasses = "inline-flex items-center gap-2 text-sm font-medium py-2 px-5 rounded-md transition-colors";
-  
+function Button({
+  children,
+  onClick,
+  disabled = false,
+  isLoading = false,
+  icon,
+  variant = "primary",
+  ...props
+}) {
+  const baseClasses =
+    "inline-flex items-center gap-2 text-sm font-medium py-2 px-5 rounded-md transition-colors";
+
   const variantClasses = {
-    primary: `text-white ${disabled || isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-orange hover:bg-orange"}`,
-    secondary: `text-gray-600 hover:text-gray-800 ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    primary: `text-white ${
+      disabled || isLoading
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-orange hover:bg-orange"
+    }`,
+    secondary: `text-gray-600 hover:text-gray-800 ${
+      disabled ? "opacity-50 cursor-not-allowed" : ""
+    }`,
   };
 
   return (
@@ -611,7 +740,7 @@ function Button({ children, onClick, disabled = false, isLoading = false, icon, 
 function Alert({ icon, title, message, type = "info" }) {
   const typeClasses = {
     info: "bg-blue-50 border-blue-500 text-blue-800",
-    warning: "bg-orange-50 border-orange-500 text-orange-800",
+    warning: "bg-orange-50 border-orange text-orange",
     error: "bg-red-50 border-red-500 text-red-800",
     success: "bg-green-50 border-green-500 text-green-800",
   };
@@ -620,7 +749,9 @@ function Alert({ icon, title, message, type = "info" }) {
     <div className={`border-l-4 ${typeClasses[type]} py-1 rounded-r-lg`}>
       <div className="flex items-start">
         <div className="flex-shrink-0">
-          {React.cloneElement(icon, { className: `h-5 w-5 ${typeClasses[type].text}` })}
+          {React.cloneElement(icon, {
+            className: `h-5 w-5 ${typeClasses[type].text}`,
+          })}
         </div>
         <div className="ml-3">
           <h3 className="text-sm font-medium">{title}</h3>
@@ -673,11 +804,10 @@ function SuccessModal({ isOpen, onClose }) {
         <CheckCircleIcon className="w-12 h-12 mx-auto text-green-500 mb-4" />
         <h3 className="text-xl font-bold mb-4">Order Placed Successfully!</h3>
         <p className="mb-6">
-          Thank you for your order. For demonstration purposes, the order data has been logged to the console.
+          Thank you for your order. Your order will be processed within 24–48
+          hours.
         </p>
-        <Button onClick={onClose}>
-          Close
-        </Button>
+        <Button onClick={onClose}>Close</Button>
       </div>
     </div>
   );
