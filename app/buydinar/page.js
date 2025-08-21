@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   ArrowRightIcon,
   ArrowLeftIcon,
@@ -12,6 +12,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import MainLayout from "../MainLayout";
+import { useRouter } from "next/navigation";
 
 // Constants
 const CURRENCY_OPTIONS = [
@@ -50,6 +51,8 @@ const INITIAL_FORM_DATA = {
   verification: {
     idFile: null,
     idFileUrl: "",
+    idNumber: "",          // NEW
+    idExpiry: "",          // NEW (yyyy-mm-dd)
     acceptTerms: false,
   },
   payment: {
@@ -66,6 +69,13 @@ const STEPS = [
   { id: 2, title: "ID Verification", icon: IdentificationIcon },
   { id: 3, title: "Payment", icon: CreditCardIcon },
 ];
+
+// helper: parse IQD numeric amount from label, e.g. "1,000,000 IQD - $2,800 AUD" -> 1000000
+function getIqdAmountFromLabel(label) {
+  if (!label) return 0;
+  const match = label.match(/^([\d,]+)\s*IQD/i);
+  return match ? parseInt(match[1].replace(/,/g, ""), 10) : 0;
+}
 
 export default function BuyDinar() {
   // State management
@@ -86,6 +96,12 @@ export default function BuyDinar() {
 
   const totalAmount = selectedCurrency + shippingFee;
 
+  // NEW: qualify for free 20M ZWL if >= 1,000,000 IQD
+  const qualifiesForZim = useMemo(() => {
+    const amountIqd = getIqdAmountFromLabel(formData.orderDetails.currency);
+    return amountIqd >= 1_000_000;
+  }, [formData.orderDetails.currency]);
+
   // Form validation
   const isStep1Valid = useMemo(() => {
     const { personalInfo, orderDetails } = formData;
@@ -102,10 +118,11 @@ export default function BuyDinar() {
     );
   }, [formData]);
 
-  const isStep2Valid = useMemo(
-    () => formData.verification.idFile && formData.verification.acceptTerms,
-    [formData.verification]
-  );
+  // Step 2 now requires idFile, idNumber, idExpiry, and terms
+  const isStep2Valid = useMemo(() => {
+    const { idFile, idNumber, idExpiry, acceptTerms } = formData.verification;
+    return Boolean(idFile && idNumber && idExpiry && acceptTerms);
+  }, [formData.verification]);
 
   // Handlers
   const handleInputChange = useCallback((section, field, value) => {
@@ -167,17 +184,36 @@ export default function BuyDinar() {
         uploadedReceiptUrl = newBlob.url;
       }
 
-      // 3. Prepare the final order data with the new URLs
+      // 3. Prepare the final order data with the new fields + bonus if applicable
       const orderData = {
         personalInfo: formData.personalInfo,
-        orderDetails: formData.orderDetails,
+        orderDetails: {
+          ...formData.orderDetails,
+          qualifiesForZimBonus: qualifiesForZim,
+        },
         totalAmount,
-        id_document_url: uploadedIdUrl,
-        payment_receipt_url: uploadedReceiptUrl,
+        verification: {
+          id_document_url: uploadedIdUrl,
+          idNumber: formData.verification.idNumber,
+          idExpiry: formData.verification.idExpiry,
+        },
+        payment: {
+          receipt_url: uploadedReceiptUrl,
+          skipReceipt: formData.payment.skipReceipt,
+          comments: formData.payment.comments,
+          method: formData.payment.method || "bank-transfer",
+        },
+        bonus: qualifiesForZim
+          ? {
+              type: "ZWL",
+              amount: 20000000,
+              label: "Free 20,000,000 Zimbabwe Dollars",
+              reason: "Orders of 1,000,000 IQD or more",
+            }
+          : null,
       };
 
       // 4. Send the final data to your base44 function
-      // IMPORTANT: Replace with your actual function URL
       const functionUrl =
         "https://app--dinar-exchange-a6eb3846.base44.app/api/apps/68a56ff1e426c5d0a6eb3846/functions/createOrder";
 
@@ -222,6 +258,7 @@ export default function BuyDinar() {
                 isValid={isStep1Valid}
                 onNext={nextStep}
                 currencyOptions={CURRENCY_OPTIONS}
+                qualifiesForZim={qualifiesForZim} // NEW: to show promo note
               />
             )}
 
@@ -256,6 +293,7 @@ export default function BuyDinar() {
               unitPrice={selectedCurrency}
               shippingFee={shippingFee}
               totalAmount={totalAmount}
+              qualifiesForZim={qualifiesForZim} // NEW
             />
           </div>
         </div>
@@ -312,16 +350,36 @@ function Stepper({ currentStep, steps }) {
 function OrderDetails({
   formData,
   onChange,
-  onFileChange,
   isValid,
   onNext,
   currencyOptions,
+  qualifiesForZim, // NEW
 }) {
   return (
     <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
       <h2 className="text-xl font-bold text-gray-800 mb-3">
         Step 1: Order Details
       </h2>
+
+      {/* Promo banner */}
+      <div className="mb-3">
+        <Alert
+          icon={<ExclamationCircleIcon className="h-5 w-5 text-orange" />}
+          title="Special Offer"
+          message={
+            <>
+              Buy <strong>1,000,000 IQD</strong> or more and get{" "}
+              <strong>20,000,000 ZWL</strong> <em>FREE</em>!
+              {qualifiesForZim && (
+                <span className="ml-2 inline-block text-green-700 font-semibold">
+                  ✅ Applied to your order
+                </span>
+              )}
+            </>
+          }
+          type="warning"
+        />
+      </div>
 
       <div className="mb-3">
         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -430,11 +488,26 @@ function IDVerification({
 
       <div className="space-y-6">
         <FileUpload
-          label="Upload ID Document"
+          label="Upload ID Document *"
           description="Accepted: Driver's License, Passport + Utility Bill"
           accept=".jpg,.jpeg,.png,.pdf"
           onChange={(file) => onFileChange("verification", "idFile", file)}
           file={formData.verification.idFile}
+        />
+
+        {/* NEW: ID Number */}
+        <InputField
+          label="ID Number *"
+          value={formData.verification.idNumber}
+          onChange={(value) => onChange("verification", "idNumber", value)}
+        />
+
+        {/* NEW: ID Expiry Date */}
+        <InputField
+          label="ID Expiry Date *"
+          type="date"
+          value={formData.verification.idExpiry}
+          onChange={(value) => onChange("verification", "idExpiry", value)}
         />
 
         <Checkbox
@@ -552,7 +625,7 @@ function PaymentInfo({
 }
 
 // Component: OrderSummary
-function OrderSummary({ currency, unitPrice, shippingFee, totalAmount }) {
+function OrderSummary({ currency, unitPrice, shippingFee, totalAmount, qualifiesForZim }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
       <h3 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h3>
@@ -562,6 +635,13 @@ function OrderSummary({ currency, unitPrice, shippingFee, totalAmount }) {
           label="Unit Price:"
           value={`$${unitPrice.toFixed(2)} AUD`}
         />
+        {qualifiesForZim && (
+          <div className="p-3 bg-green-50 border border-green-200 rounded-md">
+            <span className="text-sm font-medium text-green-700">
+              🎁 Bonus: 20,000,000 ZWL (FREE)
+            </span>
+          </div>
+        )}
         <SummaryRow
           label="Shipping:"
           value={`$${shippingFee.toFixed(2)} AUD`}
@@ -795,8 +875,19 @@ function SummaryRow({ label, value }) {
   );
 }
 
-function SuccessModal({ isOpen, onClose }) {
+function SuccessModal({ isOpen }) {
+  const router = useRouter();
+
+ useEffect(() => {
+    if (!isOpen) return;
+    const t = setTimeout(() => {
+      router.push("/thank-you");
+    }, 1000);
+    return () => clearTimeout(t);
+  }, [isOpen, router]);
+
   if (!isOpen) return null;
+ 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
@@ -807,7 +898,7 @@ function SuccessModal({ isOpen, onClose }) {
           Thank you for your order. Your order will be processed within 24–48
           hours.
         </p>
-        <Button onClick={onClose}>Close</Button>
+        <p className="text-gray-500 text-sm">Redirecting...</p>
       </div>
     </div>
   );
