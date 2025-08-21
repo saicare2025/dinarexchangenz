@@ -113,10 +113,11 @@ export default function FaqSection() {
               question="How do I know the dinars are real?"
               answer="Every order includes a Certificate of Authenticity. Our notes are sourced directly from Iraq's Central Bank."
             />
-            <AccordionItem
+           <AccordionItem
               question="Can I sell my dinars back to you?"
-              answer="Currently, we only facilitate purchases. For selling, we recommend checking with local currency dealers."
+              answer="Yes, you can. Please contact us directly to arrange your sale or to learn more about the process."
             />
+
           </div>
         </div>
 

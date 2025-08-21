@@ -79,7 +79,7 @@ export default function HeroSection() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
-                    className="relative overflow-hidden group bg-gradient-to-r from-orange to-orange text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="relative overflow-hidden group bg-gradient-to-r from-blue to-blue-900 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       Buy Dinars Now{" "}

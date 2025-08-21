@@ -281,11 +281,11 @@ export default function Header() {
           <button
             type="button" // <- important if this sits inside a <form>
             onClick={handleClick}
-            className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-orange rounded p-1"
+            className="flex items-center justify-center space-x-2 rounded p-1"
             aria-label="Profile menu"
           >
-            <UserCircleIcon className="w-9 h-9 text-orange bg-orange-50 rounded-full border-2 border-orange shadow" />
-            <span className="text-sm font-medium text-gray-700">Profile</span>
+            <UserCircleIcon className="w-9 h-9 text-orange ml-4 bg-orange-50 rounded-full border-2 border-orange shadow" />
+            <span className="text-sm hidden lg:block font-medium text-gray-700">Profile</span>
           </button>
 
           {/* Mobile Menu Button */}
