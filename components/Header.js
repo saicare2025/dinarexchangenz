@@ -258,7 +258,6 @@ export default function Header() {
               alt="Dinar Exchange New zealand"
               width={200}
               height={60}
-              priority
             />
             <div className="flex items-center gap-1">
               <span className="text-sm font-semibold text-gray-800">NZ</span>
@@ -268,6 +267,7 @@ export default function Header() {
                 width={20}
                 height={14}
                 className="rounded-sm"
+                fetchPriority="high"
               />
             </div>
           </Link>
