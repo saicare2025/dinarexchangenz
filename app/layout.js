@@ -14,27 +14,36 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+  const PROVESOURCE_KEY = process.env.NEXT_PUBLIC_PROVESOURCE_KEY;
+
   const isProdDeploy = process.env.VERCEL_ENV === "production";
   const enableAnalytics = Boolean(GA_ID && isProdDeploy);
+  const enableProveSource = Boolean(PROVESOURCE_KEY && isProdDeploy);
+  // TODO: wire to your consent manager if needed:
+  const hasMarketingConsent = true;
 
   return (
     <html lang="en">
       <head>
-        {/* Preconnect to external domains for faster connections */}
+        {/* Preconnects / DNS-prefetch (non-blocking) */}
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://static.vecteezy.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://static.vecteezy.com" />
+        <link rel="preconnect" href="https://cdn.provesrc.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://cdn.provesrc.com" />
       </head>
       <body className={inter.className}>
         {children}
         <Toaster position="top-right" />
 
+        {/* Google Analytics (lazy, non-blocking) */}
         {enableAnalytics && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
               strategy="lazyOnload"
+              crossOrigin="anonymous"
             />
             <Script id="ga-init" strategy="lazyOnload">
               {`
@@ -44,11 +53,31 @@ export default function RootLayout({ children }) {
                 gtag('config', '${GA_ID}', { send_page_view: true });
               `}
             </Script>
-
-            {/* 👇 This is the key */}
             <Suspense fallback={null}>
               <GAListener />
             </Suspense>
+          </>
+        )}
+
+        {/* ProveSource (Option B: next/script with lazyOnload) */}
+        {enableProveSource && hasMarketingConsent && (
+          <>
+            <Script id="provesrc-init" strategy="lazyOnload">
+              {`
+                if (!window.provesrc) {
+                  window.provesrc = { dq: [], display: function(){ this.dq.push(arguments); } };
+                }
+                window._provesrcAsyncInit = function () {
+                  window.provesrc.init({ apiKey: "${PROVESOURCE_KEY}", v: "0.0.4" });
+                };
+              `}
+            </Script>
+            <Script
+              id="provesrc-script"
+              src="https://cdn.provesrc.com/provesrc.js"
+              strategy="lazyOnload"
+              crossOrigin="anonymous"
+            />
           </>
         )}
       </body>
