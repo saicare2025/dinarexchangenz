@@ -19,10 +19,11 @@ components/order-form/
 │   ├── SelectField.js
 │   ├── Button.js
 │   ├── Alert.js
-│   ├── FileUpload.js
+│   ├── FileUpload.js         # Enhanced with camera support
 │   ├── Checkbox.js
 │   ├── BankDetails.js
-│   └── SummaryRow.js
+│   ├── SummaryRow.js
+│   └── FileUploadTest.js     # Test component for camera functionality
 └── index.js                  # Export all components
 ```
 
@@ -48,6 +49,37 @@ export default function BuyDinar() {
   );
 }
 ```
+
+### File Upload with Camera Support
+
+The `FileUpload` component now supports both file selection and camera capture:
+
+```jsx
+import FileUpload from './ui/FileUpload';
+
+<FileUpload
+  label="Upload ID Document"
+  description="Accepted: Driver's License, Passport + Utility Bill"
+  accept=".jpg,.jpeg,.png,.pdf"
+  onChange={handleFileChange}
+  file={selectedFile}
+/>
+```
+
+**Features:**
+- **Choose Photos**: Traditional file picker for selecting existing files
+- **Take Photo**: Direct camera access for capturing new photos
+- **Image Preview**: Shows preview of uploaded images
+- **File Management**: Remove uploaded files
+- **Error Handling**: Graceful handling of camera permissions and device support
+- **Responsive Design**: Works on both desktop and mobile devices
+
+**Camera Support:**
+- Automatically detects camera availability
+- Requests camera permissions when needed
+- Provides clear error messages for unsupported devices
+- Handles camera capture errors gracefully
+- Generates proper filenames for camera captures
 
 ### Configuration
 
@@ -85,6 +117,15 @@ export const IRAQI_DINAR_CONFIG = {
 - `bonusConfig`: Object for bonus configuration (optional)
 - `pageTitle`: String for page title
 
+### FileUpload Props
+
+- `label`: String for the upload field label
+- `description`: String describing accepted file types
+- `accept`: String for accepted file types (e.g., ".jpg,.jpeg,.png,.pdf")
+- `onChange`: Function called when file is selected/captured
+- `file`: Current file object (null if no file selected)
+- `disabled`: Boolean to disable the upload field
+
 ### Bonus Configuration
 
 The `bonusConfig` object can be used to set up special offers:
@@ -105,9 +146,22 @@ The `bonusConfig` object can be used to set up special offers:
 - **Reusable Components**: UI components can be used elsewhere
 - **Configurable**: All currency-specific data is externalized
 - **Validation**: Built-in form validation
-- **File Upload**: Support for ID and receipt uploads
+- **File Upload**: Support for ID and receipt uploads with camera capture
 - **Responsive**: Mobile-friendly design
 - **Accessibility**: Proper ARIA labels and keyboard navigation
+- **Camera Integration**: Direct camera access for photo capture
+- **Error Handling**: Comprehensive error handling for file uploads and camera access
+
+## Testing Camera Functionality
+
+Use the `FileUploadTest` component to test camera functionality:
+
+```jsx
+import FileUploadTest from './ui/FileUploadTest';
+
+// Add this to any page for testing
+<FileUploadTest />
+```
 
 ## Adding New Currency Types
 
@@ -125,3 +179,24 @@ Validation logic is in `utils.js`. You can modify the validation functions to ma
 
 ### API Integration
 The form submission logic is in `OrderForm.js`. Modify the `handleSubmit` function to integrate with your backend API.
+
+### Camera Support
+Camera functionality is handled in `FileUpload.js`. The component automatically:
+- Detects camera availability
+- Requests permissions
+- Handles errors gracefully
+- Provides user feedback
+
+## Browser Compatibility
+
+**Camera Support:**
+- ✅ Chrome (desktop & mobile)
+- ✅ Safari (iOS)
+- ✅ Firefox (desktop & mobile)
+- ✅ Edge (desktop & mobile)
+- ❌ Internet Explorer (no camera support)
+
+**File Upload:**
+- ✅ All modern browsers
+- ✅ Mobile browsers
+- ✅ Progressive Web Apps (PWA)
