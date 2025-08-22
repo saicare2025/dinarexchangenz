@@ -20,7 +20,8 @@ export default function SuccessModal({ isOpen, onClose }) {
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
         <CheckCircleIcon className="w-12 h-12 mx-auto text-green-500 mb-4" />
         <h3 className="text-xl font-bold mb-4">Order Placed Successfully!</h3>
-        <p className="mb-6">Thank you for your order. Your order will be processed within 24–48 hours.</p>
+        <p className="mb-4">Thank you for your order. Your order will be processed within 24–48 hours.</p>
+        <p className="mb-6 text-sm text-green-600">A confirmation email with invoice has been sent to your email address.</p>
         <p className="text-gray-500 text-sm">Redirecting...</p>
       </div>
     </div>

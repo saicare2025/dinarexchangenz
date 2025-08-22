@@ -264,6 +264,36 @@ export default function OrderForm({
       const result = await response.json();
       console.log("Order created successfully:", result);
 
+              // Send email notification
+        try {
+          const notificationData = {
+            id: result.id || result._id || `ORDER-${Date.now()}`,
+            personalInfo: formData.personalInfo,
+            orderDetails: formData.orderDetails,
+            payment: formData.payment,
+            totalAmount: Number(result.totalAmount || totalAmount),
+            createdAt: result.createdAt || new Date().toISOString(),
+            shippingCost: result.shippingCost || shippingFee
+          };
+
+          const notificationResponse = await fetch("/api/orders/notify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(notificationData)
+          });
+
+          if (notificationResponse.ok) {
+            console.log("Email notification sent successfully");
+          } else {
+            const errorData = await notificationResponse.json().catch(() => ({}));
+            console.error("Email notification failed:", errorData.message || "Unknown error");
+            // Don't show error to user since order was successful, just log it
+          }
+        } catch (emailError) {
+          console.error("Email notification error:", emailError);
+          // Don't show error to user since order was successful, just log it
+        }
+
       setShowSuccess(true);
       setFormData(INITIAL_FORM_DATA);
       setCurrentStep(1);
