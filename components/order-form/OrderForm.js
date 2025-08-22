@@ -124,13 +124,19 @@ export default function OrderForm({
 
   const handleFileChange = useCallback(
     async (section, field, file) => {
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        handleInputChange(section, field, file);
-        handleInputChange(section, `${field}Url`, reader.result);
-      };
-      reader.readAsDataURL(file);
+      if (file) {
+        // File is being added
+        const reader = new FileReader();
+        reader.onload = () => {
+          handleInputChange(section, field, file);
+          handleInputChange(section, `${field}Url`, reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // File is being removed (null passed)
+        handleInputChange(section, field, null);
+        handleInputChange(section, `${field}Url`, "");
+      }
     },
     [handleInputChange]
   );
