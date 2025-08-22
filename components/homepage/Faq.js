@@ -16,9 +16,10 @@ const AccordionItem = ({ question, answer }) => {
     <div className="border-b border-gray-200">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center py-4 text-left"
+        aria-expanded={isOpen}
+        className="w-full flex justify-between items-center py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
       >
-        <span className="font-semibold text-gray-800">{question}</span>
+        <span className="font-semibold text-gray-900">{question}</span>
         <ChevronDownIcon
           className={`w-5 h-5 text-gray-500 transition-transform ${
             isOpen ? "rotate-180" : ""
@@ -30,7 +31,7 @@ const AccordionItem = ({ question, answer }) => {
           isOpen ? "max-h-screen" : "max-h-0"
         }`}
       >
-        <div className="text-gray-600 pb-4">{answer}</div>
+        <div className="text-gray-700 pb-4">{answer}</div>
       </div>
     </div>
   );
@@ -41,7 +42,7 @@ export default function FaqSection() {
     <section className="bg-gradient-to-r from-blue-100 to-orange-100">
       <div
         id="faq"
-        className="max-w-4xl bg-gradient-to-r bg-orange-50 from-blue-100 to-orange-100  mx-auto py-12 px-4 sm:px-6 lg:px-8"
+        className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8"
       >
         <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">
           Frequently Asked Questions
@@ -49,9 +50,9 @@ export default function FaqSection() {
 
         <div className="space-y-6">
           {/* General Questions */}
-          <div className=" p-6 rounded-lg bg-orange-50 shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
-              <InformationCircleIcon className="w-6 h-6" />
+          <div className="p-6 rounded-lg bg-white shadow-sm border border-gray-200">
+            <h3 className="text-xl font-bold text-orange-800 mb-4 flex items-center gap-2">
+              <InformationCircleIcon className="w-6 h-6 text-orange-700" />
               General Questions
             </h3>
             <AccordionItem
@@ -65,9 +66,9 @@ export default function FaqSection() {
           </div>
 
           {/* Pricing & Payment */}
-          <div className="bg-orange-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
-              <CurrencyDollarIcon className="w-6 h-6" />
+          <div className="p-6 rounded-lg bg-white shadow-sm border border-gray-200">
+            <h3 className="text-xl font-bold text-orange-800 mb-4 flex items-center gap-2">
+              <CurrencyDollarIcon className="w-6 h-6 text-orange-700" />
               Pricing & Payment
             </h3>
             <AccordionItem
@@ -81,9 +82,9 @@ export default function FaqSection() {
           </div>
 
           {/* Order & Delivery */}
-          <div className="bg-orange-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
-              <TruckIcon className="w-6 h-6" />
+          <div className="p-6 rounded-lg bg-white shadow-sm border border-gray-200">
+            <h3 className="text-xl font-bold text-orange-800 mb-4 flex items-center gap-2">
+              <TruckIcon className="w-6 h-6 text-orange-700" />
               Order & Delivery
             </h3>
             <AccordionItem
@@ -104,36 +105,35 @@ export default function FaqSection() {
           </div>
 
           {/* Authenticity & Security */}
-          <div className="bg-orange-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-bold text-orange mb-4 flex items-center gap-2">
-              <ShieldCheckIcon className="w-6 h-6" />
+          <div className="p-6 rounded-lg bg-white shadow-sm border border-gray-200">
+            <h3 className="text-xl font-bold text-orange-800 mb-4 flex items-center gap-2">
+              <ShieldCheckIcon className="w-6 h-6 text-orange-700" />
               Authenticity & Security
             </h3>
             <AccordionItem
               question="How do I know the dinars are real?"
               answer="Every order includes a Certificate of Authenticity. Our notes are sourced directly from Iraq's Central Bank."
             />
-           <AccordionItem
+            <AccordionItem
               question="Can I sell my dinars back to you?"
               answer="Yes, you can. Please contact us directly to arrange your sale or to learn more about the process."
             />
-
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             Still have questions? Contact us at{" "}
             <a
               href="mailto:dinars@dinarexchange.com.au"
-              className="text-orange hover:underline"
+              className="text-orange-700 hover:underline"
             >
               dinars@dinarexchange.com.au
             </a>{" "}
             or call{" "}
             <a
               href="tel:0417460236"
-              className="text-orange hover:underline"
+              className="text-orange-700 hover:underline"
             >
               0417 460 236
             </a>
