@@ -212,10 +212,8 @@ export function InvestmentOpportunity() {
                   alt="Iraqi Dinar currency"
                   fill
                   className="object-contain"
-                  priority
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-              
               </div>
             </div>
 

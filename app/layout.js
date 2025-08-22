@@ -19,6 +19,13 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to external domains for faster connections */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://static.vecteezy.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://static.vecteezy.com" />
+      </head>
       <body className={inter.className}>
         {children}
         <Toaster position="top-right" />
@@ -27,14 +34,14 @@ export default function RootLayout({ children }) {
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
-            <Script id="ga-init" strategy="afterInteractive">
+            <Script id="ga-init" strategy="lazyOnload">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${GA_ID}', { send_page_view: false });
+                gtag('config', '${GA_ID}', { send_page_view: true });
               `}
             </Script>
 

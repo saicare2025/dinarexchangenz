@@ -25,7 +25,6 @@ export function Footer() {
                 alt="Dinar Exchange Logo"
                 width={180}
                 height={50}
-                priority
                 className="h-auto max-w-[180px] w-auto"
               />
               <span className="text-sm font-medium text-blue-900 px-2 py-1 rounded flex items-center gap-1">

@@ -108,6 +108,8 @@ export default function HeroSection() {
                 fill
                 className="object-cover"
                 priority
+                fetchPriority="high"
+                loading="eager"
                 sizes="(max-width: 768px) 80vw, 50vw"
               />
             </div>
