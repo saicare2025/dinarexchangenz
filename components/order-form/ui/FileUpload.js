@@ -40,17 +40,20 @@ export default function FileUpload({ label, description, accept, onChange, file,
   const handleCameraCapture = (event) => {
     const capturedFile = event.target.files?.[0];
     if (capturedFile) {
-      // Ensure the file has a proper name for camera captures
-      if (!capturedFile.name || capturedFile.name === 'image.jpg') {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const newFile = new File([capturedFile], `camera-capture-${timestamp}.jpg`, {
-          type: capturedFile.type,
-          lastModified: capturedFile.lastModified,
-        });
-        onChange(newFile);
-      } else {
-        onChange(capturedFile);
-      }
+      // Create a proper file object for camera captures
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const fileName = capturedFile.name && capturedFile.name !== 'image.jpg' 
+        ? capturedFile.name 
+        : `camera-capture-${timestamp}.jpg`;
+      
+      // Create a new File object with proper metadata
+      const newFile = new File([capturedFile], fileName, {
+        type: capturedFile.type || 'image/jpeg',
+        lastModified: Date.now(),
+      });
+      
+      console.log("Camera capture successful:", newFile);
+      onChange(newFile);
     }
     setIsCapturing(false);
     setCameraError("");
@@ -115,7 +118,7 @@ export default function FileUpload({ label, description, accept, onChange, file,
           disabled ? "opacity-50" : ""
         }`}
       >
-        <div className="space-y-3 text-center">
+        <div className="space-y-3 text-center w-full">
           {!file ? (
             <>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -152,26 +155,27 @@ export default function FileUpload({ label, description, accept, onChange, file,
               )}
             </>
           ) : (
-            <div className="space-y-3">
-              <div className="flex items-center justify-center gap-3">
-                <p className="text-sm text-green-600">
+            <div className="space-y-3 w-full">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <p className="text-sm text-green-600 text-center">
                   {file.name} ({Math.round(file.size / 1024)} KB)
                 </p>
                 <button
                   type="button"
                   onClick={removeFile}
-                  className="text-red-500 hover:text-red-700 text-sm"
+                  className="px-3 py-1 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-md border border-red-200 transition-colors"
                 >
                   Remove
                 </button>
               </div>
               
               {file.type.startsWith('image/') && (
-                <div className="mt-2">
+                <div className="mt-2 flex justify-center">
                   <img 
                     src={URL.createObjectURL(file)} 
                     alt="Preview" 
-                    className="max-w-xs max-h-32 mx-auto rounded border"
+                    className="max-w-full max-h-32 rounded border"
+                    style={{ maxWidth: '280px' }}
                   />
                 </div>
               )}
