@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
 
 export default function FileUpload({ label, description, accept, onChange, file, disabled = false }) {
@@ -171,7 +172,7 @@ export default function FileUpload({ label, description, accept, onChange, file,
               
               {file.type.startsWith('image/') && (
                 <div className="mt-2 flex justify-center">
-                  <img 
+                  <Image 
                     src={URL.createObjectURL(file)} 
                     alt="Preview" 
                     className="max-w-full max-h-32 rounded border"
