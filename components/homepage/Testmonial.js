@@ -220,7 +220,10 @@ export function Testimonials3DCarousel() {
   };
 
   return (
-    <section id="testimonials" className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-[80vh]">
+    <section
+      id="testimonials"
+      className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-[80vh]"
+    >
       <motion.div
         variants={staggerContainer()}
         initial="hidden"
@@ -378,9 +381,11 @@ export function Testimonials3DCarousel() {
 
         {/* Navigation Controls */}
         <div className="flex items-center justify-center gap-6">
+          {/* Previous Button */}
           <button
             onClick={prevSlide}
             disabled={isAnimating}
+            aria-label="Previous testimonial"
             className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group hover:shadow-xl"
           >
             <svg
@@ -389,6 +394,8 @@ export function Testimonials3DCarousel() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              role="img"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -400,24 +407,47 @@ export function Testimonials3DCarousel() {
           </button>
 
           {/* Pagination Dots */}
-          <div className="flex gap-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                disabled={isAnimating}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  index === currentIndex
-                    ? "bg-orange scale-125 shadow-lg"
-                    : "bg-gray-300 hover:bg-gray-400"
-                } disabled:cursor-not-allowed`}
-              />
-            ))}
+          {/* Pagination Dots (accessible touch targets) */}
+          <div
+            className="flex gap-2"
+            role="group"
+            aria-label="Testimonials pagination"
+          >
+            {testimonials.map((_, index) => {
+              const isActive = index === currentIndex;
+              return (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  disabled={isAnimating}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  aria-current={isActive ? "true" : "false"}
+                  // 48px circular hit area; center the visual dot inside
+                  className={`w-8 h-8 rounded-full grid place-items-center transition-transform duration-200
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500
+          disabled:cursor-not-allowed
+          ${isActive ? "scale-105" : "hover:scale-105"}`}
+                >
+                  {/* Visual dot (kept small), not read by SRs */}
+                  <span
+                    aria-hidden="true"
+                    className={`rounded-full block
+            ${
+              isActive
+                ? "w-3.5 h-3.5 bg-orange-900 shadow-lg"
+                : "w-3 h-3 bg-gray-500 hover:bg-gray-400"
+            }`}
+                  />
+                </button>
+              );
+            })}
           </div>
 
+          {/* Next Button */}
           <button
             onClick={nextSlide}
             disabled={isAnimating}
+            aria-label="Next testimonial"
             className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group hover:shadow-xl"
           >
             <svg
@@ -426,6 +456,8 @@ export function Testimonials3DCarousel() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              role="img"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -435,13 +467,6 @@ export function Testimonials3DCarousel() {
               />
             </svg>
           </button>
-        </div>
-
-        {/* Mobile responsive note */}
-        <div className="text-center mt-4 md:hidden">
-          <p className="text-xs text-gray-400">
-            Swipe left or right to navigate on mobile
-          </p>
         </div>
       </motion.div>
     </section>

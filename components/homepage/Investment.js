@@ -13,9 +13,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
-import currency from "../../app/assets/currency.png";
+import currency from "../../app/assets/currency.webp";
 import Image from "next/image";
-import heroImage from "../../app/assets/dinar2.png";
+import heroImage from "../../app/assets/dinar2.webp";
 import Link from "next/link";
 
 export function InvestmentOpportunity() {

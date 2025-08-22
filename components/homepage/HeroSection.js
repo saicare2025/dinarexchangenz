@@ -10,7 +10,7 @@ import {
 } from "react-icons/fi";
 
 import Image from "next/image";
-import heroImage from "../../app/assets/dinar.png";
+import heroImage from "../../app/assets/dinar.webp";
 import { FloatingTestimonial } from "./HeroTestmonial";
 import { FloatingCallButton } from "./FloatingCall";
 import Link from "next/link";

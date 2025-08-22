@@ -101,7 +101,7 @@ export default function OrderDetails({
           onChange={(value) => onChange("personalInfo", "address", value)}
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <InputField
             label="City *"
             value={formData.personalInfo.city}

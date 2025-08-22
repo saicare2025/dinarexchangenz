@@ -4,24 +4,16 @@ import React, { useRef, useState, useEffect } from "react";
 export default function FileUpload({ label, description, accept, onChange, file, disabled = false }) {
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
-  const [isCapturing, setIsCapturing] = useState(false);
   const [cameraSupported, setCameraSupported] = useState(true);
   const [cameraError, setCameraError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Check if camera is supported
+  // Check if camera is supported (without requesting permission)
   useEffect(() => {
-    const checkCameraSupport = async () => {
-      try {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          stream.getTracks().forEach(track => track.stop());
-          setCameraSupported(true);
-        } else {
-          setCameraSupported(false);
-        }
-      } catch (error) {
-        console.log("Camera not available:", error);
+    const checkCameraSupport = () => {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        setCameraSupported(true);
+      } else {
         setCameraSupported(false);
       }
     };
@@ -56,7 +48,6 @@ export default function FileUpload({ label, description, accept, onChange, file,
       console.log("Camera capture successful:", newFile);
       onChange(newFile);
     }
-    setIsCapturing(false);
     setCameraError("");
     setIsLoading(false);
     // Reset the input value to allow capturing again
@@ -66,7 +57,6 @@ export default function FileUpload({ label, description, accept, onChange, file,
   const handleCameraError = (event) => {
     console.error("Camera error:", event);
     setCameraError("Camera access denied or not available");
-    setIsCapturing(false);
     setIsLoading(false);
   };
 
@@ -74,31 +64,22 @@ export default function FileUpload({ label, description, accept, onChange, file,
     fileInputRef.current?.click();
   };
 
-  const openCamera = async () => {
+  const openCamera = () => {
     if (!cameraSupported) {
       setCameraError("Camera is not supported on this device");
       return;
     }
 
-    try {
-      setIsLoading(true);
-      setIsCapturing(true);
-      setCameraError("");
-      
-      // Request camera permission first
-      await navigator.mediaDevices.getUserMedia({ video: true });
-      
-      // If permission granted, open camera input
-      cameraInputRef.current?.click();
-    } catch (error) {
-      console.error("Camera permission denied:", error);
-      setCameraError("Camera access denied. Please allow camera access in your browser settings.");
-      setIsCapturing(false);
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    setCameraError("");
+    
+    // Open camera input directly - browser will handle permission request
+    cameraInputRef.current?.click();
   };
 
-  const removeFile = () => {
+  const removeFile = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     onChange(null);
     setCameraError("");
   };
@@ -175,8 +156,9 @@ export default function FileUpload({ label, description, accept, onChange, file,
                   <Image 
                     src={URL.createObjectURL(file)} 
                     alt="Preview" 
-                    className="max-w-full max-h-32 rounded border"
-                    style={{ maxWidth: '280px' }}
+                    width={280}
+                    height={128}
+                    className="max-w-full max-h-32 rounded border object-cover"
                   />
                 </div>
               )}
@@ -206,31 +188,6 @@ export default function FileUpload({ label, description, accept, onChange, file,
         disabled={disabled}
         className="hidden"
       />
-
-      {/* Camera capture modal */}
-      {isCapturing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">Camera Access</h3>
-            <p className="text-gray-600 mb-4">
-              Please allow camera access when prompted to take a photo.
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsCapturing(false);
-                  setCameraError("");
-                  setIsLoading(false);
-                }}
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

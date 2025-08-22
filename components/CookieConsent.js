@@ -70,7 +70,7 @@ export function CookieConsent() {
 
               <button
                 onClick={() => setShowDetails(!showDetails)}
-                className="mt-3 text-sm font-medium text-orange hover:text-orange-500"
+                className="mt-3 text-sm font-medium text-orange-900 hover:text-orange-500"
               >
                 {showDetails ? "Hide details" : "Show details"}
                 <ArrowPathIcon
