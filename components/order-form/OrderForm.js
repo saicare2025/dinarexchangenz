@@ -148,24 +148,54 @@ export default function OrderForm({
 
       // Upload ID
       if (formData.verification.idFile) {
-        const idFile = formData.verification.idFile;
-        const uploadResponse = await fetch(
-          `/api/upload?filename=${encodeURIComponent(idFile.name)}`,
-          { method: "POST", body: idFile }
-        );
-        const newBlob = await uploadResponse.json();
-        uploadedIdUrl = newBlob.url;
+        try {
+          const idFile = formData.verification.idFile;
+          console.log("Uploading ID file:", idFile.name, idFile.type, idFile.size);
+          
+          const uploadResponse = await fetch(
+            `/api/upload?filename=${encodeURIComponent(idFile.name)}`,
+            { method: "POST", body: idFile }
+          );
+          
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            console.error("ID upload failed:", uploadResponse.status, errorText);
+            throw new Error(`ID upload failed: ${uploadResponse.status} - ${errorText.substring(0, 100)}`);
+          }
+          
+          const newBlob = await uploadResponse.json();
+          uploadedIdUrl = newBlob.url;
+          console.log("ID upload successful:", uploadedIdUrl);
+        } catch (uploadError) {
+          console.error("ID upload error:", uploadError);
+          throw new Error(`Failed to upload ID document: ${uploadError.message}`);
+        }
       }
 
       // Upload receipt
       if (formData.payment.receipt) {
-        const receiptFile = formData.payment.receipt;
-        const uploadResponse = await fetch(
-          `/api/upload?filename=${encodeURIComponent(receiptFile.name)}`,
-          { method: "POST", body: receiptFile }
-        );
-        const newBlob = await uploadResponse.json();
-        uploadedReceiptUrl = newBlob.url;
+        try {
+          const receiptFile = formData.payment.receipt;
+          console.log("Uploading receipt file:", receiptFile.name, receiptFile.type, receiptFile.size);
+          
+          const uploadResponse = await fetch(
+            `/api/upload?filename=${encodeURIComponent(receiptFile.name)}`,
+            { method: "POST", body: receiptFile }
+          );
+          
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            console.error("Receipt upload failed:", uploadResponse.status, errorText);
+            throw new Error(`Receipt upload failed: ${uploadResponse.status} - ${errorText.substring(0, 100)}`);
+          }
+          
+          const newBlob = await uploadResponse.json();
+          uploadedReceiptUrl = newBlob.url;
+          console.log("Receipt upload successful:", uploadedReceiptUrl);
+        } catch (uploadError) {
+          console.error("Receipt upload error:", uploadError);
+          throw new Error(`Failed to upload receipt: ${uploadError.message}`);
+        }
       }
 
       // Prepare payload
@@ -197,6 +227,8 @@ export default function OrderForm({
           : null,
       };
 
+      console.log("Submitting order data:", orderData);
+
       // Send to Base44 function
       const functionUrl =
         "https://app--dinar-exchange-a6eb3846.base44.app/api/apps/68a56ff1e426c5d0a6eb3846/functions/createOrder";
@@ -208,8 +240,19 @@ export default function OrderForm({
       });
 
       if (!response.ok) {
-        const errorResult = await response.json().catch(() => ({}));
-        throw new Error(errorResult.error || "Order submission failed");
+        const errorText = await response.text();
+        console.error("Order submission failed:", response.status, errorText);
+        
+        // Try to parse as JSON, but handle HTML responses
+        let errorResult = {};
+        try {
+          errorResult = JSON.parse(errorText);
+        } catch (parseError) {
+          console.error("Failed to parse error response as JSON:", parseError);
+          throw new Error(`Order submission failed: ${response.status} - Server returned invalid response`);
+        }
+        
+        throw new Error(errorResult.error || `Order submission failed: ${response.status}`);
       }
 
       const result = await response.json();
