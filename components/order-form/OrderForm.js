@@ -23,6 +23,7 @@ import SuccessModal from "./SuccessModal";
 
 // Import utilities
 import { validateAUMobile, getIqdAmountFromLabel } from "./utils";
+import { uploadViaSignedUrl } from "@/lib/blobUpload";
 
 const INITIAL_FORM_DATA = {
   personalInfo: {
@@ -144,65 +145,48 @@ export default function OrderForm({
   const nextStep = useCallback(() => setCurrentStep((p) => p + 1), []);
   const prevStep = useCallback(() => setCurrentStep((p) => p - 1), []);
 
+  async function handleBeforeCreateOrderUploads(formData, tempOrderId) {
+    let uploadedIdUrl = null;
+    let uploadedReceiptUrl = null;
+
+    // Upload ID
+    if (formData?.verification?.idFile) {
+      try {
+        uploadedIdUrl = await uploadViaSignedUrl(formData.verification.idFile, {
+          preferredName: `photoId-${Date.now()}-${formData.verification.idFile.name}`,
+        });
+        console.log("ID upload successful:", uploadedIdUrl);
+      } catch (uploadError) {
+        console.error("ID upload error:", uploadError);
+        throw new Error(`Failed to upload ID document: ${uploadError.message}`);
+      }
+    }
+
+    // Upload receipt
+    if (formData?.payment?.receipt) {
+      try {
+        uploadedReceiptUrl = await uploadViaSignedUrl(formData.payment.receipt, {
+          preferredName: `receipt-${Date.now()}-${formData.payment.receipt.name}`,
+        });
+        console.log("Receipt upload successful:", uploadedReceiptUrl);
+      } catch (uploadError) {
+        console.error("Receipt upload error:", uploadError);
+        throw new Error(`Failed to upload receipt: ${uploadError.message}`);
+      }
+    }
+
+    return { uploadedIdUrl, uploadedReceiptUrl };
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      let uploadedIdUrl = null;
-      let uploadedReceiptUrl = null;
-
-      // Upload ID
-      if (formData.verification.idFile) {
-        try {
-          const idFile = formData.verification.idFile;
-          console.log("Uploading ID file:", idFile.name, idFile.type, idFile.size);
-          
-          const uploadResponse = await fetch(
-            `/api/upload?filename=${encodeURIComponent(idFile.name)}`,
-            { method: "POST", body: idFile }
-          );
-          
-          if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            console.error("ID upload failed:", uploadResponse.status, errorText);
-            throw new Error(`ID upload failed: ${uploadResponse.status} - ${errorText.substring(0, 100)}`);
-          }
-          
-          const newBlob = await uploadResponse.json();
-          uploadedIdUrl = newBlob.url;
-          console.log("ID upload successful:", uploadedIdUrl);
-        } catch (uploadError) {
-          console.error("ID upload error:", uploadError);
-          throw new Error(`Failed to upload ID document: ${uploadError.message}`);
-        }
-      }
-
-      // Upload receipt
-      if (formData.payment.receipt) {
-        try {
-          const receiptFile = formData.payment.receipt;
-          console.log("Uploading receipt file:", receiptFile.name, receiptFile.type, receiptFile.size);
-          
-          const uploadResponse = await fetch(
-            `/api/upload?filename=${encodeURIComponent(receiptFile.name)}`,
-            { method: "POST", body: receiptFile }
-          );
-          
-          if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            console.error("Receipt upload failed:", uploadResponse.status, errorText);
-            throw new Error(`Receipt upload failed: ${uploadResponse.status} - ${errorText.substring(0, 100)}`);
-          }
-          
-          const newBlob = await uploadResponse.json();
-          uploadedReceiptUrl = newBlob.url;
-          console.log("Receipt upload successful:", uploadedReceiptUrl);
-        } catch (uploadError) {
-          console.error("Receipt upload error:", uploadError);
-          throw new Error(`Failed to upload receipt: ${uploadError.message}`);
-        }
-      }
+      const tempOrderId = `ORDER-${Date.now()}`;
+      
+      // Upload files using Vercel Blob
+      const { uploadedIdUrl, uploadedReceiptUrl } = await handleBeforeCreateOrderUploads(formData, tempOrderId);
 
       // Prepare payload
       const orderData = {
@@ -235,64 +219,49 @@ export default function OrderForm({
 
       console.log("Submitting order data:", orderData);
 
-      // Send to Base44 function
-      const functionUrl =
-        "https://app--dinar-exchange-a6eb3846.base44.app/api/apps/68a56ff1e426c5d0a6eb3846/functions/createOrder";
-
-      const response = await fetch(functionUrl, {
+      // Create order in Supabase
+      const response = await fetch("/api/orders/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Order submission failed:", response.status, errorText);
-        
-        // Try to parse as JSON, but handle HTML responses
-        let errorResult = {};
-        try {
-          errorResult = JSON.parse(errorText);
-        } catch (parseError) {
-          console.error("Failed to parse error response as JSON:", parseError);
-          throw new Error(`Order submission failed: ${response.status} - Server returned invalid response`);
-        }
-        
-        throw new Error(errorResult.error || `Order submission failed: ${response.status}`);
+      const result = await response.json();
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || result?.details || "Order submission failed");
       }
 
-      const result = await response.json();
       console.log("Order created successfully:", result);
 
-              // Send email notification
-        try {
-          const notificationData = {
-            id: result.id || result._id || `ORDER-${Date.now()}`,
-            personalInfo: formData.personalInfo,
-            orderDetails: formData.orderDetails,
-            payment: formData.payment,
-            totalAmount: Number(result.totalAmount || totalAmount),
-            createdAt: result.createdAt || new Date().toISOString(),
-            shippingCost: result.shippingCost || shippingFee
-          };
+      // Send email notification
+      try {
+        const notificationData = {
+          id: result.id || `ORDER-${Date.now()}`,
+          personalInfo: formData.personalInfo,
+          orderDetails: formData.orderDetails,
+          payment: formData.payment,
+          totalAmount: Number(totalAmount),
+          createdAt: new Date().toISOString(),
+          shippingCost: shippingFee
+        };
 
-          const notificationResponse = await fetch("/api/orders/notify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(notificationData)
-          });
+        const notificationResponse = await fetch("/api/orders/notify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(notificationData)
+        });
 
-          if (notificationResponse.ok) {
-            console.log("Email notification sent successfully");
-          } else {
-            const errorData = await notificationResponse.json().catch(() => ({}));
-            console.error("Email notification failed:", errorData.message || "Unknown error");
-            // Don't show error to user since order was successful, just log it
-          }
-        } catch (emailError) {
-          console.error("Email notification error:", emailError);
+        if (notificationResponse.ok) {
+          console.log("Email notification sent successfully");
+        } else {
+          const errorData = await notificationResponse.json().catch(() => ({}));
+          console.error("Email notification failed:", errorData.message || "Unknown error");
           // Don't show error to user since order was successful, just log it
         }
+      } catch (emailError) {
+        console.error("Email notification error:", emailError);
+        // Don't show error to user since order was successful, just log it
+      }
 
       setShowSuccess(true);
       setFormData(INITIAL_FORM_DATA);
