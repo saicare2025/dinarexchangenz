@@ -7,7 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "test:email-worker": "node scripts/test-email-worker.js",
+    "test:email-worker:simple": "node scripts/test-email-worker-simple.js",
+    "test:email-direct": "node scripts/test-email-direct.js",
+    "create-test-order": "node scripts/create-test-order.js",
+    "test-complete-workflow": "node scripts/test-complete-workflow.js",
+    "test-real-order": "node scripts/test-real-order.js",
+    "check-orders": "node scripts/check-orders.js",
+    "verify-db": "node scripts/verify-database-setup.js",
+    "test-professional-email": "node scripts/test-professional-email.js"
   },
   "browserslist": {
     "production": [
@@ -30,6 +39,7 @@
     "@vercel/blob": "^1.1.1",
     "autoprefixer": "^10.4.21",
     "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
@@ -38,6 +48,7 @@
     "lucide-react": "^0.534.0",
     "mongoose": "^8.17.0",
     "next": "15.4.5",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.5",
     "npm": "^11.5.2",
     "pdfkit": "^0.17.1",
