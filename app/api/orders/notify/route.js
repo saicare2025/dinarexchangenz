@@ -82,12 +82,15 @@ export async function POST(req) {
       }
     });
 
-    // Internal alert
+    // Internal alert with invoice for company owner
     await mailer.sendMail({
       from,
       to: alertTo,
       subject: `New order #${order.id} from ${fullName}`,
       html: `<p>New order received.</p>` + html,
+      attachments: [
+        { filename: `invoice-${order.id}.pdf`, content: pdf, contentType: "application/pdf" }
+      ],
       replyTo: order.personalInfo.email,
     });
 
