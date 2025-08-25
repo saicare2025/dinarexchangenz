@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap",
     "analyze": "cross-env ANALYZE=true next build",
     "test:email-worker": "node scripts/test-email-worker.js",
     "test:email-worker:simple": "node scripts/test-email-worker-simple.js",
