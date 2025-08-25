@@ -115,16 +115,17 @@ export async function POST(req) {
           if (to && !to.startsWith("+")) {
             if (to.startsWith("0")) to = "+64" + to.slice(1);
           }
-          const appUrl = process.env.APP_URL || "https://www.dinarexchange.co.nz";
-          const loginUrl = `${appUrl}/login?next=${encodeURIComponent(`/dashboard/orders/${sms.order_id}`)}`;
+          const APP = process.env.NEXT_PUBLIC_BASE44_APP_URL || "https://portal.dinarexchange.co.nz";
+          const LOGIN = process.env.NEXT_PUBLIC_BASE44_LOGIN_URL || "https://portal.dinarexchange.co.nz/login";
+          const loginUrl = `${LOGIN}?from_url=${encodeURIComponent(APP + '/')}`;
           const bodyBase = sms.body || (() => {
             switch (sms.event_type) {
-              case "MISSING_ID": return `Action needed: please upload your ID. Login: ${loginUrl}`;
-              case "MISSING_PAYMENT": return `Action needed: upload payment receipt. Login: ${loginUrl}`;
-              case "STATUS_UPDATE": return `Order update for #${sms.order_id}. Login: ${loginUrl}`;
-              case "TRACKING_ADDED": return `Tracking added for order #${sms.order_id}. Login: ${loginUrl}`;
-              case "TRACKING_UPDATED": return `Tracking updated for order #${sms.order_id}. Login: ${loginUrl}`;
-              case "ORDER_COMPLETED": return `Order #${sms.order_id} completed. Login: ${loginUrl}`;
+              case "MISSING_ID": return `Action needed: please login to upload your ID. ${loginUrl}`;
+              case "MISSING_PAYMENT": return `Action needed: please login to upload payment receipt. ${loginUrl}`;
+              case "STATUS_UPDATE": return `Your order was updated. Login: ${loginUrl}`;
+              case "TRACKING_ADDED": return `Tracking added. Login: ${loginUrl}`;
+              case "TRACKING_UPDATED": return `Tracking updated. Login: ${loginUrl}`;
+              case "ORDER_COMPLETED": return `Order completed. Login: ${loginUrl}`;
               default: return `Order update. Login: ${loginUrl}`;
             }
           })();

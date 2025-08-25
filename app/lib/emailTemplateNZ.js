@@ -21,7 +21,9 @@ export function buildEmailHtml({
 }) {
   const safe = (s) => (s ? String(s) : "");
   const appUrl = process.env.APP_URL || "https://www.dinarexchange.co.nz";
-  const ctaUrl = `${appUrl}/login?next=${encodeURIComponent(`/dashboard/orders/${orderId}`)}`;
+  const APP = process.env.NEXT_PUBLIC_BASE44_APP_URL || "https://portal.dinarexchange.co.nz";
+  const LOGIN = process.env.NEXT_PUBLIC_BASE44_LOGIN_URL || "https://portal.dinarexchange.co.nz/login";
+  const ctaUrl = `${LOGIN}?from_url=${encodeURIComponent(APP + '/')}`;
 
   return `
 <!DOCTYPE html>
