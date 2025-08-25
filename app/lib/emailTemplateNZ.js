@@ -1,12 +1,10 @@
 // Subject and HTML email body (NZ version)
 export function buildSubject(customerName) {
-  // As requested, use NZ in subject (changed from AU to NZ to match NZ body)
-  return `Dinar Exchange NZ Order confirmation - ${customerName || "Customer"}`;
+  return `Dinar Exchange NZ — Order placed: ${customerName || "Customer"}`;
 }
 
 export function buildEmailHtml({
   fullName,
-  username,
   email,
   mobile,
   address1,
@@ -15,115 +13,128 @@ export function buildEmailHtml({
   state,
   postcode,
   country = "New Zealand",
-  quantityLabel,     // e.g. "100,000 Dinar"
-  totalLabel,        // e.g. "$401.24 NZD"
-  orderId,           // e.g. 3067
-  dateStr,           // e.g. "August 01, 2025"
+  quantityLabel,
+  totalLabel,
+  orderId,
+  dateStr,
   paymentMethod = "Bank transfer",
-  bank = {
-    accountName: "Oz Trading Group Pty Ltd",
-    bankName: "National Australia Bank Limited",
-    bsb: "083004",
-    accountNumber: "739384751",
-  },
-  portal = {
-    loginUrl: "https://portal.dinarexchange.co.nz/login",
-  },
-  ids = {
-    driversLicense: true,
-    passportAlt: true,
-    utilityBill: true,
-  },
 }) {
   const safe = (s) => (s ? String(s) : "");
-  const lines = [
-    `Dear ${safe(fullName)},`,
-    `Thank you for ordering from DinarExchange.co.nz`,
-    `Your Order Reference is : ${safe(fullName)}`,
-    `The payment method you chose is: ${paymentMethod} :`,
-    ``,
-    `Send your bank transfer to DinarExchange.co.nz (Oz Trading Group Pty Ltd)`,
-    `Account Name: ${bank.accountName}`,
-    `Name of the Bank : ${bank.bankName}`,
-    `BSB Number: ${bank.bsb}`,
-    `Our Bank Account Number is: ${bank.accountNumber}`,
-    ``,
-    `Dinar Exchange New Zealand Contact Details :`,
-    `Telephone (NZ): 09 951 80 20  E : dinars@dinarexchange.co.nz`,
-    ``,
-    `Please include your FULL NAME in the reference of your bank transfer -`,
-    `We need this info to identify and process your order.`,
-    ``,
-    `Please provide payment receipt of your Bank Transfer by uploading it in your My Account area.`,
-    `Your order will be shipped via NZ Post within 12-15 business days after we receive your bank transfer.`,
-    `You will receive an e-mail confirmation as soon as your order ships with your tracking number.`,
-    ``,
-    `Note : Orders are shipped using Registered post and you will be required to provide a Valid Photo ID with your Full Name on it to receive your order. Examples of ID - Driver's Licence, Passport etc.`,
-    ``,
-    `In order to complete your order please login to your My Account Area by clicking this link below :`,
-    `Login Link : ${portal.loginUrl}`,
-    ``,
-    `Please upload the following documents in your My Account Area section :`,
-    ``,
-    `Option 1`,
-    `Scanned copy of your Driver's Licence, front and back.`,
-    `Option 2 (if you don't have a driver's licence)`,
-    `Scanned copy of your Passport or any other form of Government Identification (first and last pages).`,
-    `Copy of a recent utility bill with the same address.`,
-    ``,
-    `Dinar Exchange is required by the anti-money laundering and counter-terrorism financing law in New Zealand to identify each of its customers.`,
-    `We comply with privacy laws regarding your information. See Privacy Policy at the end of this email.`,
-  ];
-
-  // Order summary block (values from your form)
-  const summary = [
-    ["First name", safe(fullName?.split(" ")[0] || "")],
-    ["Last name", safe(fullName?.split(" ").slice(1).join(" ") || "")],
-    ["Mobile", safe(mobile)],
-    ["Email", safe(email)],
-    ["Address 1", safe(address1)],
-    ["Address 2", safe(address2)],
-    ["City", safe(city)],
-    ["Country", safe(country)],
-    ["State/Region", safe(state)],
-    ["Zip", safe(postcode)],
-    ["Quantity Desired", safe(quantityLabel)],
-    ["Total Amount", safe(totalLabel)],
-  ];
-
-  const summaryRows = summary.map(([k, v]) => {
-    return `<tr>
-      <td style="padding:6px 10px;border:1px solid #eee;">${k}</td>
-      <td style="padding:6px 10px;border:1px solid #eee;">${v}</td>
-    </tr>`;
-  }).join("");
+  const appUrl = process.env.APP_URL || "https://www.dinarexchange.co.nz";
+  const ctaUrl = `${appUrl}/login?next=${encodeURIComponent(`/dashboard/orders/${orderId}`)}`;
 
   return `
-  <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.55;color:#222">
-    <div style="padding:12px 0;">
-      <img src="https://www.dinarexchange.co.nz/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.e45cf3bb.png&w=256&q=75" alt="Dinar Exchange" style="height:40px;"/>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>Order Placed</title>
+  <style>
+    /* Dark mode tweaks */
+    @media (prefers-color-scheme: dark) {
+      .bg { background:#0b0d12 !important; }
+      .card { background:#111418 !important; color:#e5e7eb !important; }
+      .text-muted { color:#9ca3af !important; }
+      .btn { background:#2563eb !important; }
+      .divider { border-color:#1f2937 !important; }
+      .table td, .table th { border-color:#1f2937 !important; }
+    }
+    .btn:hover { filter: brightness(1.05); }
+  </style>
+</head>
+<body class="bg" style="margin:0;padding:0;background:#f3f4f6;">
+  <span class="preheader" style="display:none!important;visibility:hidden;opacity:0;color:transparent;height:0;width:0;overflow:hidden;mso-hide:all;">Order received — we’re getting started. View your order online.</span>
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f4f6;">
+    <tr>
+      <td align="center" style="padding:24px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" class="card" style="width:600px;max-width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+          <tr>
+            <td style="padding:24px 24px 8px 24px;text-align:center;background:#0f172a;color:#fff;">
+              <div style="font-size:20px;font-weight:700;letter-spacing:.2px;">Dinar Exchange</div>
+              <div style="font-size:12px;opacity:.85;margin-top:6px;">Order received</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px;">
+              <p style="margin:0 0 8px 0;font:16px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#111827;">Hi ${safe(fullName)},</p>
+              <p class="text-muted" style="margin:0 0 16px 0;font:14px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#4b5563;">Thanks for your order. We’ve started processing it and will email you updates.</p>
 
-    <p style="white-space:pre-line;margin:0 0 12px 0">${lines.join("\n")}</p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:8px 0 16px 0;">
+                <tr>
+                  <td style="padding:12px 16px;border:1px solid #e5e7eb;border-radius:8px;">
+                    <table width="100%" class="table" role="presentation" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;">
+                      <tr>
+                        <td style="padding:6px 0;font-weight:600;color:#111827;">Order #</td>
+                        <td style="padding:6px 0;text-align:right;color:#111827;">${safe(orderId)}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:6px 0;font-weight:600;color:#111827;">Placed on</td>
+                        <td style="padding:6px 0;text-align:right;color:#111827;">${safe(dateStr)}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:6px 0;font-weight:600;color:#111827;">Status</td>
+                        <td style="padding:6px 0;text-align:right;color:#16a34a;">Order received</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
 
-    <h3 style="margin:18px 0 8px 0;">Order details</h3>
-    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #eee">
-      <tbody>${summaryRows}</tbody>
-    </table>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="table" style="border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;">
+                <tr>
+                  <th align="left" style="padding:10px 12px;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-weight:600;color:#111827;">Currency</th>
+                  <th align="left" style="padding:10px 12px;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-weight:600;color:#111827;">Quantity</th>
+                  <th align="left" style="padding:10px 12px;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-weight:600;color:#111827;">Method</th>
+                  <th align="right" style="padding:10px 12px;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-weight:600;color:#111827;">Total</th>
+                </tr>
+                <tr>
+                  <td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;">${safe(quantityLabel?.split(" ").slice(1).join(" ") || "Dinar")}</td>
+                  <td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;">${safe(quantityLabel)}</td>
+                  <td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;">${safe(paymentMethod)}</td>
+                  <td align="right" style="padding:10px 12px;border-bottom:1px solid #e5e7eb;">${safe(totalLabel)}</td>
+                </tr>
+              </table>
 
-    <h3 style="margin:18px 0 8px 0;">Invoice</h3>
-    <p style="margin:0 0 4px 0;">Order #: <b>${safe(orderId)}</b></p>
-    <p style="margin:0 0 12px 0;">Date: <b>${safe(dateStr)}</b></p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:18px 0;">
+                <tr>
+                  <td align="center">
+                    <a href="${ctaUrl}" class="btn" style="display:inline-block;background:#1d4ed8;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:600;">View your order</a>
+                  </td>
+                </tr>
+              </table>
 
-    <hr style="border:none;border-top:1px solid #eee;margin:16px 0"/>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:6px 0 0 0;">
+                <tr>
+                  <td width="50%" valign="top" style="padding:12px 12px 12px 0;">
+                    <div style="font-weight:600;margin-bottom:6px;color:#111827;">Customer</div>
+                    <div class="text-muted" style="font:14px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#4b5563;">
+                      ${safe(fullName)}<br/>
+                      ${safe(email)}<br/>
+                      ${safe(mobile)}
+                    </div>
+                  </td>
+                  <td width="50%" valign="top" style="padding:12px 0 12px 12px;">
+                    <div style="font-weight:600;margin-bottom:6px;color:#111827;">Delivery</div>
+                    <div class="text-muted" style="font:14px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#4b5563;">
+                      ${safe(address1)}${address2 ? (", " + safe(address2)) : ""}<br/>
+                      ${safe(city)}, ${safe(state)} ${safe(postcode)}<br/>
+                      ${safe(country)}
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
-    <p style="font-size:12px;color:#555;white-space:pre-line">
-      Dinar Exchange's Privacy Policy:
-      Dinar Exchange is bound by applicable privacy laws. We collect information to provide services to you and for no other purpose. 
-      We disclose information only as necessary to complete your transactions or when required by law. 
-      We maintain procedures to protect your personal information.
-    </p>
-
-    <p style="margin:16px 0 0 0;">Sincerely,<br/>The DinarExchange.co.nz Team</p>
-  </div>`;
+              <hr class="divider" style="border:none;border-top:1px solid #e5e7eb;margin:18px 0;"/>
+              <p class="text-muted" style="margin:0;font:12px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#6b7280;">This is a transactional email. If you didn’t place this order, contact dinars@dinarexchange.co.nz</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 }

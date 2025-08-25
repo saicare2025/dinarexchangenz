@@ -14,13 +14,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-  const PROVESOURCE_KEY = process.env.NEXT_PUBLIC_PROVESOURCE_KEY;
 
   const isProdDeploy = process.env.VERCEL_ENV === "production";
   const enableAnalytics = Boolean(GA_ID && isProdDeploy);
-  const enableProveSource = Boolean(PROVESOURCE_KEY && isProdDeploy);
-  // TODO: wire to your consent manager if needed:
-  const hasMarketingConsent = true;
+
 
   return (
     <html lang="en">
@@ -60,7 +57,7 @@ export default function RootLayout({ children }) {
         )}
 
         {/* ProveSource (Option B: next/script with lazyOnload) */}
-        {enableProveSource && hasMarketingConsent && (
+        {/* {enableProveSource && hasMarketingConsent && (
           <>
             <Script id="provesrc-init" strategy="lazyOnload">
               {`
@@ -79,7 +76,7 @@ export default function RootLayout({ children }) {
               crossOrigin="anonymous"
             />
           </>
-        )}
+        )} */}
       </body>
     </html>
   );

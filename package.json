@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "analyze": "cross-env ANALYZE=true next build",
     "test:email-worker": "node scripts/test-email-worker.js",
     "test:email-worker:simple": "node scripts/test-email-worker-simple.js",
@@ -16,7 +17,9 @@
     "test-real-order": "node scripts/test-real-order.js",
     "check-orders": "node scripts/check-orders.js",
     "verify-db": "node scripts/verify-database-setup.js",
-    "test-professional-email": "node scripts/test-professional-email.js"
+    "test-professional-email": "node scripts/test-professional-email.js",
+    "test:sms-worker": "node scripts/test-sms-worker.js",
+    "test:sms-12630320": "node scripts/test-sms-worker.js \"#12630320\" \"+61417460236\""
   },
   "browserslist": {
     "production": [
@@ -57,7 +60,8 @@
     "react-dom": "19.1.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "twilio": "^4.23.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

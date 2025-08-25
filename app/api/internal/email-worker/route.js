@@ -2,12 +2,13 @@ export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { sendEmail } from "@/lib/email/transporter";
+import { sendEmail, sendSms } from "@/lib/email/transporter";
 import { tplMissing, tplStatusUpdate, tplTracking, tplCompleted } from "@/lib/email/templates";
 
 const ORDER_TABLE = process.env.ORDER_TABLE_NAME || "order"; // set to "Order" if you didn't create a lowercase view
 const MAX_ATTEMPTS = 3;
 const BATCH_SIZE = 20;
+const SMS_BATCH_SIZE = 50;
 
 async function getOrder(orderId) {
   const { data, error } = await supabaseAdmin
@@ -77,9 +78,6 @@ export async function POST(req) {
 
   try {
     const jobs = await claimJobs();
-    if (!jobs.length) {
-      return NextResponse.json({ picked: 0, sent: 0, failed: 0 });
-    }
 
     let sent = 0, failed = 0;
 
@@ -98,7 +96,50 @@ export async function POST(req) {
       }
     }
 
-    return NextResponse.json({ picked: jobs.length, sent, failed });
+    // --- SMS phase ---
+    // Try to claim and send pending SMS notifications
+    const { data: smsJobs, error: smsClaimErr } = await supabaseAdmin
+      .from("notification_sms")
+      .update({ status: "sending", locked_at: new Date().toISOString() })
+      .eq("status", "pending")
+      .order("created_at", { ascending: true })
+      .limit(SMS_BATCH_SIZE)
+      .select("*");
+
+    let smsSent = 0, smsFailed = 0;
+    if (!smsClaimErr && Array.isArray(smsJobs) && smsJobs.length) {
+      for (const sms of smsJobs) {
+        try {
+          // Minimal E.164 normalizer: if starts with 0 and NZ, convert to +64
+          let to = String(sms.to_number || "").trim();
+          if (to && !to.startsWith("+")) {
+            if (to.startsWith("0")) to = "+64" + to.slice(1);
+          }
+          const appUrl = process.env.APP_URL || "https://www.dinarexchange.co.nz";
+          const loginUrl = `${appUrl}/login?next=${encodeURIComponent(`/dashboard/orders/${sms.order_id}`)}`;
+          const bodyBase = sms.body || (() => {
+            switch (sms.event_type) {
+              case "MISSING_ID": return `Action needed: please upload your ID. Login: ${loginUrl}`;
+              case "MISSING_PAYMENT": return `Action needed: upload payment receipt. Login: ${loginUrl}`;
+              case "STATUS_UPDATE": return `Order update for #${sms.order_id}. Login: ${loginUrl}`;
+              case "TRACKING_ADDED": return `Tracking added for order #${sms.order_id}. Login: ${loginUrl}`;
+              case "TRACKING_UPDATED": return `Tracking updated for order #${sms.order_id}. Login: ${loginUrl}`;
+              case "ORDER_COMPLETED": return `Order #${sms.order_id} completed. Login: ${loginUrl}`;
+              default: return `Order update. Login: ${loginUrl}`;
+            }
+          })();
+          await sendSms({ to, body: bodyBase });
+          await supabaseAdmin.from("notification_sms").update({ status: "sent", attempts: (sms.attempts || 0) + 1, error: null, locked_at: null }).eq("id", sms.id);
+          smsSent++;
+        } catch (err) {
+          const nextStatus = (sms.attempts + 1) >= MAX_ATTEMPTS ? "failed" : "pending";
+          await supabaseAdmin.from("notification_sms").update({ status: nextStatus, attempts: (sms.attempts || 0) + 1, error: String(err), locked_at: null }).eq("id", sms.id);
+          smsFailed++;
+        }
+      }
+    }
+
+    return NextResponse.json({ picked: jobs.length, sent, failed, sms_picked: (smsJobs?.length || 0), sms_sent: smsSent, sms_failed: smsFailed });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }

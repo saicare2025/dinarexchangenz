@@ -1,4 +1,4 @@
-# Dinar Exchange NZ — SMTP Email Worker System
+# Dinar Exchange NZ — SMTP Email/SMS Worker System
 
 A robust email notification system that processes pending emails from a Supabase outbox table using a Node.js worker.
 
@@ -7,6 +7,7 @@ A robust email notification system that processes pending emails from a Supabase
 - **Reliable Email Processing**: Processes emails in batches with retry logic
 - **Multiple Event Types**: Supports various order-related email notifications
 - **SMTP Integration**: Uses Gmail SMTP with proper authentication
+- **SMS Integration**: Optional Twilio SMS notifications via outbox fan-out
 - **Error Handling**: Comprehensive error handling with retry mechanisms
 - **Status Tracking**: Tracks email status (pending, sending, sent, failed)
 - **Cron Compatible**: Easy integration with Vercel Cron or other schedulers
@@ -40,7 +41,7 @@ ORDER_TABLE_NAME=Order
 
 ## Database Schema
 
-The system expects a `notification_email` table in your Supabase database:
+The system expects a `notification_email` table and a `notification_sms` table in your Supabase database, plus a fan-out trigger from email → sms:
 
 ```sql
 CREATE TABLE public.notification_email (
@@ -62,6 +63,37 @@ CREATE TABLE public.notification_email (
 -- Index for performance
 CREATE INDEX idx_notification_email_status ON public.notification_email(status, created_at);
 CREATE INDEX idx_notification_email_order ON public.notification_email(order_id);
+
+-- SMS outbox
+CREATE TABLE public.notification_sms (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  order_id UUID NOT NULL REFERENCES public."Order"(id),
+  event_type TEXT NOT NULL,
+  to_number TEXT NOT NULL,
+  body TEXT,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'sending', 'sent', 'failed')),
+  attempts INTEGER DEFAULT 0,
+  error TEXT,
+  locked_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_notification_sms_status ON public.notification_sms(status, created_at);
+CREATE INDEX idx_notification_sms_order ON public.notification_sms(order_id);
+
+-- Fan-out trigger
+CREATE OR REPLACE FUNCTION public.fanout_notification_sms() RETURNS TRIGGER AS $$
+DECLARE mobile TEXT; BEGIN
+  IF NEW.event_type IN ('MISSING_ID','MISSING_PAYMENT','STATUS_UPDATE','TRACKING_ADDED','TRACKING_UPDATED','ORDER_COMPLETED') THEN
+    SELECT o."mobile" INTO mobile FROM public."Order" o WHERE o.id = NEW.order_id;
+    IF mobile IS NOT NULL AND length(trim(mobile)) > 0 THEN
+      INSERT INTO public.notification_sms(order_id, event_type, to_number, status)
+      VALUES (NEW.order_id, NEW.event_type, mobile, 'pending');
+    END IF;
+  END IF;
+  RETURN NEW; END; $$ LANGUAGE plpgsql SECURITY DEFINER;
+DROP TRIGGER IF EXISTS trg_fanout_notification_sms ON public.notification_email;
+CREATE TRIGGER trg_fanout_notification_sms AFTER INSERT ON public.notification_email FOR EACH ROW EXECUTE FUNCTION public.fanout_notification_sms();
 ```
 
 ## Implementation Files
