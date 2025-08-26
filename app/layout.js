@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 import GAListener from "./ga-listener";
 import { Suspense } from "react";
+import GlobalElevenLabsWidget from "../components/GlobalElevenLabsWidget";
+import { ElevenLabsProvider } from "../components/ElevenLabsContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,8 +33,9 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://cdn.provesrc.com" />
       </head>
       <body className={inter.className}>
-        {children}
-        <Toaster position="top-right" />
+        <ElevenLabsProvider>
+          {children}
+          <Toaster position="top-right" />
 
         {/* Google Analytics (lazy, non-blocking) */}
         {enableAnalytics && (
@@ -56,6 +59,16 @@ export default function RootLayout({ children }) {
           </>
         )}
 
+        {/* ElevenLabs ConvAI Widget */}
+        <Script
+          src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+        />
+
+        {/* Global ElevenLabs ConvAI Widget */}
+        <GlobalElevenLabsWidget />
+
         {/* ProveSource (Option B: next/script with lazyOnload) */}
         {/* {enableProveSource && hasMarketingConsent && (
           <>
@@ -77,6 +90,7 @@ export default function RootLayout({ children }) {
             />
           </>
         )} */}
+        </ElevenLabsProvider>
       </body>
     </html>
   );
