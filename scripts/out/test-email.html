@@ -1,20 +1,4 @@
-// Subject and HTML email body (NZ version - updated template)
-export function buildSubject(customerName) {
-  return `Dinar Exchange NZ — Order placed: ${customerName || "Customer"}`;
-}
 
-export function buildEmailHtml({ fullName, orderId }) {
-  const safe = (s) => (s ? String(s) : "");
-
-  const APP =
-    process.env.NEXT_PUBLIC_BASE44_APP_URL ||
-    "https://portal.dinarexchange.co.nz";
-  const LOGIN =
-    process.env.NEXT_PUBLIC_BASE44_LOGIN_URL ||
-    "https://portal.dinarexchange.co.nz/login";
-  const ctaUrl = `${LOGIN}?from_url=${encodeURIComponent(APP + "/")}`;
-
-  return `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -279,11 +263,11 @@ export function buildEmailHtml({ fullName, orderId }) {
       </div>
 
       <div class="content">
-        <div class="greeting">Hello ${safe(fullName)},</div>
+        <div class="greeting">Hello Test User,</div>
 
         <div class="message">
           Thank you for your order with Dinar Exchange! Your order
-          <strong>#${safe(orderId)}</strong> has been received and is pending
+          <strong>##TEST-20250826083254</strong> has been received and is pending
           payment. We're excited to help you with your currency exchange needs.
         </div>
 
@@ -367,7 +351,7 @@ export function buildEmailHtml({ fullName, orderId }) {
           </div>
 
           <div class="cta-container">
-            <a href="${ctaUrl}" class="cta-button">Login to My Account</a>
+            <a href="https://portal.dinarexchange.co.nz/login?from_url=https%3A%2F%2Fportal.dinarexchange.co.nz%2F" class="cta-button">Login to My Account</a>
           </div>
         </div>
 
@@ -450,5 +434,4 @@ export function buildEmailHtml({ fullName, orderId }) {
       </div>
     </div>
   </body>
-</html>`;
-}
+</html>

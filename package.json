@@ -11,6 +11,7 @@
     "test:email-worker": "node scripts/test-email-worker.js",
     "test:email-worker:simple": "node scripts/test-email-worker-simple.js",
     "test:email-direct": "node scripts/test-email-direct.js",
+    "test:notifications-all": "node scripts/test-notifications-all.js",
     "create-test-order": "node scripts/create-test-order.js",
     "test-complete-workflow": "node scripts/test-complete-workflow.js",
     "test-real-order": "node scripts/test-real-order.js",
