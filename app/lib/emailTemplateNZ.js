@@ -5,9 +5,14 @@ export function buildSubject(customerName) {
 
 export function buildEmailHtml({ fullName, orderId }) {
   const safe = (s) => (s ? String(s) : "");
+
+  const APP =
+    process.env.NEXT_PUBLIC_BASE44_APP_URL ||
+    "https://portal.dinarexchange.co.nz";
   const LOGIN =
     process.env.NEXT_PUBLIC_BASE44_LOGIN_URL ||
     "https://portal.dinarexchange.co.nz/login";
+  const ctaUrl = `${LOGIN}?from_url=${encodeURIComponent(APP + "/")}`;
 
   return `
 <!DOCTYPE html>
@@ -362,7 +367,7 @@ export function buildEmailHtml({ fullName, orderId }) {
           </div>
 
           <div class="cta-container">
-            <a href="${LOGIN}" class="cta-button">Login to My Account</a>
+            <a href="${ctaUrl}" class="cta-button">Login to My Account</a>
           </div>
         </div>
 
