@@ -312,6 +312,16 @@ export function buildEmailHtml({ fullName, orderId }) {
               <div class="bank-detail-label">Account Number:</div>
               <div class="bank-detail-value">739384751</div>
             </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">SWIFT Code:</div>
+              <div class="bank-detail-value">NATAAU3303M</div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">Bank Address:</div>
+              <div class="bank-detail-value">
+                Ground Level 330 Collins St, Melbourne, VIC 3000
+              </div>
+            </div>
           </div>
 
           <div class="highlight">
