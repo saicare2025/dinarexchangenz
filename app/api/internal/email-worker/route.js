@@ -97,21 +97,21 @@ async function claimSmsJobs() {
 function formatSmsMessage(sms, order) {
   switch (sms.event_type) {
     case "ORDER_RECEIVED":
-      return `[Dinar Exchange NZ] We’ve received order #${order.id}. Please complete payment within 24 hours to secure today’s rate. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] We’ve received order #${order.id}. Please complete payment within 24 hours to secure today’s rate. More: https://www.dinarexchange.co.nz/`;
     case "MISSING_ID":
-      return `[Dinar Exchange NZ] Action required: please upload your ID for order #${order.id}. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Action required: please upload your ID for order #${order.id}. More: https://www.dinarexchange.co.nz/`;
     case "MISSING_PAYMENT":
-      return `[Dinar Exchange NZ] Payment receipt required for order #${order.id}. Please upload your bank transfer receipt. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Payment receipt required for order #${order.id}. Please upload your bank transfer receipt. More: https://www.dinarexchange.co.nz/`;
     case "STATUS_UPDATE":
-      return `[Dinar Exchange NZ] Your order #${order.id} status has been updated. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Your order #${order.id} status has been updated. More: https://www.dinarexchange.co.nz/`;
     case "TRACKING_ADDED":
-      return `[Dinar Exchange NZ] Order #${order.id} has shipped. Tracking available in your account. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Order #${order.id} has shipped. Tracking available in your account. More: https://www.dinarexchange.co.nz/`;
     case "TRACKING_UPDATED":
-      return `[Dinar Exchange NZ] Tracking updated for order #${order.id}. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Tracking updated for order #${order.id}. More: https://www.dinarexchange.co.nz/`;
     case "ORDER_COMPLETED":
-      return `[Dinar Exchange NZ] Order #${order.id} has been delivered. Thank you for your business. Support: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Order #${order.id} has been delivered. Thank you for your business. More: https://www.dinarexchange.co.nz/`;
     default:
-      return `[Dinar Exchange NZ] Order #${order.id} update available. Help: 64 9 872 4693`;
+      return `[Dinar Exchange NZ] Order #${order.id} update available. More: https://www.dinarexchange.co.nz/`;
   }
 }
 
