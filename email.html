@@ -1,15 +1,3 @@
-// Subject and HTML email body (NZ version - updated template)
-export function buildSubject(customerName) {
-  return `Dinar Exchange NZ — Order placed: ${customerName || "Customer"}`;
-}
-
-export function buildEmailHtml({ fullName, orderId }) {
-  const safe = (s) => (s ? String(s) : "");
-  const LOGIN =
-    process.env.NEXT_PUBLIC_BASE44_LOGIN_URL ||
-    "https://portal.dinarexchange.co.nz/login";
-
-  return `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +5,8 @@ export function buildEmailHtml({ fullName, orderId }) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order Confirmation - Dinar Exchange</title>
     <style>
-        body {
+      /* Base styles */
+      body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         color: #2c3e50;
@@ -146,8 +135,8 @@ export function buildEmailHtml({ fullName, orderId }) {
         height: 32px;
         border-radius: 50%;
         display: flex;
-        align-items: center !important;
-        justify-content: center !important;
+        align-items: center;
+        justify-content: center;
         margin-right: 18px;
         flex-shrink: 0;
         font-weight: bold;
@@ -271,14 +260,15 @@ export function buildEmailHtml({ fullName, orderId }) {
       <div class="header">
         <div class="logo">Dinar Exchange</div>
         <div class="tagline">Your Trusted Currency Exchange Partner</div>
+        <div class="header-icon">$</div>
       </div>
 
       <div class="content">
-        <div class="greeting">Hello ${safe(fullName)},</div>
+        <div class="greeting">Hello [Customer Name],</div>
 
         <div class="message">
           Thank you for your order with Dinar Exchange! Your order
-          <strong>#${safe(orderId)}</strong> has been received and is pending
+          <strong>#[Order Number]</strong> has been received and is pending
           payment. We're excited to help you with your currency exchange needs.
         </div>
 
@@ -329,21 +319,21 @@ export function buildEmailHtml({ fullName, orderId }) {
 
           <div class="steps">
             <div class="step">
-              <div class="step-number"></div>
+              <div class="step-number">1</div>
               <div class="step-content">
                 <strong>Make your bank transfer</strong> using the details
                 provided above
               </div>
             </div>
             <div class="step">
-              <div class="step-number"></div>
+              <div class="step-number">2</div>
               <div class="step-content">
                 <strong>Upload your payment receipt</strong> in your My Account
                 area
               </div>
             </div>
             <div class="step">
-              <div class="step-number"></div>
+              <div class="step-number">3</div>
               <div class="step-content">
                 <strong>Upload required identification documents</strong> (see
                 details below)
@@ -352,7 +342,12 @@ export function buildEmailHtml({ fullName, orderId }) {
           </div>
 
           <div class="cta-container">
-            <a href="${LOGIN}" class="cta-button">Login to My Account</a>
+            <a
+              href="https://portal.dinarexchange.co.nz/login"
+              class="cta-button"
+            >
+              Login to My Account
+            </a>
           </div>
         </div>
 
@@ -365,7 +360,7 @@ export function buildEmailHtml({ fullName, orderId }) {
 
           <div class="message">
             Your order will be shipped via NZ Post within
-            <strong>3-5 business days</strong> after we receive your bank
+            <strong>12-15 business days</strong> after we receive your bank
             transfer. You will receive an email confirmation as soon as your
             order ships with your tracking number.
           </div>
@@ -415,7 +410,7 @@ export function buildEmailHtml({ fullName, orderId }) {
 
           <div class="message">
             If you have any questions or need assistance, please contact us:<br />
-            <strong>Telephone (NZ):</strong> +64 9 872 4693<br />
+            <strong>Telephone (NZ):</strong> +61 417 460 236<br />
             <strong>Email:</strong> dinars@dinarexchange.co.nz
           </div>
         </div>
@@ -423,6 +418,12 @@ export function buildEmailHtml({ fullName, orderId }) {
 
       <div class="footer">
         <div class="footer-text">Thank you for choosing Dinar Exchange</div>
+
+        <div class="contact-info">
+          <strong>Dinar Exchange New Zealand Contact Details:</strong><br />
+          Telephone (NZ): +61 417 460 236<br />
+          Email: dinars@dinarexchange.co.nz
+        </div>
 
         <div class="privacy-policy">
           <strong>Dinar Exchange's Privacy Policy:</strong><br />
@@ -435,5 +436,4 @@ export function buildEmailHtml({ fullName, orderId }) {
       </div>
     </div>
   </body>
-</html>`;
-}
+</html>

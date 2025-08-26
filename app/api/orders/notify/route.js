@@ -1,5 +1,5 @@
 import { getMailer } from "@/app/lib/mailer";
-import { buildSubject, buildEmailHtml } from "@/app/lib/emailTemplateNZ";
+import { buildEmailHtml, buildSubject } from "@/app/lib/emailTemplateNZ";
 import { buildInvoicePdfBuffer } from "@/app/lib/invoiceNZ";
 
 export async function POST(req) {
@@ -26,7 +26,7 @@ export async function POST(req) {
       postcode: order.personalInfo.postcode,
       country: order.personalInfo.country || "New Zealand",
       quantityLabel: `${order.orderDetails?.quantity || 1} ${order.orderDetails?.currency || ""}`.trim(),
-      totalLabel: `${order.totalAmount} NZD`,
+      totalLabel: `${order.totalAmount} AUD`,
       orderId: order.id,
       dateStr: order.createdAt ? new Date(order.createdAt).toLocaleDateString() : new Date().toLocaleDateString(),
       paymentMethod: order.payment?.method || "Bank transfer",
@@ -54,12 +54,17 @@ export async function POST(req) {
       subTotal: order.totalAmount,
       shipping: order.shippingCost || 0,
       grandTotal: order.totalAmount + (order.shippingCost || 0),
-      currency: "NZD",
+      currency: "AUD",
       paymentMethod: order.payment?.method || "Bank transfer",
-      bank: {
-        name: "Borelle",
-        accountNumber: "123-456-7890",
+      bank: { 
+        accountName: "Oz Trading Group Pty Ltd", 
+        bankName: "National Australia Bank Limited", 
+        bsb: "083004", 
+        accountNumber: "739384751", 
+        swiftCode: "NATAAU3303M", 
+        bankAddress: "Ground Level 330 Collins St, Melbourne, VIC 3000" 
       },
+      
     });
 
     const mailer = getMailer();
