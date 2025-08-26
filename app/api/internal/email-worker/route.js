@@ -96,20 +96,22 @@ async function claimSmsJobs() {
 
 function formatSmsMessage(sms, order) {
   switch (sms.event_type) {
+    case "ORDER_RECEIVED":
+      return `[Dinar Exchange NZ] We’ve received order #${order.id}. Please complete payment within 24 hours to secure today’s rate. Help: 64 9 872 4693`;
     case "MISSING_ID":
-      return `Order #${order.id} requires ID verification. Please provide valid ID. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Action required: please upload your ID for order #${order.id}. Help: 64 9 872 4693`;
     case "MISSING_PAYMENT":
-      return `Order #${order.id} is awaiting your payment receipt. Please submit promptly. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Payment receipt required for order #${order.id}. Please upload your bank transfer receipt. Help: 64 9 872 4693`;
     case "STATUS_UPDATE":
-      return `Order #${order.id} status has been updated. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Your order #${order.id} status has been updated. Help: 64 9 872 4693`;
     case "TRACKING_ADDED":
-      return `Order #${order.id} now has tracking number ${order.trackingNumber}. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Order #${order.id} has shipped. Tracking available in your account. Help: 64 9 872 4693`;
     case "TRACKING_UPDATED":
-      return `Order #${order.id} tracking details were updated. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Tracking updated for order #${order.id}. Help: 64 9 872 4693`;
     case "ORDER_COMPLETED":
-      return `Order #${order.id} has been completed successfully. Thank you. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Order #${order.id} has been delivered. Thank you for your business. Support: 64 9 872 4693`;
     default:
-      return `Order #${order.id} update available. —Dinar Exchange NZ`;
+      return `[Dinar Exchange NZ] Order #${order.id} update available. Help: 64 9 872 4693`;
   }
 }
 

@@ -1,6 +1,7 @@
 import { getMailer } from "@/app/lib/mailer";
 import { buildEmailHtml, buildSubject } from "@/app/lib/emailTemplateNZ";
 import { buildInvoicePdfBuffer } from "@/app/lib/invoiceNZ";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function POST(req) {
   try {
@@ -98,6 +99,16 @@ export async function POST(req) {
       ],
       replyTo: order.personalInfo.email,
     });
+
+    // Enqueue ORDER_RECEIVED SMS if mobile present
+    if (order?.personalInfo?.mobile) {
+      await supabaseAdmin.from("notification_sms").insert({
+        order_id: order.id,
+        event_type: "ORDER_RECEIVED",
+        to_number: order.personalInfo.mobile,
+        status: "pending",
+      });
+    }
 
     return Response.json({ ok: true });
   } catch (e) {

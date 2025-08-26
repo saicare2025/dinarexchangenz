@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation - Dinar Exchange</title>
+    <style>
+        body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #2c3e50;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+      }
+      .email-container {
+        max-width: 650px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border-radius: 10px;
+      }
+
+      /* Header styles */
+      .header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 35px 40px;
+        text-align: center;
+        position: relative;
+      }
+      .logo {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+      }
+      .tagline {
+        font-size: 16px;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+      .header-icon {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        opacity: 0.2;
+        font-size: 60px;
+      }
+
+      /* Content styles */
+      .content {
+        padding: 40px;
+      }
+      .greeting {
+        font-size: 20px;
+        color: #2a5298;
+        margin-bottom: 25px;
+        font-weight: 600;
+      }
+      .message {
+        font-size: 16px;
+        margin-bottom: 25px;
+        color: #4a5568;
+      }
+      .section {
+        margin-bottom: 35px;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2a5298;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+        display: flex;
+        align-items: center;
+      }
+      .section-title-icon {
+        margin-right: 10px;
+        font-size: 22px;
+        color: #3498db;
+      }
+      .info-box {
+        background-color: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 22px;
+        margin: 22px 0;
+        border-radius: 6px;
+      }
+      .bank-details {
+        background: linear-gradient(to right, #e8f4fd, #e3f2fd);
+        padding: 25px;
+        border-radius: 10px;
+        margin: 25px 0;
+        border: 1px solid #bbdefb;
+      }
+      .bank-detail-row {
+        display: flex;
+        margin-bottom: 12px;
+        align-items: flex-start;
+      }
+      .bank-detail-label {
+        font-weight: 600;
+        width: 180px;
+        color: #1e3c72;
+        flex-shrink: 0;
+      }
+      .bank-detail-value {
+        flex: 1;
+        color: #2c3e50;
+      }
+      .highlight {
+        background-color: #e3f2fd;
+        padding: 18px;
+        border-radius: 8px;
+        border-left: 4px solid #2196f3;
+        margin: 22px 0;
+        color: #0d47a1;
+      }
+      .steps {
+        margin: 25px 0;
+      }
+      .step {
+        display: flex;
+        margin-bottom: 20px;
+        align-items: flex-start;
+      }
+      .step-number {
+        background: linear-gradient(135deg, #2196f3 0%, #1e88e5 100%);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-right: 18px;
+        flex-shrink: 0;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(33, 150, 243, 0.3);
+      }
+      .step-content {
+        flex: 1;
+        color: #4a5568;
+      }
+
+      /* Button styles - Updated to blue */
+      .cta-container {
+        text-align: center;
+        margin: 30px 0;
+      }
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        color: #ffffff !important;
+        padding: 16px 35px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 17px;
+        box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+        transition: all 0.3s ease;
+      }
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(33, 150, 243, 0.4);
+      }
+
+      /* Footer styles */
+      .footer {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        padding: 40px;
+        text-align: center;
+        color: white;
+      }
+      .footer-text {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 15px;
+        margin-bottom: 18px;
+      }
+      .contact-info {
+        margin: 25px 0;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+      }
+      .privacy-policy {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 25px;
+        margin-top: 25px;
+        border-radius: 8px;
+        text-align: left;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .social-links {
+        margin-top: 25px;
+      }
+      .social-link {
+        display: inline-block;
+        margin: 0 12px;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      /* Decorative elements */
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          #3498db,
+          transparent
+        );
+        margin: 30px 0;
+      }
+      .icon {
+        color: #2196f3;
+        margin-right: 8px;
+      }
+
+      /* Responsive styles */
+      @media only screen and (max-width: 600px) {
+        .email-container {
+          margin: 0;
+          box-shadow: none;
+          border-radius: 0;
+        }
+        .header,
+        .content,
+        .footer {
+          padding: 25px;
+        }
+        .logo {
+          font-size: 26px;
+        }
+        .bank-detail-row {
+          flex-direction: column;
+          margin-bottom: 15px;
+        }
+        .bank-detail-label {
+          width: 100%;
+          margin-bottom: 5px;
+        }
+        .header-icon {
+          display: none;
+        }
+        .section-title {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <div class="logo">Dinar Exchange</div>
+        <div class="tagline">Your Trusted Currency Exchange Partner</div>
+      </div>
+
+      <div class="content">
+        <div class="greeting">Hello Test User,</div>
+
+        <div class="message">
+          Thank you for your order with Dinar Exchange! Your order
+          <strong>##TEST-20250826083254</strong> has been received and is pending
+          payment. We're excited to help you with your currency exchange needs.
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span class="section-title-icon">→</span> Bank Transfer Instructions
+          </div>
+
+          <div class="bank-details">
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">Send Payment To:</div>
+              <div class="bank-detail-value">
+                DinarExchange.co.nz (Oz Trading Group Pty Ltd)
+              </div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">Account Name:</div>
+              <div class="bank-detail-value">Oz Trading Group Pty Ltd</div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">Bank Name:</div>
+              <div class="bank-detail-value">
+                National Australia Bank Limited
+              </div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">BSB Number:</div>
+              <div class="bank-detail-value">083004</div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">Account Number:</div>
+              <div class="bank-detail-value">739384751</div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">SWIFT Code:</div>
+              <div class="bank-detail-value">NATAAU3303M</div>
+            </div>
+            <div class="bank-detail-row">
+              <div class="bank-detail-label">Bank Address:</div>
+              <div class="bank-detail-value">
+                Ground Level 330 Collins St, Melbourne, VIC 3000
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight">
+            <strong>Important:</strong> Please include your
+            <strong>FULL NAME</strong> in the reference field of your bank
+            transfer. We need this information to identify and process your
+            order.
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span class="section-title-icon">→</span> Next Steps
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <strong>Make your bank transfer</strong> using the details
+                provided above
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <strong>Upload your payment receipt</strong> in your My Account
+                area
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <strong>Upload required identification documents</strong> (see
+                details below)
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-container">
+            <a href="https://portal.dinarexchange.co.nz/login?from_url=https%3A%2F%2Fportal.dinarexchange.co.nz%2F" class="cta-button">Login to My Account</a>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="section-title">
+            <span class="section-title-icon">→</span> Shipping Information
+          </div>
+
+          <div class="message">
+            Your order will be shipped via NZ Post within
+            <strong>3-5 business days</strong> after we receive your bank
+            transfer. You will receive an email confirmation as soon as your
+            order ships with your tracking number.
+          </div>
+
+          <div class="info-box">
+            <strong>Note:</strong> Orders are shipped using Registered post and
+            you will be required to provide a Valid Photo ID with your Full Name
+            on it to receive your order. Examples of ID - Driver's Licence,
+            Passport etc.
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span class="section-title-icon">→</span> ID Verification Required
+          </div>
+
+          <div class="message">
+            Dinar Exchange is required by the anti-money laundering and
+            counter-terrorism financing law in New Zealand to identify each of
+            its customers.
+          </div>
+
+          <div class="info-box">
+            <strong
+              >Please upload the following documents in your My Account
+              Area:</strong
+            ><br /><br />
+
+            <strong>Option 1</strong><br />
+            <span class="icon">•</span> Scanned copy of your Driver's Licence,
+            front and back.<br /><br />
+
+            <strong>Option 2 (if you don't have a driver's licence)</strong
+            ><br />
+            <span class="icon">•</span> Scanned copy of your Passport or any
+            other form of Government Identification (first and last pages).<br />
+            <span class="icon">•</span> Copy of a recent utility bill with the
+            same address.
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span class="section-title-icon">→</span> Contact Information
+          </div>
+
+          <div class="message">
+            If you have any questions or need assistance, please contact us:<br />
+            <strong>Telephone (NZ):</strong> +64 9 872 4693<br />
+            <strong>Email:</strong> dinars@dinarexchange.co.nz
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-text">Thank you for choosing Dinar Exchange</div>
+
+        <div class="privacy-policy">
+          <strong>Dinar Exchange's Privacy Policy:</strong><br />
+          Dinar Exchange is bound by applicable privacy laws. We collect
+          information to provide services to you and for no other purpose. We
+          disclose information only as necessary to complete your transactions
+          or when required by law. We maintain procedures to protect your
+          personal information.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
