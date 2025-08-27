@@ -4,8 +4,8 @@ import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 import GAListener from "./ga-listener";
 import { Suspense } from "react";
-import GlobalElevenLabsWidget from "../components/GlobalElevenLabsWidget";
 import { ElevenLabsProvider } from "../components/ElevenLabsContext";
+import ElevenLabsInlineWidget from "../components/ElevenLabsInlineWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,6 @@ export default function RootLayout({ children }) {
   const isProdDeploy = process.env.VERCEL_ENV === "production";
   const enableAnalytics = Boolean(GA_ID && isProdDeploy);
 
-
   return (
     <html lang="en">
       <head>
@@ -31,6 +30,10 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://static.vecteezy.com" />
         <link rel="preconnect" href="https://cdn.provesrc.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://cdn.provesrc.com" />
+        
+        {/* ElevenLabs preconnect for better performance */}
+        <link rel="preconnect" href="https://api.elevenlabs.io" crossOrigin="" />
+        <link rel="preconnect" href="https://unpkg.com" crossOrigin="" />
       </head>
       <body className={inter.className}>
         <ElevenLabsProvider>
@@ -59,15 +62,15 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* ElevenLabs ConvAI Widget */}
+        {/* ElevenLabs ConvAI Widget - Direct Implementation */}
         <Script
           src="https://unpkg.com/@elevenlabs/convai-widget-embed"
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
-
-        {/* Global ElevenLabs ConvAI Widget */}
-        <GlobalElevenLabsWidget />
+        
+        {/* ElevenLabs Widget Component */}
+        <ElevenLabsInlineWidget />
 
         {/* ProveSource (Option B: next/script with lazyOnload) */}
         {/* {enableProveSource && hasMarketingConsent && (

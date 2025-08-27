@@ -11,7 +11,12 @@ export function ElevenLabsProvider({ children }) {
   });
 
   const updateWidgetVariables = useCallback((newVariables) => {
-    setWidgetVariables(prev => ({ ...prev, ...newVariables }));
+    setWidgetVariables(prev => {
+      // Only update if there are actual changes
+      const hasChanges = Object.keys(newVariables).some(key => prev[key] !== newVariables[key]);
+      if (!hasChanges) return prev;
+      return { ...prev, ...newVariables };
+    });
   }, []);
 
   const setUserContext = useCallback((userEmail, orderId) => {
@@ -28,15 +33,17 @@ export function ElevenLabsProvider({ children }) {
     });
   }, []);
 
-  // Update current page when route changes
+  // Update current page when route changes - only if it actually changed
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const currentPath = window.location.pathname;
       updateWidgetVariables({
-        current_page: window.location.pathname
+        current_page: currentPath
       });
     }
   }, [updateWidgetVariables]);
 
+  // Memoize the context value to prevent unnecessary re-renders
   const value = useMemo(() => ({
     widgetVariables,
     updateWidgetVariables,
