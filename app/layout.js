@@ -2,10 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
-import GAListener from "./ga-listener";
 import { Suspense } from "react";
-import { ElevenLabsProvider } from "../components/ElevenLabsContext";
-import ElevenLabsInlineWidget from "../components/ElevenLabsInlineWidget";
+import GAListener from "./ga-listener";
+import ReviewsWidget from "../components/ReviewsWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +15,6 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-
   const isProdDeploy = process.env.VERCEL_ENV === "production";
   const enableAnalytics = Boolean(GA_ID && isProdDeploy);
 
@@ -30,17 +28,13 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://static.vecteezy.com" />
         <link rel="preconnect" href="https://cdn.provesrc.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://cdn.provesrc.com" />
-        
-        {/* ElevenLabs preconnect for better performance */}
-        <link rel="preconnect" href="https://api.elevenlabs.io" crossOrigin="" />
-        <link rel="preconnect" href="https://unpkg.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://reviewsonmywebsite.com" />
       </head>
       <body className={inter.className}>
-        <ElevenLabsProvider>
-          {children}
-          <Toaster position="top-right" />
+        {children}
 
-        {/* Google Analytics (lazy, non-blocking) */}
+        <Toaster position="top-right" />
+
         {enableAnalytics && (
           <>
             <Script
@@ -62,38 +56,9 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* ElevenLabs ConvAI Widget - Direct Implementation */}
-        <Script
-          src="https://unpkg.com/@elevenlabs/convai-widget-embed"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
-        
-        {/* ElevenLabs Widget Component */}
-        <ElevenLabsInlineWidget />
-
-        {/* ProveSource (Option B: next/script with lazyOnload) */}
-        {/* {enableProveSource && hasMarketingConsent && (
-          <>
-            <Script id="provesrc-init" strategy="lazyOnload">
-              {`
-                if (!window.provesrc) {
-                  window.provesrc = { dq: [], display: function(){ this.dq.push(arguments); } };
-                }
-                window._provesrcAsyncInit = function () {
-                  window.provesrc.init({ apiKey: "${PROVESOURCE_KEY}", v: "0.0.4" });
-                };
-              `}
-            </Script>
-            <Script
-              id="provesrc-script"
-              src="https://cdn.provesrc.com/provesrc.js"
-              strategy="lazyOnload"
-              crossOrigin="anonymous"
-            />
-          </>
-        )} */}
-        </ElevenLabsProvider>
+        {/* <footer>
+          <ReviewsWidget />
+        </footer> */}
       </body>
     </html>
   );

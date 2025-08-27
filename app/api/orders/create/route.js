@@ -20,7 +20,11 @@ export async function POST(req) {
 
     // Minimal validation (Base44 used to enforce this; keep it client-side now)
     const needsReceipt = !orderDataWithId?.payment?.skipReceipt;
-    if (!orderDataWithId?.verification?.id_document_url) {
+    const skipIdUpload = orderDataWithId?.verification?.skipIdUpload;
+    const isOldVerifiedUser = orderDataWithId?.verification?.isOldVerifiedUser;
+    
+    // Only require ID document if not skipping and not an old verified user
+    if (!skipIdUpload && !isOldVerifiedUser && !orderDataWithId?.verification?.id_document_url) {
       return NextResponse.json(
         { ok: false, error: "id_document_url required (upload the ID first)" },
         { status: 400 }

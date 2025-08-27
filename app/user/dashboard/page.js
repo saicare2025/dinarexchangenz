@@ -9,7 +9,6 @@ import MainLayout from "../../MainLayout";
 import { FiPlus, FiFilter, FiSearch, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { useElevenLabsUser } from "../../../components/useElevenLabsUser";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("all");
@@ -17,9 +16,6 @@ export default function Dashboard() {
   const [uploadType, setUploadType] = useState(null);
   const [currentOrder, setCurrentOrder] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Set user context for ElevenLabs widget
-  useElevenLabsUser("user@example.com", currentOrder?.id);
 
   const filteredOrders = (
     activeTab === "all"
