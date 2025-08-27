@@ -37,7 +37,8 @@ export function useElevenLabsPage(pageContext) {
   const { updateWidgetVariables } = useElevenLabs();
 
   // Memoize the page context to prevent unnecessary re-renders
-  const memoizedPageContext = useMemo(() => pageContext, [JSON.stringify(pageContext)]);
+  const pageContextString = JSON.stringify(pageContext);
+  const memoizedPageContext = useMemo(() => pageContext, [pageContext, pageContextString]);
 
   useEffect(() => {
     if (memoizedPageContext) {
