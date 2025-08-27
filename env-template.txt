@@ -1,0 +1,14 @@
+# ElevenLabs Configuration
+# Get these from your ElevenLabs dashboard: https://elevenlabs.io/
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+ELEVENLABS_TOOL_SECRET=your_elevenlabs_tool_secret_here
+NEXT_PUBLIC_ELEVENLABS_AGENT_ID=your_elevenlabs_agent_id_here
+
+# Supabase Configuration
+# Get these from your Supabase project settings: https://supabase.com/dashboard/project/[YOUR_PROJECT_ID]/settings/api
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
+
+# Optional: Google Analytics (if you have it)
+# NEXT_PUBLIC_GA_ID=your_google_analytics_id_here

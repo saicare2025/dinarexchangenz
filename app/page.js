@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import HomePage from "@/components/homepage";
 import { CookieConsent } from "@/components/CookieConsent";
+import ElevenLabsContainer from "@/components/ElevenLabsContainer";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <HomePage/>
       <Footer/>
       <CookieConsent />
+      <ElevenLabsContainer />
     </main>
   );
 }

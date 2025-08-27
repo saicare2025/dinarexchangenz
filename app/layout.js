@@ -22,9 +22,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Preconnects / DNS-prefetch (non-blocking) */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        <link
+          rel="preconnect"
+          href="https://www.googletagmanager.com"
+          crossOrigin=""
+        />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://static.vecteezy.com" crossOrigin="" />
+        <link
+          rel="preconnect"
+          href="https://static.vecteezy.com"
+          crossOrigin=""
+        />
         <link rel="dns-prefetch" href="https://static.vecteezy.com" />
         <link rel="preconnect" href="https://cdn.provesrc.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://cdn.provesrc.com" />
@@ -56,9 +64,7 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* <footer>
-          <ReviewsWidget />
-        </footer> */}
+       
       </body>
     </html>
   );
