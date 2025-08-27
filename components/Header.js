@@ -287,7 +287,7 @@ export default function Header() {
           <button
             type="button" // <- important if this sits inside a <form>
             onClick={handleClick}
-            className="flex items-center justify-center space-x-2 rounded p-1"
+            className="hidden lg:flex items-center justify-center space-x-2 rounded p-1"
             aria-label="Profile menu"
           >
             <UserCircleIcon className="w-9 h-9 text-orange ml-4 bg-orange-50 rounded-full border-2 border-orange shadow" />

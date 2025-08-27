@@ -21,7 +21,9 @@
     "test:sms-worker": "node scripts/test-sms-worker.js",
     "test:sms-12630320": "node scripts/test-sms-worker.js \"#12630320\" \"+61417460236\"",
     "test:final": "node scripts/test-final-notifications.js",
-    "test:db-integration": "node scripts/test-database-integration.js"
+    "test:db-integration": "node scripts/test-database-integration.js",
+    "test:elevenlabs": "node scripts/test-elevenlabs-integration.js",
+    "setup:elevenlabs": "node setup-env.js"
   },
   "browserslist": {
     "production": [

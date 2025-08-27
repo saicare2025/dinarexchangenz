@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
+import ElevenLabsContainer from "@/components/ElevenLabsContainer";
 
 
 export default function MainLayout({ children }) {
@@ -10,6 +11,7 @@ export default function MainLayout({ children }) {
         {children}
       </main>
       <Footer/>
+      <ElevenLabsContainer />
     </div>
   );
 }

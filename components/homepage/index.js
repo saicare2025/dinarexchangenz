@@ -1,4 +1,5 @@
 
+import ReviewsWidget from "../ReviewsWidget";
 import FaqSection from "./Faq";
 import HeroSection from "./HeroSection";
 import { InvestmentOpportunity } from "./Investment";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <IraqiDinarSection />
       <InvestmentOpportunity/>
       <FaqSection/>
+      <ReviewsWidget/>
     </main>
   );
 }
