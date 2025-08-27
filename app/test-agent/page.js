@@ -38,12 +38,12 @@ export default function TestAgentPage() {
         
         if (response.ok) {
           const data = await response.json();
-          setAgentStatus(`✅ Connected - Agent: ${data.name || 'Unknown'}`);
+          setAgentStatus(`Connected - Agent: ${data.name || 'Unknown'}`);
         } else {
-          setAgentStatus(`❌ Connection Failed - HTTP ${response.status}`);
+          setAgentStatus(`Connection Failed - HTTP ${response.status}`);
         }
       } catch (error) {
-        setAgentStatus(`❌ Error: ${error.message}`);
+        setAgentStatus(`Error: ${error.message}`);
       }
     };
 
@@ -70,8 +70,8 @@ export default function TestAgentPage() {
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-3">Agent Status</h2>
             <div className={`p-4 rounded-lg ${
-              agentStatus.includes('✅') ? 'bg-green-50 text-green-800' : 
-              agentStatus.includes('❌') ? 'bg-red-50 text-red-800' : 
+              agentStatus.includes('Connected') ? 'bg-green-50 text-green-800' : 
+              agentStatus.includes('Failed') || agentStatus.includes('Error') ? 'bg-red-50 text-red-800' : 
               'bg-yellow-50 text-yellow-800'
             }`}>
               <p className="font-medium">{agentStatus}</p>
@@ -90,7 +90,7 @@ export default function TestAgentPage() {
                 <li>Click on the widget to open the chat interface</li>
                 <li>Try asking one of the test questions below</li>
                 <li>Check if the agent responds with database information</li>
-                <li>Verify that the "Powered by ElevenLabs" branding is hidden</li>
+                <li>Verify that the Powered by ElevenLabs branding is hidden</li>
               </ol>
             </div>
           </div>
@@ -140,7 +140,7 @@ export default function TestAgentPage() {
             <h2 className="text-xl font-semibold mb-3">Troubleshooting</h2>
             <div className="bg-yellow-50 p-4 rounded-lg">
               <p className="text-yellow-900 mb-3">
-                <strong>If the agent doesn't work:</strong>
+                <strong>If the agent does not work:</strong>
               </p>
               <ul className="list-disc list-inside space-y-1 text-yellow-800">
                 <li>Check browser console for errors</li>
