@@ -12,17 +12,9 @@ import {
 import Image from "next/image";
 import heroImage from "../../app/assets/dinar.webp";
 import { FloatingTestimonial } from "./HeroTestmonial";
-import { useElevenLabsPage } from "../useElevenLabsUser";
 import Link from "next/link";
 
 export default function HeroSection() {
-  // Set page context for ElevenLabs widget
-  useElevenLabsPage({
-    page_type: "homepage",
-    product_type: "Iraqi Dinar",
-    currency: "IQD",
-    company_name: "Dinar Exchange New Zealand"
-  });
 
   const features = [
     {

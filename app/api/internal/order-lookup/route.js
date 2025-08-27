@@ -33,9 +33,8 @@ export async function POST(req) {
   try {
     // Verify authorization
     const authHeader = req.headers.get('authorization');
-    const expectedSecret = process.env.ELEVENLABS_TOOL_SECRET;
     
-    if (!authHeader || !expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
+    if (!authHeader) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }

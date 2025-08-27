@@ -46,6 +46,8 @@ const INITIAL_FORM_DATA = {
     idNumber: "",
     idExpiry: "", // yyyy-mm-dd
     acceptTerms: false,
+    skipIdUpload: false, // New: Skip ID upload option
+    isOldVerifiedUser: false, // New: Old verified user option
   },
   payment: {
     method: "",
@@ -111,7 +113,14 @@ export default function OrderForm({
 
   // Step 2 validation
   const isStep2Valid = useMemo(() => {
-    const { idFile, idNumber, idExpiry, acceptTerms } = formData.verification;
+    const { idFile, idNumber, idExpiry, acceptTerms, skipIdUpload, isOldVerifiedUser } = formData.verification;
+    
+    // If user is skipping ID upload or is an old verified user, only require terms acceptance
+    if (skipIdUpload || isOldVerifiedUser) {
+      return Boolean(acceptTerms);
+    }
+    
+    // Otherwise, require all ID verification fields
     return Boolean(idFile && idNumber && idExpiry && acceptTerms);
   }, [formData.verification]);
 
@@ -149,18 +158,18 @@ export default function OrderForm({
     let uploadedIdUrl = null;
     let uploadedReceiptUrl = null;
 
-    // Upload ID
-    if (formData?.verification?.idFile) {
-      try {
-        uploadedIdUrl = await uploadViaSignedUrl(formData.verification.idFile, {
-          preferredName: `photoId-${Date.now()}-${formData.verification.idFile.name}`,
-        });
-        console.log("ID upload successful:", uploadedIdUrl);
-      } catch (uploadError) {
-        console.error("ID upload error:", uploadError);
-        throw new Error(`Failed to upload ID document: ${uploadError.message}`);
+          // Upload ID (only if not skipping and not old verified user)
+      if (formData?.verification?.idFile && !formData.verification.skipIdUpload && !formData.verification.isOldVerifiedUser) {
+        try {
+          uploadedIdUrl = await uploadViaSignedUrl(formData.verification.idFile, {
+            preferredName: `photoId-${Date.now()}-${formData.verification.idFile.name}`,
+          });
+          console.log("ID upload successful:", uploadedIdUrl);
+        } catch (uploadError) {
+          console.error("ID upload error:", uploadError);
+          throw new Error(`Failed to upload ID document: ${uploadError.message}`);
+        }
       }
-    }
 
     // Upload receipt
     if (formData?.payment?.receipt) {
@@ -200,6 +209,8 @@ export default function OrderForm({
           id_document_url: uploadedIdUrl,
           idNumber: formData.verification.idNumber,
           idExpiry: formData.verification.idExpiry,
+          skipIdUpload: formData.verification.skipIdUpload,
+          isOldVerifiedUser: formData.verification.isOldVerifiedUser,
         },
         payment: {
           receipt_url: uploadedReceiptUrl,

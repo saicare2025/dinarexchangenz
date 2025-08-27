@@ -17,6 +17,7 @@ import {
   ShoppingCartIcon,
   UserCircleIcon, // <- remove if you don't want the icon anywhere
 } from "@heroicons/react/24/outline";
+import { FiStar } from "react-icons/fi";
 import { buildLoginUrl } from "@/app/lib/auth";
 
 /* -------------------- Constants -------------------- */
@@ -39,7 +40,7 @@ const CONTACT_INFO = [
 ];
 
 const NAV_LINKS = [
-  { name: "Home", href: "/", icon: <HomeIcon className="w-5 h-5" /> },
+  
   {
     name: "Buy Iraqi Dinar",
     href: "/buydinar",
@@ -49,6 +50,11 @@ const NAV_LINKS = [
     name: "Buy Zimbabwe Dollar",
     href: "/buyzimdoller",
     icon: <CurrencyDollarIcon className="w-5 h-5" />,
+  },
+  {
+    name: "Testimonials",
+    href: "/testimonials",
+    icon: <FiStar className="w-5 h-5" />,
   },
   {
     name: "About Us",
