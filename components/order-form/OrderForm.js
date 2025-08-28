@@ -2,14 +2,9 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
-  ArrowRightIcon,
-  ArrowLeftIcon,
   IdentificationIcon,
   DocumentTextIcon,
   CreditCardIcon,
-  BanknotesIcon,
-  ExclamationCircleIcon,
-  CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
@@ -63,6 +58,20 @@ const STEPS = [
   { id: 2, title: "ID Verification", icon: IdentificationIcon },
   { id: 3, title: "Payment", icon: CreditCardIcon },
 ];
+// Add this helper near the top (outside the component)
+function computeShippingFee(country, defaultFee = 19.99) {
+  const normalized = (country || "").trim().toLowerCase().replace(/\s+/g, "");
+  if (normalized === "australia" || normalized === "au") return 19.99;
+  // Handle common spellings: "new zealand", "newzealand", "nz"
+  if (
+    normalized === "newzealand" ||
+    normalized === "new" + "zealand" ||
+    normalized === "nz"
+  )
+    return 49.99;
+  // Fallback to whatever default you pass via prop
+  return defaultFee;
+}
 
 export default function OrderForm({
   currencyOptions,
@@ -75,8 +84,14 @@ export default function OrderForm({
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const router = useRouter();
+  const hasChosenCountry =
+    (formData.personalInfo.country || "").trim().length > 0;
 
+  const displayShippingFee = useMemo(() => {
+    return hasChosenCountry
+      ? computeShippingFee(formData.personalInfo.country, shippingFee)
+      : 0; // hard default in UI before selection
+  }, [hasChosenCountry, formData.personalInfo.country, shippingFee]);
   const selectedCurrency = useMemo(
     () =>
       currencyOptions.find(
@@ -85,7 +100,8 @@ export default function OrderForm({
     [formData.orderDetails.currency, currencyOptions]
   );
 
-  const totalAmount = selectedCurrency + shippingFee;
+  // Use the dynamic fee here
+  const totalAmount = selectedCurrency + displayShippingFee;
 
   // Check if qualifies for bonus
   const qualifiesForBonus = useMemo(() => {
@@ -112,13 +128,20 @@ export default function OrderForm({
 
   // Step 2 validation
   const isStep2Valid = useMemo(() => {
-    const { idFile, idNumber, idExpiry, acceptTerms, skipIdUpload, isOldVerifiedUser } = formData.verification;
-    
+    const {
+      idFile,
+      idNumber,
+      idExpiry,
+      acceptTerms,
+      skipIdUpload,
+      isOldVerifiedUser,
+    } = formData.verification;
+
     // If user is skipping ID upload or is an old verified user, only require terms acceptance
     if (skipIdUpload || isOldVerifiedUser) {
       return Boolean(acceptTerms);
     }
-    
+
     // Otherwise, require all ID verification fields
     return Boolean(idFile && idNumber && idExpiry && acceptTerms);
   }, [formData.verification]);
@@ -157,25 +180,36 @@ export default function OrderForm({
     let uploadedIdUrl = null;
     let uploadedReceiptUrl = null;
 
-          // Upload ID (only if not skipping and not old verified user)
-      if (formData?.verification?.idFile && !formData.verification.skipIdUpload && !formData.verification.isOldVerifiedUser) {
-        try {
-          uploadedIdUrl = await uploadViaSignedUrl(formData.verification.idFile, {
-            preferredName: `photoId-${Date.now()}-${formData.verification.idFile.name}`,
-          });
-          console.log("ID upload successful:", uploadedIdUrl);
-        } catch (uploadError) {
-          console.error("ID upload error:", uploadError);
-          throw new Error(`Failed to upload ID document: ${uploadError.message}`);
-        }
+    // Upload ID (only if not skipping and not old verified user)
+    if (
+      formData?.verification?.idFile &&
+      !formData.verification.skipIdUpload &&
+      !formData.verification.isOldVerifiedUser
+    ) {
+      try {
+        uploadedIdUrl = await uploadViaSignedUrl(formData.verification.idFile, {
+          preferredName: `photoId-${Date.now()}-${
+            formData.verification.idFile.name
+          }`,
+        });
+        console.log("ID upload successful:", uploadedIdUrl);
+      } catch (uploadError) {
+        console.error("ID upload error:", uploadError);
+        throw new Error(`Failed to upload ID document: ${uploadError.message}`);
       }
+    }
 
     // Upload receipt
     if (formData?.payment?.receipt) {
       try {
-        uploadedReceiptUrl = await uploadViaSignedUrl(formData.payment.receipt, {
-          preferredName: `receipt-${Date.now()}-${formData.payment.receipt.name}`,
-        });
+        uploadedReceiptUrl = await uploadViaSignedUrl(
+          formData.payment.receipt,
+          {
+            preferredName: `receipt-${Date.now()}-${
+              formData.payment.receipt.name
+            }`,
+          }
+        );
         console.log("Receipt upload successful:", uploadedReceiptUrl);
       } catch (uploadError) {
         console.error("Receipt upload error:", uploadError);
@@ -192,9 +226,10 @@ export default function OrderForm({
 
     try {
       const tempOrderId = `ORDER-${Date.now()}`;
-      
+
       // Upload files using Vercel Blob
-      const { uploadedIdUrl, uploadedReceiptUrl } = await handleBeforeCreateOrderUploads(formData, tempOrderId);
+      const { uploadedIdUrl, uploadedReceiptUrl } =
+        await handleBeforeCreateOrderUploads(formData, tempOrderId);
 
       // Prepare payload
       const orderData = {
@@ -217,14 +252,15 @@ export default function OrderForm({
           comments: formData.payment.comments,
           method: formData.payment.method || "bank-transfer",
         },
-        bonus: qualifiesForBonus && bonusConfig
-          ? {
-              type: bonusConfig.bonusType || "BONUS",
-              amount: bonusConfig.bonusAmount,
-              label: bonusConfig.bonusLabel,
-              reason: bonusConfig.bonusReason,
-            }
-          : null,
+        bonus:
+          qualifiesForBonus && bonusConfig
+            ? {
+                type: bonusConfig.bonusType || "BONUS",
+                amount: bonusConfig.bonusAmount,
+                label: bonusConfig.bonusLabel,
+                reason: bonusConfig.bonusReason,
+              }
+            : null,
       };
 
       console.log("Submitting order data:", orderData);
@@ -238,7 +274,9 @@ export default function OrderForm({
 
       const result = await response.json();
       if (!response.ok || !result?.ok) {
-        throw new Error(result?.error || result?.details || "Order submission failed");
+        throw new Error(
+          result?.error || result?.details || "Order submission failed"
+        );
       }
 
       console.log("Order created successfully:", result);
@@ -252,20 +290,23 @@ export default function OrderForm({
           payment: formData.payment,
           totalAmount: Number(totalAmount),
           createdAt: new Date().toISOString(),
-          shippingCost: shippingFee
+          shippingCost: dynamicShippingFee,
         };
 
         const notificationResponse = await fetch("/api/orders/notify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(notificationData)
+          body: JSON.stringify(notificationData),
         });
 
         if (notificationResponse.ok) {
           console.log("Email notification sent successfully");
         } else {
           const errorData = await notificationResponse.json().catch(() => ({}));
-          console.error("Email notification failed:", errorData.message || "Unknown error");
+          console.error(
+            "Email notification failed:",
+            errorData.message || "Unknown error"
+          );
           // Don't show error to user since order was successful, just log it
         }
       } catch (emailError) {
@@ -285,7 +326,7 @@ export default function OrderForm({
   };
 
   return (
-    <div className="min-h-screen max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[500px] max-w-4xl mx-auto py-4 px-1 sm:px-3 lg:px-6">
       <Stepper currentStep={currentStep} steps={STEPS} />
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -331,7 +372,7 @@ export default function OrderForm({
           <OrderSummary
             currency={formData.orderDetails.currency}
             unitPrice={selectedCurrency}
-            shippingFee={shippingFee}
+            shippingFee={displayShippingFee}
             totalAmount={totalAmount}
             qualifiesForBonus={qualifiesForBonus}
             bonusConfig={bonusConfig}
@@ -339,7 +380,10 @@ export default function OrderForm({
         </div>
       </div>
 
-      <SuccessModal isOpen={showSuccess} onClose={() => setShowSuccess(false)} />
+      <SuccessModal
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+      />
     </div>
   );
 }
