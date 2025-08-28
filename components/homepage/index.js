@@ -4,7 +4,7 @@ import FaqSection from "./Faq";
 import HeroSection from "./HeroSection";
 import { InvestmentOpportunity } from "./Investment";
 import IraqiDinarSection from "./IraqiDinarSection";
-import ACSReviewsCarousel from "./Testmonial";
+import ACSReviewsCarousel from "./Testmonial2";
 
 
 

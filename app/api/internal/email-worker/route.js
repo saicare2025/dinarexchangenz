@@ -3,7 +3,18 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { sendEmail, sendSms } from "@/lib/email/transporter";
-import { tplMissing, tplStatusUpdate, tplTracking, tplCompleted } from "@/lib/email/templates";
+import { buildLoginUrl } from "@/lib/auth";
+import {
+  tplOrderReceived,
+  tplMissingId,
+  tplIdReceived,
+  tplMissingPayment,
+  tplPaymentReceived,
+  tplDelayNotice,
+  tplTrackingAdded,
+  tplOrderCompleted,
+  tplReviewRequest
+} from "@/lib/email/templates/notifications";
 
 const ORDER_TABLE = process.env.ORDER_TABLE_NAME || "order";
 const MAX_ATTEMPTS = 3;
@@ -63,19 +74,26 @@ function buildEmail(job, order) {
   if (job.subject && job.html) {
     return { subject: job.subject, html: job.html, text: job.text || "" };
   }
+  
   switch (job.event_type) {
+    case "ORDER_RECEIVED":
+      return tplOrderReceived(order);
     case "MISSING_ID":
-      return tplMissing("ID", order);
+      return tplMissingId(order);
+    case "ID_RECEIVED":
+      return tplIdReceived(order);
     case "MISSING_PAYMENT":
-      return tplMissing("PAYMENT", order);
-    case "STATUS_UPDATE":
-      return tplStatusUpdate(order, order.status, order.trackingNumber);
+      return tplMissingPayment(order);
+    case "PAYMENT_RECEIVED":
+      return tplPaymentReceived(order);
+    case "DELAY_NOTICE":
+      return tplDelayNotice(order);
     case "TRACKING_ADDED":
-      return tplTracking(order, order.trackingNumber, false);
-    case "TRACKING_UPDATED":
-      return tplTracking(order, order.trackingNumber, true);
+      return tplTrackingAdded(order);
     case "ORDER_COMPLETED":
-      return tplCompleted(order, "3–5 business days");
+      return tplOrderCompleted(order);
+    case "REVIEW_REQUEST":
+      return tplReviewRequest(order);
     default:
       throw new Error(`Unknown event_type: ${job.event_type}`);
   }
@@ -95,23 +113,60 @@ async function claimSmsJobs() {
 }
 
 function formatSmsMessage(sms, order) {
+  // Extract first name from full name
+  const firstName = order.fullName ? order.fullName.split(' ')[0] : 'there';
+  
+  // Generate magic login link for order
+  const magicLoginLink = buildLoginUrl('/');
+  
+  // Generate AusPost tracking link
+  const ausPostTrackingLink = order.trackingNumber ? 
+    `https://auspost.com.au/mypost/track/search?trackingNumbers=${order.trackingNumber}` : 
+    magicLoginLink;
+
   switch (sms.event_type) {
     case "ORDER_RECEIVED":
-      return `[Dinar Exchange NZ] We’ve received order #${order.id}. Please complete payment within 24 hours to secure today’s rate. More: https://www.dinarexchange.co.nz/`;
+      return `Hi ${firstName}, we've received your order. Please complete payment within 24 hrs to lock today's rate.`;
+    
     case "MISSING_ID":
-      return `[Dinar Exchange NZ] Action required: please upload your ID for order #${order.id}. More: https://www.dinarexchange.co.nz/`;
+      return `Hi ${firstName}, we still need your ID to process your order. Please upload it using your secure link: ${magicLoginLink}`;
+    
+    case "ID_RECEIVED":
+      return `Hi ${firstName}, thanks — we've received your ID and your order is now being processed.`;
+    
     case "MISSING_PAYMENT":
-      return `[Dinar Exchange NZ] Payment receipt required for order #${order.id}. Please upload your bank transfer receipt. More: https://www.dinarexchange.co.nz/`;
-    case "STATUS_UPDATE":
-      return `[Dinar Exchange NZ] Your order #${order.id} status has been updated. More: https://www.dinarexchange.co.nz/`;
+      return `Hi ${firstName}, we're waiting for your payment receipt. Please upload your transfer receipt here: ${magicLoginLink}`;
+    
+    case "PAYMENT_RECEIVED":
+      return `Hi ${firstName}, payment received — your order is confirmed and being prepared.`;
+    
+    case "DELAY_NOTICE":
+      return `Hi ${firstName}, due to high demand and some delays in Iraq, your order is taking longer than expected. It'll ship in the next few days — thanks for your patience.`;
+    
     case "TRACKING_ADDED":
-      return `[Dinar Exchange NZ] Order #${order.id} has shipped. Tracking available in your account. More: https://www.dinarexchange.co.nz/`;
-    case "TRACKING_UPDATED":
-      return `[Dinar Exchange NZ] Tracking updated for order #${order.id}. More: https://www.dinarexchange.co.nz/`;
+      return `Great news ${firstName}! Your order has shipped. Track it here: ${ausPostTrackingLink}`;
+    
     case "ORDER_COMPLETED":
-      return `[Dinar Exchange NZ] Order #${order.id} has been delivered. Thank you for your business. More: https://www.dinarexchange.co.nz/`;
+      return `Hi ${firstName}, your order has been delivered. Thanks for choosing us!`;
+    
+    case "REVIEW_REQUEST":
+      return `Hi ${firstName}, we hope you're enjoying your order. We'd love your feedback — please leave us a review: https://www.productreview.com.au/listings/dinar-exchange/write-review`;
+    
+    // Legacy cases for backward compatibility
+    case "MISSING_ID_LEGACY":
+      return `Hi ${firstName}, we still need your ID to process your order. Please upload it using your secure link: ${magicLoginLink}`;
+    
+    case "MISSING_PAYMENT_LEGACY":
+      return `Hi ${firstName}, we're waiting for your payment receipt. Please upload your transfer receipt here: ${magicLoginLink}`;
+    
+    case "STATUS_UPDATE":
+      return `Hi ${firstName}, your order status has been updated. Check your dashboard for details.`;
+    
+    case "TRACKING_UPDATED":
+      return `Hi ${firstName}, tracking updated for your order. Track it here: ${ausPostTrackingLink}`;
+    
     default:
-      return `[Dinar Exchange NZ] Order #${order.id} update available. More: https://www.dinarexchange.co.nz/`;
+      return `Hi ${firstName}, your order update is available. Check your dashboard for details.`;
   }
 }
 
