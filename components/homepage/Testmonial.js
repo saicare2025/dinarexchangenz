@@ -178,6 +178,21 @@ export default function ACSReviewsCarousel() {
         <div className="rev-dots mt-6 flex justify-center" />
       </div>
 
+      {/* Read More Button */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-8">
+        <div className="text-center">
+          <a
+            href="https://maps.app.goo.gl/Kwdv5dXW7Qh7iNPo8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-orange-500 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          >
+            <MagnifyingGlassCircleIcon className="w-5 h-5 mr-2" />
+            Read More Reviews
+          </a>
+        </div>
+      </div>
+
       {/* local styles to match screenshot subtleties */}
       <style jsx global>{`
         .reviews-swiper { padding: 10px 0 24px; }

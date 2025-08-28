@@ -1,11 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import MainLayout from "../MainLayout";
 import ReviewsWidget from "../../components/ReviewsWidget";
 import { FiStar, FiQuote } from "react-icons/fi";
 
 export default function TestimonialsPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+
+  useEffect(() => {
+    const handleWidgetLoaded = () => {
+      // Add a small delay to ensure the widget is fully rendered
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    };
+
+    const handleWidgetError = () => {
+      setLoadError(true);
+      setIsLoading(false);
+    };
+
+    // Listen for widget load events
+    window.addEventListener('reviewsWidgetLoaded', handleWidgetLoaded);
+    window.addEventListener('reviewsWidgetError', handleWidgetError);
+
+    // Fallback: hide loading after 3 seconds if no event is received
+    const fallbackTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => {
+      window.removeEventListener('reviewsWidgetLoaded', handleWidgetLoaded);
+      window.removeEventListener('reviewsWidgetError', handleWidgetError);
+      clearTimeout(fallbackTimer);
+    };
+  }, []);
+
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
       <FiStar
@@ -16,6 +49,48 @@ export default function TestimonialsPage() {
       />
     ));
   };
+
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-orange"></div>
+            <h2 className="text-2xl font-bold text-gray-900 mt-6 mb-2">
+              Loading Reviews
+            </h2>
+            <p className="text-gray-600">
+              Fetching the latest customer testimonials...
+            </p>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <MainLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Unable to Load Reviews
+            </h2>
+            <p className="text-gray-600 mb-4">
+              We're having trouble loading the reviews at the moment.
+            </p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>

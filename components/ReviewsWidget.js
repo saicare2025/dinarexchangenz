@@ -19,6 +19,18 @@ export default function ReviewsWidget() {
       s.type = "text/javascript";
       s.async = true;
       s.defer = true;
+      
+      // Listen for script load completion
+      s.onload = () => {
+        // Dispatch custom event when script is loaded
+        window.dispatchEvent(new CustomEvent('reviewsWidgetLoaded'));
+      };
+      
+      s.onerror = () => {
+        // Dispatch error event if script fails to load
+        window.dispatchEvent(new CustomEvent('reviewsWidgetError'));
+      };
+      
       document.body.appendChild(s);
     };
 
