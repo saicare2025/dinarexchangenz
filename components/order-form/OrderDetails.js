@@ -78,12 +78,12 @@ export default function OrderDetails({
             label="Mobile Number *"
             value={formData.personalInfo.mobile}
             onChange={(value) => onChange("personalInfo", "mobile", value)}
-            helpText="Enter mobile number in +61 format to get SMS updates"
+            helpText="Enter mobile number in +64 format to get SMS updates"
           />
           <SelectField
             label="Country *"
             value={formData.personalInfo.country}
-            options={["", "Australia", "New Zealand"]}
+            options={["", "New Zealand", "Australia"]}
             onChange={(value) => onChange("personalInfo", "country", value)}
           />
         </div>
