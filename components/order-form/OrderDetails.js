@@ -28,7 +28,7 @@ export default function OrderDetails({
                 Buy <strong>{bonusConfig.minAmount.toLocaleString()} IQD</strong> or more and get{" "}
                 <strong>{bonusConfig.bonusLabel}</strong> <em>FREE</em>!
                 {qualifiesForBonus && (
-                  <span className="ml-2 inline-block text-green-700 font-semibold">
+                  <span className="ml-2 py-1 inline-block text-green-700 font-semibold">
                     ✅ Applied to your order
                   </span>
                 )}
@@ -78,12 +78,12 @@ export default function OrderDetails({
             label="Mobile Number *"
             value={formData.personalInfo.mobile}
             onChange={(value) => onChange("personalInfo", "mobile", value)}
-            helpText="Enter mobile number in +64 format to get SMS updates"
+            helpText="Enter mobile number in +61 format to get SMS updates"
           />
           <SelectField
             label="Country *"
             value={formData.personalInfo.country}
-            options={["", "New Zealand", "Australia"]}
+            options={["", "Australia", "New Zealand"]}
             onChange={(value) => onChange("personalInfo", "country", value)}
           />
         </div>
