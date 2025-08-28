@@ -1,9 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import MainLayout from "../MainLayout";
+import { submitContactForm, mapValidationErrors, getErrorMessage, getSuccessMessage, ContactFormError } from "../../lib/client/contactForm";
 
 const ContactPage = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    message: '',
+    website: '', // honeypot field
+  });
+  
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [statusMessage, setStatusMessage] = useState('');
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -25,6 +40,67 @@ const ContactPage = () => {
         ease: "easeOut"
       }
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear field error when user starts typing
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Clear previous status
+    setSubmitStatus(null);
+    setStatusMessage('');
+    setFieldErrors({});
+    
+    setIsSubmitting(true);
+    
+    try {
+      const result = await submitContactForm(formData);
+      
+      setSubmitStatus('success');
+      setStatusMessage(getSuccessMessage(result));
+      
+      // Reset form on success
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        message: '',
+        website: '',
+      });
+      
+    } catch (error) {
+      setSubmitStatus('error');
+      
+      if (error instanceof ContactFormError && error.code === 'VALIDATION_ERROR') {
+        // Map validation errors to form fields
+        const errors = mapValidationErrors(error.details);
+        setFieldErrors(errors);
+        setStatusMessage('Please correct the errors below and try again.');
+      } else {
+        setStatusMessage(getErrorMessage(error));
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const getFieldError = (fieldName) => {
+    return fieldErrors[fieldName] || '';
   };
 
   return (
@@ -52,6 +128,21 @@ const ContactPage = () => {
               Reach out for inquiries or assistance with currency exchange
             </motion.p>
           </motion.header>
+
+          {/* Status Messages */}
+          {submitStatus && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mb-6 p-4 rounded-lg ${
+                submitStatus === 'success' 
+                  ? 'bg-green-50 border border-green-200 text-green-800' 
+                  : 'bg-red-50 border border-red-200 text-red-800'
+              }`}
+            >
+              {statusMessage}
+            </motion.div>
+          )}
 
           {/* Contact Card */}
           <motion.div 
@@ -101,8 +192,6 @@ const ContactPage = () => {
                     <p className="text-gray-700">Sat: 10am-2pm</p>
                   </div>
                 </div>
-
-                
               </div>
 
               {/* Contact Form */}
@@ -111,50 +200,134 @@ const ContactPage = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
+                onSubmit={handleSubmit}
               >
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-600 mb-1">
-                    Name
+                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-600 mb-1">
+                    Full Name *
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    className="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all"
-                    placeholder="Your name"
+                    id="fullName"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2 text-sm rounded-md border transition-all focus:ring-2 focus:ring-blue-300 focus:border-blue-300 ${
+                      getFieldError('fullName') 
+                        ? 'border-red-300 focus:ring-red-300 focus:border-red-300' 
+                        : 'border-gray-300'
+                    }`}
+                    placeholder="Your full name"
+                    required
                   />
+                  {getFieldError('fullName') && (
+                    <p className="mt-1 text-sm text-red-600">{getFieldError('fullName')}</p>
+                  )}
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-600 mb-1">
-                    Email
+                    Email *
                   </label>
                   <input
                     type="email"
                     id="email"
-                    className="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2 text-sm rounded-md border transition-all focus:ring-2 focus:ring-blue-300 focus:border-blue-300 ${
+                      getFieldError('email') 
+                        ? 'border-red-300 focus:ring-red-300 focus:border-red-300' 
+                        : 'border-gray-300'
+                    }`}
                     placeholder="your@email.com"
+                    required
                   />
+                  {getFieldError('email') && (
+                    <p className="mt-1 text-sm text-red-600">{getFieldError('email')}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-600 mb-1">
+                    Phone *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className={`w-full px-3 py-2 text-sm rounded-md border transition-all focus:ring-2 focus:ring-blue-300 focus:border-blue-300 ${
+                      getFieldError('phone') 
+                        ? 'border-red-300 focus:ring-red-300 focus:border-red-300' 
+                        : 'border-gray-300'
+                    }`}
+                    placeholder="+64 21 123 4567"
+                    required
+                  />
+                  {getFieldError('phone') && (
+                    <p className="mt-1 text-sm text-red-600">{getFieldError('phone')}</p>
+                  )}
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-600 mb-1">
-                    Message
+                    Message *
                   </label>
                   <textarea
                     id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     rows={3}
-                    className="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all"
+                    className={`w-full px-3 py-2 text-sm rounded-md border transition-all focus:ring-2 focus:ring-blue-300 focus:border-blue-300 ${
+                      getFieldError('message') 
+                        ? 'border-red-300 focus:ring-red-300 focus:border-red-300' 
+                        : 'border-gray-300'
+                    }`}
                     placeholder="How can we help?"
+                    required
                   ></textarea>
+                  {getFieldError('message') && (
+                    <p className="mt-1 text-sm text-red-600">{getFieldError('message')}</p>
+                  )}
+                </div>
+
+                {/* Honeypot field - hidden from users */}
+                <div className="hidden">
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    tabIndex="-1"
+                    autoComplete="off"
+                  />
                 </div>
 
                 <motion.button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-orange-500 text-white py-2 px-4 rounded-md text-sm font-medium hover:from-blue-600 hover:to-orange transition-all shadow-sm"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
+                  className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-all shadow-sm ${
+                    isSubmitting
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-blue-500 to-orange-500 text-white hover:from-blue-600 hover:to-orange-600'
+                  }`}
+                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 >
-                  Send Message
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : (
+                    'Send Message'
+                  )}
                 </motion.button>
               </motion.form>
             </div>

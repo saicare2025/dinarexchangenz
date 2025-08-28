@@ -23,7 +23,8 @@
     "test:final": "node scripts/test-final-notifications.js",
     "test:db-integration": "node scripts/test-database-integration.js",
     "test:elevenlabs": "node scripts/test-elevenlabs-integration.js",
-    "setup:elevenlabs": "node setup-env.js"
+    "setup:elevenlabs": "node setup-env.js",
+    "test:contact-form": "node scripts/test-contact-form.js"
   },
   "browserslist": {
     "production": [
@@ -65,7 +66,9 @@
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "swiper": "^11.2.10",
-    "twilio": "^4.23.0"
+    "twilio": "^4.23.0",
+    "uuid": "^11.1.0",
+    "zod": "^4.1.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

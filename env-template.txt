@@ -10,5 +10,21 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
 
+# SMTP Configuration for Contact Form
+# Configure your SMTP server for sending contact form emails
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password_here
+SMTP_FROM=your_email@gmail.com
+
+# Contact Form Configuration
+ALERT_TO=alerts@dinarexchange.co.nz
+ALLOWED_LOGIN_HOSTS=https://www.dinarexchange.co.nz,https://dinarexchange.co.nz
+
+# Rate Limiting (optional - defaults to 5/min, 50/day)
+RATE_LIMIT_PER_MINUTE=5
+RATE_LIMIT_PER_DAY=50
+
 # Optional: Google Analytics (if you have it)
 # NEXT_PUBLIC_GA_ID=your_google_analytics_id_here

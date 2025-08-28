@@ -12,15 +12,8 @@ export default function OrderDetails({
   onNext,
   currencyOptions,
   qualifiesForBonus,
-  validateMobile,
   bonusConfig,
 }) {
-  const mobileError =
-    formData.personalInfo.mobile &&
-    !validateMobile(formData.personalInfo.mobile)
-      ? "Please enter a valid Australian mobile number (04xxxxxxxx or +614xxxxxxxx)"
-      : "";
-
   return (
     <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
       <h2 className="text-xl font-bold text-gray-800 mb-3">Step 1: Order Details</h2>
@@ -85,7 +78,7 @@ export default function OrderDetails({
             label="Mobile Number *"
             value={formData.personalInfo.mobile}
             onChange={(value) => onChange("personalInfo", "mobile", value)}
-            error={mobileError}
+            helpText="Enter mobile number in +64 format to get SMS updates"
           />
           <SelectField
             label="Country *"
