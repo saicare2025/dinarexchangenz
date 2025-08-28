@@ -78,7 +78,7 @@ export default function TestimonialsPage() {
               Unable to Load Reviews
             </h2>
             <p className="text-gray-600 mb-4">
-              We're having trouble loading the reviews at the moment.
+              We&apos;re having trouble loading the reviews at the moment.
             </p>
             <button 
               onClick={() => window.location.reload()} 
