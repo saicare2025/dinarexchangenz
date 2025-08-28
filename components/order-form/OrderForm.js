@@ -22,7 +22,7 @@ import OrderSummary from "./OrderSummary";
 import SuccessModal from "./SuccessModal";
 
 // Import utilities
-import { validateAUMobile, getIqdAmountFromLabel } from "./utils";
+import { getIqdAmountFromLabel } from "./utils";
 import { uploadViaSignedUrl } from "@/lib/blobUpload";
 
 const INITIAL_FORM_DATA = {
@@ -101,7 +101,6 @@ export default function OrderForm({
       personalInfo.fullName &&
         personalInfo.email &&
         personalInfo.mobile &&
-        validateAUMobile(personalInfo.mobile) &&
         personalInfo.country &&
         personalInfo.address &&
         personalInfo.city &&
@@ -300,7 +299,6 @@ export default function OrderForm({
               onNext={nextStep}
               currencyOptions={currencyOptions}
               qualifiesForBonus={qualifiesForBonus}
-              validateMobile={validateAUMobile}
               bonusConfig={bonusConfig}
             />
           )}

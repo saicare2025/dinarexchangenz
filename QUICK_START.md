@@ -85,3 +85,4 @@ http://localhost:3000/test-elevenlabs
 **Database errors**
 - Ensure your Supabase credentials are correct
 - Verify the Order table exists with the correct schema
+

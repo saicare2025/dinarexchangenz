@@ -30,7 +30,7 @@ export default function TestimonialsPage() {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Live Customer Reviews
+                Live <span className="text-orange">Customer Reviews</span> 
               </h2>
               <p className="text-lg text-gray-600 mb-8">
                 Real-time reviews from our customers across New Zealand

@@ -101,3 +101,4 @@ SUPABASE_SERVICE_ROLE_KEY=${envVars.SUPABASE_SERVICE_ROLE_KEY || 'your_supabase_
 
   rl.close();
 }
+

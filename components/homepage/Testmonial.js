@@ -1,5 +1,23 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+"use client";
+
+import { useMemo } from "react";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/modules";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  StarIcon,
+  MagnifyingGlassCircleIcon,
+} from "@heroicons/react/24/solid";
+
+// IMPORTANT: ensure these styles are imported once globally in your app (e.g., app/layout.tsx)
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
+
+// --- Replace these with your actual images ---
 import review1 from "../../app/assets/review-image/review1.png";
 import review2 from "../../app/assets/review-image/review2.png";
 import review3 from "../../app/assets/review-image/review3.png";
@@ -9,63 +27,7 @@ import review6 from "../../app/assets/review-image/review6.png";
 import review7 from "../../app/assets/review-image/review7.png";
 import review8 from "../../app/assets/review-image/review8.png";
 import review9 from "../../app/assets/review-image/review9.png";
-import { CheckBadgeIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 
-// Icon components
-const StarIcon = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
-);
-
-const ShieldCheckIcon = ({ className }) => (
-  <svg
-    className={className}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-    />
-  </svg>
-);
-
-// Motion utilities
-const fadeIn = (direction, type, delay, duration) => ({
-  hidden: {
-    x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-    y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
-    opacity: 0,
-  },
-  show: {
-    x: 0,
-    y: 0,
-    opacity: 1,
-    transition: {
-      type,
-      delay,
-      duration,
-      ease: "easeOut",
-    },
-  },
-});
-
-const staggerContainer = (staggerChildren, delayChildren) => ({
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: staggerChildren || 0.1,
-      delayChildren: delayChildren || 0,
-    },
-  },
-});
-
-// Sample testimonials data
 const testimonials = [
   {
     quote:
@@ -117,358 +79,114 @@ const testimonials = [
   },
 ];
 
-export function Testimonials3DCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [expandedReviews, setExpandedReviews] = useState({});
-  const [isAnimating, setIsAnimating] = useState(false);
+function Stars() {
+  return (
+    <div className="flex gap-0.5" aria-hidden>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <StarIcon key={i} className="h-4 w-4 text-amber-400" />
+      ))}
+    </div>
+  );
+}
 
-  const toggleReview = (index) => {
-    setExpandedReviews((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
-
-  const isLongReview = (text) => text.length > 150;
-
-  const nextSlide = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    setTimeout(() => setIsAnimating(false), 600);
-  };
-
-  const prevSlide = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-    setTimeout(() => setIsAnimating(false), 600);
-  };
-
-  const goToSlide = (index) => {
-    if (isAnimating || index === currentIndex) return;
-    setIsAnimating(true);
-    setCurrentIndex(index);
-    setTimeout(() => setIsAnimating(false), 600);
-  };
-
-  const getSlidePosition = (index) => {
-    const diff = index - currentIndex;
-    const totalSlides = testimonials.length;
-
-    let normalizedDiff = diff;
-    if (normalizedDiff > totalSlides / 2) {
-      normalizedDiff -= totalSlides;
-    } else if (normalizedDiff < -totalSlides / 2) {
-      normalizedDiff += totalSlides;
-    }
-
-    return normalizedDiff;
-  };
-
-  const getSlideStyle = (index) => {
-    const position = getSlidePosition(index);
-    const isActive = position === 0;
-    const isVisible = Math.abs(position) <= 2; // Show 5 items total (center + 2 on each side)
-
-    if (!isVisible) {
-      return {
-        opacity: 0,
-        transform: "translateX(200%) rotateY(90deg) scale(0.5)",
-        zIndex: 0,
-        pointerEvents: "none",
-      };
-    }
-
-    // Calculate positioning for 5 items
-    const translateX = position * 85; // Reduced spacing to fit 5 items
-    const rotateY = position * 20; // Slightly reduced rotation
-
-    // Scale and opacity based on position
-    let scale,
-      opacity,
-      blur = 0;
-
-    if (position === 0) {
-      // Center item - fully visible and clear
-      scale = 1;
-      opacity = 1;
-      blur = 0;
-    } else if (Math.abs(position) === 1) {
-      // Adjacent items - clear but smaller
-      scale = 0.85;
-      opacity = 1;
-      blur = 0;
-    } else if (Math.abs(position) === 2) {
-      // Outer items - blurred and smaller
-      scale = 0.7;
-      opacity = 1;
-      blur = 0;
-    }
-
-    const zIndex = 10 - Math.abs(position);
-
-    return {
-      transform: `translateX(${translateX}%) rotateY(${rotateY}deg) scale(${scale})`,
-      opacity,
-      zIndex,
-
-      pointerEvents: Math.abs(position) <= 1 ? "auto" : "none", // Only center and adjacent items are clickable
-    };
-  };
+export default function ACSReviewsCarousel() {
+  const breakpoints = useMemo(
+    () => ({
+      320: { slidesPerView: 1.05, spaceBetween: 16, centeredSlides: true },
+      640: { slidesPerView: 2, spaceBetween: 20 },
+      1024: { slidesPerView: 3, spaceBetween: 24 },
+    }),
+    []
+  );
 
   return (
-    <section
-      id="testimonials"
-      className="py-4 bg-gradient-to-r from-blue-100 to-orange-100 overflow-hidden min-h-[80vh]"
-    >
-      <motion.div
-        variants={staggerContainer()}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-        className="container mx-auto px-4 max-w-7xl"
-      >
-        {/* Header Section */}
-        <motion.div
-          variants={fadeIn("up", "tween", 0.1, 1)}
-          className="text-center"
+    <section className="w-full bg-white">
+      {/* Header line like the screenshot */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8">
+        <p className="w-full text-center text-gray-700 text-xl sm:text-2xl md:text-[26px]">
+          <span className="mr-1">Overall rating</span>
+          <span className="font-bold text-[26px] align-middle">4.8</span>
+          <span className="inline-block align-middle ml-0.5">
+            <StarIcon className="h-5 w-5 text-amber-400" />
+          </span>
+          <span className="ml-2">based on</span>
+         
+          <span>Verified Client Reviews</span>
+        </p>
+      </div>
+
+      {/* Carousel */}
+      <div className="relative max-w-6xl mx-auto px-2 sm:px-6 pb-10 pt-6">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
+          effect="coverflow"
+          coverflowEffect={{ rotate: 0, depth: 120, stretch: 0, modifier: 1, slideShadows: false }}
+          autoplay={{ delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          navigation={{ prevEl: ".rev-prev", nextEl: ".rev-next" }}
+          pagination={{ el: ".rev-dots", clickable: true }}
+          loop
+          breakpoints={breakpoints}
+          className="reviews-swiper"
         >
-          <div className="inline-flex items-center gap-2 bg-blue-50 rounded-full px-4 mb-4">
-            <ShieldCheckIcon className="w-5 h-5 text-blue-600" />
-            <span className="text-sm font-medium text-blue-700">
-              VERIFIED REVIEWS
-            </span>
-          </div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            What Our <span className="text-orange">Customers</span> Say
-          </h2>
-
-          <div className="flex justify-center items-center gap-3 mb-3">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <StarIcon key={i} className="w-7 h-7 text-amber-400" />
-              ))}
-            </div>
-            <span className="text-3xl font-bold text-gray-800">4.8</span>
-          </div>
-        </motion.div>
-
-        {/* 3D Carousel Container */}
-        <motion.div
-          variants={fadeIn("up", "tween", 0.2, 1)}
-          className="relative h-[400px] mb-8"
-          style={{ perspective: "1200px" }}
-        >
-          <div className="relative w-full h-full flex items-center justify-center">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className="absolute w-72 h-96 transition-all duration-500 ease-out cursor-pointer"
-                style={getSlideStyle(index)}
-                onClick={() => goToSlide(index)}
-                whileHover={
-                  getSlidePosition(index) === 0
-                    ? {
-                        scale: 1.03,
-                        boxShadow:
-                          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                      }
-                    : {}
-                }
-              >
-                <div
-                  className={`
-    bg-gradient-to-br from-blue-50 to-orange-50
-    p-6 rounded-xl shadow-lg border border-gray-100
-    h-full transform-gpu backdrop-blur-sm
-    relative overflow-hidden
-  `}
-                >
-                  {/* Gradient accent bar */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-orange-500" />
-
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <StarIcon key={i} className="w-5 h-5 text-amber-400" />
-                    ))}
-                  </div>
-
-                  <div className="relative mb-4 h-40 overflow-y-auto">
-                    <p className="text-gray-700 italic text-sm leading-relaxed">
-                      {isLongReview(testimonial.quote) &&
-                      !expandedReviews[index] ? (
-                        <>
-                          {`${testimonial.quote.substring(0, 150)}... `}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleReview(index);
-                            }}
-                            className="text-blue-600 hover:text-orange font-medium transition-colors"
-                          >
-                            Read More
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          {testimonial.quote}
-                          {isLongReview(testimonial.quote) &&
-                            expandedReviews[index] && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleReview(index);
-                                }}
-                                className="text-blue-600 hover:text-orange font-medium block mt-2 transition-colors"
-                              >
-                                Show Less
-                              </button>
-                            )}
-                        </>
-                      )}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100">
-                    <div className="relative">
-                      <Image
-                        src={testimonial.image}
-                        alt={testimonial.author}
-                        width={48}
-                        height={48}
-                        className="rounded-full object-cover border-2 border-white shadow-md"
-                        style={{ width: "48px", height: "48px" }}
-                      />
-                      <CheckBadgeIcon className="absolute -bottom-1 -right-1 w-5 h-5 text-blue-500 bg-white rounded-full p-0.5" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1">
-                        <p className="font-semibold text-gray-800 text-sm">
-                          {testimonial.author.split(" ")[0]}
-                        </p>
-                        <ShieldCheckIcon className="w-3 h-3 text-blue-500" />
+          {testimonials.map((t, i) => (
+            <SwiperSlide key={i}>
+              <article className="h-full">
+                <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-5 md:p-6 h-[260px] flex flex-col">
+                  {/* name + zoom icon */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full overflow-hidden ring-2 ring-white shadow">
+                        <Image src={t.image} alt={t.author} className="h-full w-full object-cover" />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {testimonial.source}
-                      </p>
+                      <div>
+                        <h3 className="text-gray-900 font-semibold leading-tight">{t.author}</h3>
+                        <div className="flex items-center gap-1 text-amber-500" aria-label="5 stars">
+                          <Stars />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Blue-orange accent corner */}
-                  <div className="absolute bottom-0 right-0 w-16 h-16">
-                    <div
-                      className="absolute bottom-0 right-0 w-0 h-0 
-        border-l-[40px] border-l-transparent
-        border-b-[40px] border-b-blue-500
-        opacity-10 rounded-br-xl"
-                    />
-                    <div
-                      className="absolute bottom-0 right-0 w-0 h-0 
-        border-l-[30px] border-l-transparent
-        border-b-[30px] border-b-orange-500
-        opacity-20 rounded-br-xl"
-                    />
-                  </div>
+                  {/* date */}
+                  <p className="text-xs text-gray-500 mt-1">{t.date}</p>
+
+                  {/* quote */}
+                  <p className="mt-3 text-sm text-gray-700 line-clamp-5">
+                    {t.quote}
+                  </p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              </article>
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-        {/* Navigation Controls */}
-        <div className="flex items-center justify-center gap-6">
-          {/* Previous Button */}
-          <button
-            onClick={prevSlide}
-            disabled={isAnimating}
-            aria-label="Previous testimonial"
-            className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group hover:shadow-xl"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700 group-hover:text-orange transition-colors"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              role="img"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
+        {/* Nav arrows */}
+        <button
+          aria-label="Previous"
+          className="rev-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-20 grid place-items-center h-10 w-10 rounded-full bg-white shadow border border-gray-200 hover:bg-gray-50"
+        >
+          <ChevronLeftIcon className="h-6 w-6 text-gray-700" />
+        </button>
+        <button
+          aria-label="Next"
+          className="rev-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-20 grid place-items-center h-10 w-10 rounded-full bg-white shadow border border-gray-200 hover:bg-gray-50"
+        >
+          <ChevronRightIcon className="h-6 w-6 text-gray-700" />
+        </button>
 
-          {/* Pagination Dots */}
-          {/* Pagination Dots (accessible touch targets) */}
-          <div
-            className="flex gap-2"
-            role="group"
-            aria-label="Testimonials pagination"
-          >
-            {testimonials.map((_, index) => {
-              const isActive = index === currentIndex;
-              return (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  disabled={isAnimating}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                  aria-current={isActive ? "true" : "false"}
-                  // 48px circular hit area; center the visual dot inside
-                  className={`w-8 h-8 rounded-full grid place-items-center transition-transform duration-200
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500
-          disabled:cursor-not-allowed
-          ${isActive ? "scale-105" : "hover:scale-105"}`}
-                >
-                  {/* Visual dot (kept small), not read by SRs */}
-                  <span
-                    aria-hidden="true"
-                    className={`rounded-full block
-            ${
-              isActive
-                ? "w-3.5 h-3.5 bg-orange-900 shadow-lg"
-                : "w-3 h-3 bg-gray-500 hover:bg-gray-400"
-            }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
+        {/* Dots */}
+        <div className="rev-dots mt-6 flex justify-center" />
+      </div>
 
-          {/* Next Button */}
-          <button
-            onClick={nextSlide}
-            disabled={isAnimating}
-            aria-label="Next testimonial"
-            className="bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group hover:shadow-xl"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700 group-hover:text-orange transition-colors"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              role="img"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-        </div>
-      </motion.div>
+      {/* local styles to match screenshot subtleties */}
+      <style jsx global>{`
+        .reviews-swiper { padding: 10px 0 24px; }
+        .reviews-swiper .swiper-slide { height: auto; }
+        .reviews-swiper .swiper-pagination-bullet { width: 6px; height: 6px; opacity: .5; }
+        .reviews-swiper .swiper-pagination-bullet-active { opacity: 1; }
+        /* card emphasis for active center slide */
+        .reviews-swiper .swiper-slide-active article > div { box-shadow: 0 8px 20px rgba(0,0,0,.06); }
+      `}</style>
     </section>
   );
 }

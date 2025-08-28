@@ -4,12 +4,13 @@ import { useEffect, useRef } from "react";
 
 const ROMW_SCRIPT_ID = "romw-script";
 const ROMW_SRC =
-  "https://reviewsonmywebsite.com/js/v2/embed.js?id=7327de0109f71427cb2f083d3ebcbe1b";
+  "https://reviewsonmywebsite.com/js/v2/embed.js?id=773b324f11cfad43f9fe2dbb7cc5408d";
 
 export default function ReviewsWidget() {
   const containerRef = useRef(null);
 
   useEffect(() => {
+    // Load script immediately when component mounts
     const loadScript = () => {
       if (document.getElementById(ROMW_SCRIPT_ID)) return;
       const s = document.createElement("script");
@@ -21,34 +22,14 @@ export default function ReviewsWidget() {
       document.body.appendChild(s);
     };
 
-    const el = containerRef.current;
-    if (!el) return;
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              loadScript();
-              observer.disconnect();
-              break;
-            }
-          }
-        },
-        { rootMargin: "200px" }
-      );
-      observer.observe(el);
-      return () => observer.disconnect();
-    } else {
-      // Fallback for older browsers
-      (window.requestIdleCallback || setTimeout)(loadScript, 0);
-    }
+    // Load script immediately
+    loadScript();
   }, []);
 
   return (
     <div
       ref={containerRef}
-      data-romw-token="u84CN3Jib3vgrBRhLTvfdyM0letRcFnOmjLmv6JT6fck8hADBO"
+      data-romw-token="k0TcKA6d0BCjFadEg3WMgp168nf0JAA5XcQTR8LeZhw05Ziyij"
       style={{ minHeight: 300 }}
     />
   );
