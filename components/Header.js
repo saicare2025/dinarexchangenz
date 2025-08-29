@@ -43,12 +43,12 @@ const NAV_LINKS = [
   
   {
     name: "Buy Iraqi Dinar",
-    href: "/buydinar",
+    href: "/buy-iraqi-dinar",
     icon: <CurrencyDollarIcon className="w-5 h-5" />,
   },
   {
     name: "Buy Zimbabwe Dollar",
-    href: "/buyzimdoller",
+    href: "/buy-zimbabwe-dollar",
     icon: <CurrencyDollarIcon className="w-5 h-5" />,
   },
   {
@@ -204,7 +204,7 @@ export default function Header() {
       <div className="bg-[#0A2540] text-white text-sm">
         <div className="container max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
-            {pathname === "/buyzimdoller" ? (
+            {pathname === "/buy-zimbabwe-dollar" ? (
               <LimitedTimeOffer />
             ) : (
               <div className="flex items-center space-x-4">
@@ -237,7 +237,7 @@ export default function Header() {
             )}
           </div>
 
-          <Link href="/buydinar" className="hidden lg:flex">
+          <Link href="/buy-iraqi-dinar" className="hidden lg:flex">
             <button className="cursor-pointer flex items-center gap-2 text-orange-100 px-4 py-2 rounded-md hover:opacity-90 transition-opacity shadow-md hover:shadow-orange/30">
               <ShoppingCartIcon className="w-4 h-4" />
               <span className="text-sm font-medium">Order Now</span>

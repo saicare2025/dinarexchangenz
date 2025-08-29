@@ -7,10 +7,53 @@ import GAListener from "./ga-listener";
 import ReviewsWidget from "../components/ReviewsWidget";
 
 const inter = Inter({ subsets: ["latin"] });
-
+// app/(site)/metadata.js (homepage)
 export const metadata = {
-  title: "Dinar Exchange",
-  description: "Dinar Exchange User Panel",
+  // Primary, Iraq-focused homepage SEO
+  title: "Buy Iraqi Dinar & Zimbabwe Dollar in New Zealand | Dinar Exchange New Zealand",
+  description:
+    "Order authentic Iraqi Dinar (IQD) and Zimbabwe Dollar in New Zealand with Dinar Exchange. Safe bank transfers, competitive rates, and fast tracked delivery nationwide. Trusted since 2010. Also offering collectible Zimbabwe banknotes.",
+
+  // Base URL for absolute URLs
+  metadataBase: new URL("https://www.dinarexchange.co.nz"),
+
+  // Keywords (Iraqi Dinar first; Zimbabwe included secondarily)
+  keywords: [
+    "Buy Iraqi Dinar NZ",
+    "Iraqi Dinar New Zealand",
+    "Buy IQD online",
+    "IQD notes",
+    "Dinar Exchange",
+    "Buy Zimbabwe Dollars NZ",
+    "ZIM banknotes"
+  ],
+
+  // Canonical & language alternates for the homepage
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-NZ": "/",
+    },
+  },
+
+
+  // Crawl settings
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
+  // Icons
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {

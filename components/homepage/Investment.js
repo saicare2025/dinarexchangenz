@@ -236,7 +236,7 @@ export function InvestmentOpportunity() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/buydinar" className="w-full sm:w-auto">
+                <Link href="/buy-iraqi-dinar" className="w-full sm:w-auto">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}

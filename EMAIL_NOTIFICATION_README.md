@@ -37,7 +37,7 @@ ALERT_TO=dinars@dinarexchange.co.nz
 
 ### Flow
 
-1. User completes order form on `/buydinar` or `/buyzimdoller`
+1. User completes order form on `/buydinar` or `/buy-zimbabwe-dollar`
 2. Order is submitted to Base44 (existing functionality)
 3. If Base44 submission succeeds, email notification is triggered
 4. Two emails are sent:
@@ -58,7 +58,7 @@ To test the implementation:
 
 1. Set up environment variables in Vercel
 2. Add your logo to `public/branding/dinar-exchange-logo.png`
-3. Complete an order on `/buydinar` or `/buyzimdoller`
+3. Complete an order on `/buydinar` or `/buy-zimbabwe-dollar`
 4. Check that emails are received by customer and internal team
 5. Verify branded NZ content and PDF invoice attachment
 6. Confirm subject line format: "Dinar Exchange NZ Order confirmation - {Customer Name}"

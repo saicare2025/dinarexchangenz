@@ -89,7 +89,7 @@ export default function IraqiDinarSection() {
                           {pkg.price}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
-                          <Link href="/buydinar">
+                          <Link href="/buy-iraqi-dinar">
                             <button className="inline-flex items-center gap-1 md:gap-2 bg-blue hover:bg-orange text-white font-medium py-1.5 px-3 md:py-2 md:px-4 rounded-md transition-all duration-300 group text-xs md:text-sm">
                               <ShoppingCartIcon className="w-3 h-3 md:w-4 md:h-4 group-hover:scale-110 transition-transform" />
                               Order Now

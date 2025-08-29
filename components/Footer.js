@@ -61,7 +61,7 @@ export function Footer() {
             <ul className="space-y-2 sm:space-y-3">
               <li>
                 <Link
-                  href="/buydinar"
+                  href="/buy-iraqi-dinar"
                   className="text-blue-900 hover:text-orange-400 transition-colors flex items-center gap-2 text-sm sm:text-base"
                 >
                   Buy Iraqi Dinar
@@ -69,7 +69,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/buyzimdoller"
+                  href="/buy-zimbabwe-dollar"
                   className="text-blue-900 hover:text-orange-400 transition-colors flex items-center gap-2 text-sm sm:text-base"
                 >
                   Buy Zimbabwe Dollar
@@ -93,7 +93,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#faq"
+                  href="/faq"
                   className="text-blue-900 hover:text-orange-400 transition-colors flex items-center gap-2 text-sm sm:text-base"
                 >
                   FAQ&apos;s
@@ -179,7 +179,7 @@ export function Footer() {
               </p>
             </div>
             <Link
-              href="/buydinar"
+              href="/buy-iraqi-dinar"
               className="inline-flex items-center justify-center gap-2 bg-blue hover:bg-orange text-white font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition-colors text-sm sm:text-base w-full sm:w-auto"
             >
               Start Your Order

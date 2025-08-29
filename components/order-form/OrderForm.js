@@ -326,7 +326,7 @@ export default function OrderForm({
   };
 
   return (
-    <div className="min-h-[500px] max-w-4xl mx-auto py-4 px-1 sm:px-3 lg:px-6">
+    <div className="min-h-[500px] max-w-6xl mx-auto py-4 px-1 sm:px-3 lg:px-6">
       <Stepper currentStep={currentStep} steps={STEPS} />
 
       <div className="flex flex-col lg:flex-row gap-8">

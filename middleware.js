@@ -1,26 +1,22 @@
+// middleware.js
 import { NextResponse } from "next/server";
 
+const redirects = {
+  "/buydinar": "/buy-iraqi-dinar",
+  "/buyzimdoller": "/buy-zimbabwe-dollar",
+};
+
 export function middleware(req) {
-  const url = req.nextUrl;
-  const path = url.pathname;
-
-  if (path.startsWith("/dashboard")) {
-    // Simple auth check placeholder: rely on Supabase auth cookies or your session logic.
-    // If not authenticated, redirect to /login?next=...
-    const hasSession = Boolean(req.cookies.get("sb-access-token") || req.cookies.get("session") );
-    if (!hasSession) {
-      const next = path + (url.search || "");
-      const loginUrl = new URL(`/login`, url.origin);
-      loginUrl.searchParams.set("next", next);
-      return NextResponse.redirect(loginUrl);
-    }
+  const { pathname } = req.nextUrl;
+  const target = redirects[pathname.toLowerCase()];
+  if (target) {
+    const url = req.nextUrl.clone();
+    url.pathname = target; // query string is preserved
+    return NextResponse.redirect(url, 308); // permanent
   }
-
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/buydinar/:path*", "/buyzimdoller/:path*"],
 };
-
-

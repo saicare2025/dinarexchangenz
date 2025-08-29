@@ -64,7 +64,7 @@ export default function Dashboard() {
               Track and manage your currency exchange orders
             </p>
           </div>
-          <Link href="/buydinar">
+          <Link href="/buy-iraqi-dinar">
             <button className="flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange-dark transition-colors">
               <FiPlus className="w-4 h-4" />
               <span>New Exchange</span>
