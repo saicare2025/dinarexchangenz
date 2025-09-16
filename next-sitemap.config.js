@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.APP_URL || 'https://www.dinarexchange.co.nz',
+  siteUrl: 'https://www.dinarexchange.co.nz',
   generateRobotsTxt: true,
   sitemapSize: 5000,
   exclude: [

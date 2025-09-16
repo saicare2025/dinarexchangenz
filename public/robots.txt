@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /user/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Host
+Host: https://www.dinarexchange.co.nz
+
+# Sitemaps
+Sitemap: https://www.dinarexchange.co.nz/sitemap.xml

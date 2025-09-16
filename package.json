@@ -24,7 +24,8 @@
     "test:db-integration": "node scripts/test-database-integration.js",
     "test:elevenlabs": "node scripts/test-elevenlabs-integration.js",
     "setup:elevenlabs": "node setup-env.js",
-    "test:contact-form": "node scripts/test-contact-form.js"
+    "test:contact-form": "node scripts/test-contact-form.js",
+    "sitemap": "next-sitemap"
   },
   "browserslist": {
     "production": [
@@ -79,6 +80,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
+    "next-sitemap": "^4.2.3",
     "tailwindcss": "^4.1.11",
     "typescript": "5.8.3"
   }
